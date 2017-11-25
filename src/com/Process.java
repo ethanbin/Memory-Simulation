@@ -11,7 +11,9 @@ public class Process {
 
 	public Process() {
 		name = "";
+		arrivalTime = 0;
 		size = 0;
+		finishTime = 0;
 	}
 
 	public Process(String name, int arrivalTime, int size, int finishTime) {
