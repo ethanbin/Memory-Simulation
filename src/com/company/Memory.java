@@ -7,8 +7,8 @@ import java.util.List;
  * Created by Ethan on 11/27/2017.
  */
 public class Memory {
-    private final int DEFAULT_MEMORY_SIZE = 1024;
-    List<MemoryAllocation> memoryList;
+    protected final int DEFAULT_MEMORY_SIZE = 1024;
+    protected List<MemoryAllocation> memoryList;
     int totalMemorySize;
 
     public Memory(){
@@ -19,7 +19,7 @@ public class Memory {
         init(size);
     }
 
-    private void init(int size){
+    protected void init(int size){
         memoryList = new ArrayList<>();
         memoryList.add(new MemoryAllocation(size, 0, DEFAULT_MEMORY_SIZE));
     }
