@@ -8,6 +8,25 @@ public class MemoryAllocation {
     protected int startingPositionInMemory;
     protected int endingPositionInMemory;
 
+    public MemoryAllocation(){
+        memorySize = -1;
+        this.startingPositionInMemory = -1;
+        this.endingPositionInMemory = -1;
+    }
+
+
+    public MemoryAllocation(int size){
+        memorySize = size;
+        this.startingPositionInMemory = -1;
+        this.endingPositionInMemory = -1;
+    }
+
+    public MemoryAllocation(int size, int startingPositionInMemory, int endingPositionInMemory){
+        memorySize = size;
+        this.startingPositionInMemory = startingPositionInMemory;
+        this.endingPositionInMemory = endingPositionInMemory;
+    }
+
     public int getMemorySize() {
         return memorySize;
     }
