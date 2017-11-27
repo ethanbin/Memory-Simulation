@@ -3,7 +3,7 @@ package com.company;
 import java.util.*;
 
 public class EqualSizedFixedPartition {
-
+/*
 	private ArrayList<Process> p;
 	private static final int PARTITIONSIZE = 128;
 	private static final Process[] MM = new Process[8]; // a total of 1024MB
@@ -70,7 +70,10 @@ public class EqualSizedFixedPartition {
 		testing.add(new Process("K", 29, 190, 7));
 		testing.add(new Process("L", 31, 24, 2));
 
+		int test = (int) testing.get(0);
+
 		EqualSizedFixedPartition a = new EqualSizedFixedPartition(testing);
 		a.display();
 	}
+	*/
 }
