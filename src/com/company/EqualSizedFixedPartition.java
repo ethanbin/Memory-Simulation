@@ -2,40 +2,38 @@ package com.company;
 
 import java.util.*;
 
-public class EqualSizedFixedPartition {
-/*
-	private ArrayList<Process> p;
-	private static final int PARTITIONSIZE = 128;
-	private static final Process[] MM = new Process[8]; // a total of 1024MB
-	private int currTime = 0; // keeps track of time
+public class EqualSizedFixedPartition extends Memory {
+	private final int PARTITIONSIZE = 128;
+	private final int MAXPARTITIONS = 8;
 	private int partitionCount = 0;
-	private int allocationFail = 0;
-	private int internalFragmentation = 0; // within each block
-	private int externalFragmentation = 0;
+	ArrayList<Process> jobList;
 
-	EqualSizedFixedPartition(ArrayList<Process> p) {
-		this.p = p;
+	EqualSizedFixedPartition(ArrayList<Process> jobList) {
+		super();
+		this.jobList = jobList;
 	}
 
-	public void insertToMM() {
-		for (int i = 0; i < p.size(); i++) { // going through every process
-			if (canPlace(p.get(i))) {
-				MM[partitionCount] = p.get(i);
-				System.out.println("  " + p.get(i).getName() + "\t    " + p.get(i).getArrivalTime() + "\t\t"
-						+ p.get(i).getSize() + "MB\t\tALLOCATED\t" + p.get(i).getFinishTime());
+	public void addProcesses() {
+		for (int i = 0; i < jobList.size(); i++) { // going through every process
+			System.out.print("  " + jobList.get(i).getName() + "\t    " + jobList.get(i).getArrivalTime() + "\t\t"
+					+ jobList.get(i).getSize());
+			if (canPlace(jobList.get(i))) {
+				memoryList.add(jobList.get(i));
+				System.out.print("MB\t\tALLOCATED\t");
 				partitionCount++;
-				internalFragmentation += PARTITIONSIZE - p.get(i).getSize();
+				calculateInternalFragmentation(jobList.get(i));
 			} else {
-				System.out.println("  " + p.get(i).getName() + "\t    " + p.get(i).getArrivalTime() + "\t\t"
-						+ p.get(i).getSize() + "MB\t\tWAITING  \t" + p.get(i).getFinishTime());
+				System.out.print("MB\t\tWAITING  \t");
 				allocationFail++;
 			}
+			System.out.print(jobList.get(i).getFinishTime() + "\n");
 		}
 	}
 
 	public boolean canPlace(Process a) {
-		return partitionCount < MM.length && a.getSize() <= PARTITIONSIZE; // if there is a partition left AND it fits
-																			// into the partition
+		return partitionCount < MAXPARTITIONS && a.getSize() <= PARTITIONSIZE; // if there is a partition left AND it
+																				// fits
+																				// into the partition
 	}
 
 	public boolean isProcessDone(Process a) {
@@ -47,33 +45,43 @@ public class EqualSizedFixedPartition {
 		return done;
 	}
 
+	public void removeProcess(int pos) {
+		memoryList.remove(pos);
+	}
+
+	public void calculateInternalFragmentation(Process p) {
+		internalFragmentation += PARTITIONSIZE - p.getSize();
+	}
+
+	public void calculateExternalFragmentation(Process P) {
+		// fixed sized partitions don't have external fragmentation
+	}
+
 	public void display() {
 		System.out.println("Process\tArrival Time\tProcess Size \tStatus\t\tFinish Time");
-		insertToMM();
+		addProcesses();
 		System.out.println("Allocation fails: " + allocationFail);
-		System.out.println("Average Internal Fragmentation: " + internalFragmentation/p.size() + "MB");
-		System.out.println("Average External Freagmentation: " + externalFragmentation/p.size() + "MB");
+		System.out.println("Average Internal Fragmentation: " + internalFragmentation / jobList.size() + "MB");
+		System.out.println("Average External Freagmentation: " + externalFragmentation / jobList.size() + "MB");
 	}
 
 	public static void main(String[] args) {
-		ArrayList<Process> testing = new ArrayList<Process>();
-		testing.add(new Process("A", 0, 131, 4));
-		testing.add(new Process("B", 2, 120, 4));
-		testing.add(new Process("C", 5, 158, 7));
-		testing.add(new Process("D", 9, 107, 5));
-		testing.add(new Process("E", 13, 82, 3));
-		testing.add(new Process("F", 17, 127, 1));
-		testing.add(new Process("G", 17, 43, 8));
-		testing.add(new Process("H", 20, 77, 6));
-		testing.add(new Process("I", 24, 109, 2));
-		testing.add(new Process("J", 26, 90, 3));
-		testing.add(new Process("K", 29, 190, 7));
-		testing.add(new Process("L", 31, 24, 2));
+		ArrayList<Process> jobList = new ArrayList<>();
 
-		int test = (int) testing.get(0);
+		jobList.add(new Process("A", 0, 131, 4));
+		jobList.add(new Process("B", 2, 120, 4));
+		jobList.add(new Process("C", 5, 158, 7));
+		jobList.add(new Process("D", 9, 107, 5));
+		jobList.add(new Process("E", 13, 82, 3));
+		jobList.add(new Process("F", 17, 127, 1));
+		jobList.add(new Process("G", 17, 43, 8));
+		jobList.add(new Process("H", 20, 77, 6));
+		jobList.add(new Process("I", 24, 109, 2));
+		jobList.add(new Process("J", 26, 90, 3));
+		jobList.add(new Process("K", 29, 190, 7));
+		jobList.add(new Process("L", 31, 24, 2));
 
-		EqualSizedFixedPartition a = new EqualSizedFixedPartition(testing);
+		EqualSizedFixedPartition a = new EqualSizedFixedPartition(jobList);
 		a.display();
 	}
-	*/
 }
