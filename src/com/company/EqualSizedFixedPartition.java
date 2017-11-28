@@ -15,25 +15,31 @@ public class EqualSizedFixedPartition extends Memory {
 
 	public void addProcesses() {
 		for (int i = 0; i < jobList.size(); i++) { // going through every process
-			System.out.print("  " + jobList.get(i).getName() + "\t    " + jobList.get(i).getArrivalTime() + "\t\t"
-					+ jobList.get(i).getSize());
+			//System.out.print("  " + jobList.get(i).getName() + "\t    " + jobList.get(i).getArrivalTime() + "\t\t"
+					//+ jobList.get(i).getSize());
 			if (canPlace(jobList.get(i))) {
 				memoryList.add(jobList.get(i));
-				System.out.print("MB\t\tALLOCATED\t");
+				memoryList.get(memoryList.size()).setMemorySize(jobList.get(i).getSize());
+				//System.out.print("MB\t\tALLOCATED\t");
 				partitionCount++;
 				calculateInternalFragmentation(jobList.get(i));
 			} else {
-				System.out.print("MB\t\tWAITING  \t");
+				//System.out.print("MB\t\tWAITING  \t");
 				allocationFail++;
 			}
-			System.out.print(jobList.get(i).getFinishTime() + "\n");
+			//System.out.print(jobList.get(i).getFinishTime() + "\n");
+			
 		}
+		
+		for (int m = 0; m < memoryList.size(); m++) {
+			System.out.println(memoryList.get(m));
+		}
+		
 	}
 
 	public boolean canPlace(Process a) {
 		return partitionCount < MAXPARTITIONS && a.getSize() <= PARTITIONSIZE; // if there is a partition left AND it
-																				// fits
-																				// into the partition
+																				// fits into the partition
 	}
 
 	public boolean isProcessDone(Process a) {
@@ -83,5 +89,6 @@ public class EqualSizedFixedPartition extends Memory {
 
 		EqualSizedFixedPartition a = new EqualSizedFixedPartition(jobList);
 		a.display();
+
 	}
 }
