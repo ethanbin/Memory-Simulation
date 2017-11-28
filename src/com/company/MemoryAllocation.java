@@ -4,35 +4,36 @@ package com.company;
  * Created by Ethan on 11/27/2017.
  */
 public class MemoryAllocation {
-    protected int memorySize;
+    protected int memorySizeNeeded;
     protected int startingPositionInMemory;
     protected int endingPositionInMemory;
+    protected int memorySizeUsed;
 
     public MemoryAllocation(){
-        memorySize = -1;
+        memorySizeNeeded = -1;
         this.startingPositionInMemory = -1;
         this.endingPositionInMemory = -1;
     }
 
 
     public MemoryAllocation(int size){
-        memorySize = size;
+        memorySizeNeeded = size;
         this.startingPositionInMemory = -1;
         this.endingPositionInMemory = -1;
     }
 
     public MemoryAllocation(int size, int startingPositionInMemory, int endingPositionInMemory){
-        memorySize = size;
+        memorySizeNeeded = size;
         this.startingPositionInMemory = startingPositionInMemory;
         this.endingPositionInMemory = endingPositionInMemory;
     }
 
     public int getMemorySize() {
-        return memorySize;
+        return memorySizeNeeded;
     }
 
-    public void setMemorySize(int memorySize) {
-        this.memorySize = memorySize;
+    public void setMemorySize(int memorySizeNeeded) {
+        this.memorySizeNeeded = memorySizeNeeded;
     }
 
     public int getStartingPositionInMemory() {
@@ -54,7 +55,7 @@ public class MemoryAllocation {
     @Override
     public String toString() {
         return "MemoryAllocation{" +
-                "memorySize=" + memorySize +
+                "memorySizeNeeded=" + memorySizeNeeded +
                 ", startingPositionInMemory=" + startingPositionInMemory +
                 ", endingPositionInMemory=" + endingPositionInMemory +
                 '}';
