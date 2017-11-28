@@ -13,9 +13,9 @@ public abstract class Memory {
     
     protected int internalFragmenation = 0;
     protected int externalFragmentation = 0;
-	protected int currTime = 0;							// keeps track of time
-	protected int partitionCount = 0;
-	protected int allocationFail = 0;
+    protected int currTime = 0;							// keeps track of time
+    protected int partitionCount = 0;
+    protected int allocationFail = 0;
 
     public Memory(){
         init(MEMORY_SIZE);
