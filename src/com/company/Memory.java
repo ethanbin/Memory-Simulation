@@ -8,7 +8,6 @@ import java.util.List;
  */
 public abstract class Memory {
     protected final int MEMORY_SIZE = 1024;
-    protected int PARTITIONSIZE = 128;					//for equal sized fixed partition
     protected static List<MemoryAllocation> memoryList;
     private int totalMemorySize = 0;					//space that has been allocated
     
