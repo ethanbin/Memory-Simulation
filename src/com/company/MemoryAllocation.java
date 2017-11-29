@@ -7,7 +7,6 @@ public class MemoryAllocation {
     protected int memorySizeNeeded;
     protected int startingPositionInMemory;
     protected int endingPositionInMemory;
-    protected int memorySizeUsed;
 
     public MemoryAllocation(){
         memorySizeNeeded = -1;

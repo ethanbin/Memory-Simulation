@@ -8,6 +8,7 @@ public class Process extends  MemoryAllocation{
 	private int arrivalTime;
 	private int size;
 	private int finishTime;
+	protected int memorySizeUsed = -1;
 
 	public Process() {
         init("", 0, 0, 0);
@@ -51,6 +52,14 @@ public class Process extends  MemoryAllocation{
     public int getFinishTime() {
 		return finishTime;
 	}
+
+    public int getMemorySizeUsed() {
+        return memorySizeUsed;
+    }
+
+    public void setMemorySizeUsed(int memorySizeUsed) {
+        this.memorySizeUsed = memorySizeUsed;
+    }
 
     @Override
     public String toString() {
