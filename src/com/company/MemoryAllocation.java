@@ -27,14 +27,6 @@ public class MemoryAllocation {
         this.endingPositionInMemory = endingPositionInMemory;
     }
 
-    public int getMemorySize() {
-        return memorySizeUsed;
-    }
-
-    public void setMemorySize(int memorySizeNeeded) {
-        this.memorySizeUsed = memorySizeNeeded;
-    }
-
     public int getStartingPositionInMemory() {
         return startingPositionInMemory;
     }
