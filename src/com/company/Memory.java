@@ -25,7 +25,18 @@ public abstract class Memory {
     public abstract void calculateInternalFragmentation(Process p);
     
     public abstract void calculateExternalFragmentation(Process P);
-    
+
+    private boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
+        try {
+            // if memAlloc is not a Process, attempting to cast it will throw ClassCastException.
+            Process p =(Process) memAlloc;
+            return true;
+        }
+        catch (ClassCastException e){
+            return false;
+        }
+    }
+
     @Override
     public String toString() {
         return "Memory{" +
