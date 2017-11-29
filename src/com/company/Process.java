@@ -6,9 +6,8 @@ public class Process extends  MemoryAllocation{
 
 	private String name;
 	private int arrivalTime;
-	private int size;
 	private int finishTime;
-	protected int memorySizeUsed = -1;
+	protected int memorySizeNeeded = -1;
 
 	public Process() {
         init("", 0, 0, 0);
@@ -21,7 +20,7 @@ public class Process extends  MemoryAllocation{
     public void init(String name, int arrivalTime, int size, int finishTime) {
         this.name = name;
         this.arrivalTime = arrivalTime;
-        this.size = size;
+        this.memorySizeNeeded = size;
         this.finishTime = finishTime;
     }
 
@@ -40,10 +39,6 @@ public class Process extends  MemoryAllocation{
     public void setArrivalTime(int arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
-    
-    public int getSize() {
-    	return size;
-    }
 
     public void setFinishTime(int finishTime) {
         this.finishTime = finishTime;
@@ -53,12 +48,12 @@ public class Process extends  MemoryAllocation{
 		return finishTime;
 	}
 
-    public int getMemorySizeUsed() {
-        return memorySizeUsed;
+    public int getMemorySizeNeeded() {
+        return memorySizeNeeded;
     }
 
-    public void setMemorySizeUsed(int memorySizeUsed) {
-        this.memorySizeUsed = memorySizeUsed;
+    public void setMemorySizeNeeded(int memorySizeNeeded) {
+        this.memorySizeNeeded = memorySizeNeeded;
     }
 
     @Override
