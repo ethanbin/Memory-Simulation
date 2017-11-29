@@ -4,35 +4,35 @@ package com.company;
  * Created by Ethan on 11/27/2017.
  */
 public class MemoryAllocation {
-    protected int memorySizeNeeded;
+    protected int memorySizeUsed;
     protected int startingPositionInMemory;
     protected int endingPositionInMemory;
 
     public MemoryAllocation(){
-        memorySizeNeeded = -1;
+        memorySizeUsed = -1;
         this.startingPositionInMemory = -1;
         this.endingPositionInMemory = -1;
     }
 
 
     public MemoryAllocation(int size){
-        memorySizeNeeded = size;
+        memorySizeUsed = size;
         this.startingPositionInMemory = -1;
         this.endingPositionInMemory = -1;
     }
 
     public MemoryAllocation(int size, int startingPositionInMemory, int endingPositionInMemory){
-        memorySizeNeeded = size;
+        memorySizeUsed = size;
         this.startingPositionInMemory = startingPositionInMemory;
         this.endingPositionInMemory = endingPositionInMemory;
     }
 
     public int getMemorySize() {
-        return memorySizeNeeded;
+        return memorySizeUsed;
     }
 
     public void setMemorySize(int memorySizeNeeded) {
-        this.memorySizeNeeded = memorySizeNeeded;
+        this.memorySizeUsed = memorySizeNeeded;
     }
 
     public int getStartingPositionInMemory() {
@@ -51,18 +51,18 @@ public class MemoryAllocation {
         this.endingPositionInMemory = endingPositionInMemory;
     }
 
-    public int getMemorySizeNeeded() {
-        return memorySizeNeeded;
+    public int getMemorySizeUsed() {
+        return memorySizeUsed;
     }
 
-    public void setMemorySizeNeeded(int memorySizeNeeded) {
-        this.memorySizeNeeded = memorySizeNeeded;
+    public void setMemorySizeUsed(int memorySizeUsed) {
+        this.memorySizeUsed = memorySizeUsed;
     }
 
     @Override
     public String toString() {
         return "MemoryAllocation{" +
-                "memorySizeNeeded=" + memorySizeNeeded +
+                "memorySizeUsed=" + memorySizeUsed +
                 ", startingPositionInMemory=" + startingPositionInMemory +
                 ", endingPositionInMemory=" + endingPositionInMemory +
                 '}';
