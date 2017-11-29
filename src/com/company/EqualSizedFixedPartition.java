@@ -27,7 +27,7 @@ public class EqualSizedFixedPartition extends Memory {
 				calculateInternalFragmentation(jobList.get(i));
 			} else {
 				//System.out.print("MB\t\tWAITING  \t");
-				allocationFail++;
+				allocationFailures++;
 			}
 			//System.out.print(jobList.get(i).getFinishTime() + "\n");
 			
@@ -46,7 +46,7 @@ public class EqualSizedFixedPartition extends Memory {
 
 	public boolean isProcessDone(Process a) {
 		boolean done = false;
-		if (currTime <= a.getArrivalTime() + a.getFinishTime()) { // if the process is done, we will release it
+		if (currentTime <= a.getArrivalTime() + a.getFinishTime()) { // if the process is done, we will release it
 			done = true;
 			a = null;
 		}
@@ -68,7 +68,7 @@ public class EqualSizedFixedPartition extends Memory {
 	public void display() {
 		System.out.println("Process\tArrival Time\tProcess Size \tStatus\t\tFinish Time");
 		addProcess();
-		System.out.println("Allocation fails: " + allocationFail);
+		System.out.println("Allocation fails: " + allocationFailures);
 		System.out.println("Average Internal Fragmentation: " + internalFragmentation / jobList.size() + "MB");
 		System.out.println("Average External Freagmentation: " + externalFragmentation / jobList.size() + "MB");
 	}
