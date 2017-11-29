@@ -40,8 +40,12 @@ public abstract class Memory {
     @Override
     public String toString() {
         return "Memory{" +
-                "Size=" + memorySize +
-                ", memoryList=" + memoryList +
+                "memoryList=" + memoryList +
+                ", memorySize=" + memorySize +
+                ", internalFragmentation=" + internalFragmentation +
+                ", externalFragmentation=" + externalFragmentation +
+                ", currentTime=" + currentTime +
+                ", allocationFailures=" + allocationFailures +
                 '}';
     }
 }
