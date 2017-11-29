@@ -7,12 +7,8 @@ public class Process extends  MemoryAllocation{
 	private String name;
 	private int arrivalTime;
 	private int finishTime;
-	protected int memorySizeNeeded = -1;
-
-	public Process() {
-        init("", 0, 0, 0);
-    }
-
+	protected int memorySizeNeeded;
+    
 	public Process(String name, int arrivalTime, int size, int finishTime) {
 		init(name, arrivalTime, size, finishTime);
 	}
