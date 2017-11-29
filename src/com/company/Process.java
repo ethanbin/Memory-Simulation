@@ -58,6 +58,7 @@ public class Process extends  MemoryAllocation{
                 "name='" + name + '\'' +
                 ", arrivalTime=" + arrivalTime +
                 ", finishTime=" + finishTime +
+                ", memorySizeNeeded=" + memorySizeNeeded +
                 "} " + super.toString();
     }
 
