@@ -51,6 +51,14 @@ public class MemoryAllocation {
         this.endingPositionInMemory = endingPositionInMemory;
     }
 
+    public int getMemorySizeNeeded() {
+        return memorySizeNeeded;
+    }
+
+    public void setMemorySizeNeeded(int memorySizeNeeded) {
+        this.memorySizeNeeded = memorySizeNeeded;
+    }
+
     @Override
     public String toString() {
         return "MemoryAllocation{" +
