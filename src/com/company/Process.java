@@ -7,17 +7,20 @@ public class Process extends  MemoryAllocation{
 	private String name;
 	private int arrivalTime;
 	private int finishTime;
+	private boolean tooBig;
 	protected int memorySizeNeeded;
-
-	public Process(String name, int arrivalTime, int size, int finishTime) {
-		init(name, arrivalTime, size, finishTime);
+	
+	public Process(String name, int arrivalTime, int size, int finishTime, boolean tooBig) {
+		init(name, arrivalTime, size, finishTime, tooBig);
 	}
 
-    public void init(String name, int arrivalTime, int size, int finishTime) {
+    public void init(String name, int arrivalTime, int size, int finishTime, boolean tooBig) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.memorySizeNeeded = size;
         this.finishTime = finishTime;
+        this.tooBig = tooBig;
+        
     }
 
 	public String getName() {
@@ -52,25 +55,33 @@ public class Process extends  MemoryAllocation{
         this.memorySizeNeeded = memorySizeNeeded;
     }
 
-    @Override
+    public boolean isTooBig() {
+		return tooBig;
+	}
+
+	public void setTooBig(boolean tooBig) {
+		this.tooBig = tooBig;
+	}
+
+	@Override
     public String toString() {
-        return "Process{" +
+        return "\nProcess{" +
                 "name='" + name + '\'' +
                 ", arrivalTime=" + arrivalTime +
                 ", finishTime=" + finishTime +
-                ", memorySizeNeeded=" + memorySizeNeeded +
-                "} " + super.toString();
+                ", memorySizeNeeded=" + memorySizeNeeded + ", TooBig=" + tooBig +
+                "}" + super.toString();
     }
 
     public static void main(String[]args) {
 		ArrayList<MemoryAllocation> testing = new ArrayList<MemoryAllocation>();
-		testing.add(new Process("A", 0, 131, 4));
-		testing.add(new Process("B", 2, 120, 4));
-		testing.add(new Process("C", 5, 58, 7));
-		testing.add(new Process("D", 9, 107, 5));
-		testing.add(new Process("E", 13, 82, 3));
+		testing.add(new Process("A", 0, 131, 4, false));
+		testing.add(new Process("B", 2, 120, 4, false));
+		testing.add(new Process("C", 5, 58, 7, false));
+		testing.add(new Process("D", 9, 107, 5, false));
+		testing.add(new Process("E", 13, 82, 3, false));
 		
-		Process k = new Process("K", 12, 4, 2);
+		Process k = new Process("K", 12, 4, 2, false);
 		
 		
 		System.out.println(testing);
@@ -87,7 +98,7 @@ public class Process extends  MemoryAllocation{
 
 		List<MemoryAllocation> memory = new ArrayList<>();
 		memory.add(new MemoryAllocation());
-		memory.add(new Process("E", 13, 82, 3));
+		memory.add(new Process("E", 13, 82, 3, false));
 		Process p = (Process) memory.get(1);
 		System.out.println(p);
 	}
