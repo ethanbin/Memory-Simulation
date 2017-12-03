@@ -13,18 +13,27 @@ public abstract class Memory {
     protected int externalFragmentation = 0;
 	protected int currentTime = 0;							// keeps track of time
 	protected int allocationFailures = 0;
-
+	protected int lastProcessArrivalTime;
+	
     protected abstract void init(int size);
-
-    public abstract boolean addProcess(Process p);
     
-    public abstract boolean removeProcess(int startingPositionInMemory);
+    public abstract boolean canPlace(Process a);
 
-    public abstract boolean removeProcess(String processName);
-
-    public abstract void calculateInternalFragmentation(Process p);
+    //public abstract boolean addProcess(Process p);
     
-    public abstract void calculateExternalFragmentation(Process P);
+    public abstract boolean isProcessDone(Process a);
+    
+    //public abstract boolean removeProcess(int startingPositionInMemory);
+
+    //public abstract boolean removeProcess(String processName);
+    
+    public abstract void removeFinishedProcesses();
+
+    public abstract void calculateInternalFragmentation(int partitionSize, Process p);
+    
+    public abstract void calculateExternalFragmentation(Process p);
+    
+    public abstract void display();
 
     protected boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
         try {
@@ -48,4 +57,5 @@ public abstract class Memory {
                 ", allocationFailures=" + allocationFailures +
                 '}';
     }
+}
 }
