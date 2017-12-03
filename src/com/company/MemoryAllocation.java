@@ -53,10 +53,10 @@ public class MemoryAllocation {
 
     @Override
     public String toString() {
-        return "MemoryAllocation{" +
+        return "\nMemoryAllocation{" +
                 "memorySizeUsed=" + memorySizeUsed +
                 ", startingPositionInMemory=" + startingPositionInMemory +
                 ", endingPositionInMemory=" + endingPositionInMemory +
-                '}';
+                "}\n";
     }
 }
