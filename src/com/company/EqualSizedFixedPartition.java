@@ -20,16 +20,12 @@ public class EqualSizedFixedPartition extends FixedMemory{
 
 	public void fillUpMemory() {
 		for (int i = 0; i < jobList.size(); i++) { // going through every process
-			memoryList.add(jobList.get(i));
-			//System.out.print("  " + jobList.get(i).getName() + "\t    " + jobList.get(i).getArrivalTime() + "\t\t"
-					//+ jobList.get(i).getMemorySizeNeeded() + "MB\t\tALLOCATED\t" + jobList.get(i).getFinishTime() + " \t" + jobList.get(i).isTooBig() + "\n");
-			/*if (canPlace(jobList.get(i))) {
+			if (canPlace(jobList.get(i))) {
 				memoryList.add(jobList.get(i));
-				memoryList.get(memoryList.size(
-				)-1).setMemorySize(jobList.get(i).getSize());
+				//memoryList.set(i,;
 				//System.out.print();
 				partitionCount++;
-				calculateInternalFragmentation(jobList.get(i));
+				calculateInternalFragmentation(PARTITIONSIZE, jobList.get(i));
 			} else {
 				//System.out.print("MB\t\tWAITING  \t");
 				allocationFailures++;
@@ -39,11 +35,13 @@ public class EqualSizedFixedPartition extends FixedMemory{
 		}
 		
 		for (int m = 0; m < memoryList.size(); m++) {
-			System.out.println(memoryList.get(m));
-		}*/
-		
+			System.out.println(memoryList.get(m));		
 		}
 		System.out.println(memoryList);
+	}
+	
+	public void removeFinishedProcesses() {
+		
 	}
 
 	public boolean canPlace(Process a) {
@@ -60,8 +58,8 @@ public class EqualSizedFixedPartition extends FixedMemory{
 		return done;
 	}
 
-	public void calculateInternalFragmentation(Process p) {
-		//internalFragmentation += PARTITIONSIZE - p.getSize();
+	public void calculateInternalFragmentation(int partitionSize, Process p) {
+		internalFragmentation += partitionSize - p.getMemorySizeNeeded();
 	}
 
 	public void calculateExternalFragmentation(Process P) {
@@ -71,9 +69,9 @@ public class EqualSizedFixedPartition extends FixedMemory{
 	public void display() {
 		System.out.println("Process\tArrival Time\tProcess Size \tStatus\t\tFinish Time");
 		fillUpMemory();
-		//System.out.println("Allocation fails: " + allocationFailures);
-		//System.out.println("Average Internal Fragmentation: " + internalFragmentation / jobList.size() + "MB");
-		//System.out.println("Average External Fragmentation: " + externalFragmentation / jobList.size() + "MB");
+		System.out.println("Allocation fails: " + allocationFailures);
+		System.out.println("Average Internal Fragmentation: " + internalFragmentation / jobList.size() + "MB");
+		System.out.println("Average External Fragmentation: " + externalFragmentation / jobList.size() + "MB");
 	}
 
 	public static void main(String[] args) {
@@ -97,4 +95,3 @@ public class EqualSizedFixedPartition extends FixedMemory{
 
 	}
 }
-
