@@ -16,7 +16,11 @@ public abstract class FixedMemory extends Memory {
 	}
 	
 	@Override
-	public void removeFinishedProcesses() {
-		
+	public void removeFinishedProcesses(int currTime, int totalPartitions) {
+		for(int i = 0; i < totalPartitions; i++) {
+			Process currProcess = (Process)memoryList.get(i);
+			if(currProcess.getFinishTime() <= currTime) 	//if it should be done, remove it
+				memoryList.remove(i);
+		}
 	}
 }
