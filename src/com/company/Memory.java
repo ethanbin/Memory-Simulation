@@ -11,7 +11,9 @@ public abstract class Memory {
     protected int memorySize;
     protected int internalFragmentation = 0;
     protected int externalFragmentation = 0;
-	protected int currentTime = 0;							// keeps track of time
+    protected int internalFragmentationCount = 0;	//we need these counts to find the average in the end
+    protected int externalFragmentationCount = 0;
+	protected int currentTime = 0;					// keeps track of time
 	protected int allocationFailures = 0;
 	protected int lastProcessArrivalTime;
 	
@@ -27,7 +29,7 @@ public abstract class Memory {
 
     //public abstract boolean removeProcess(String processName);
     
-    public abstract void removeFinishedProcesses();
+    public abstract void removeFinishedProcesses(int currTime, int totalPartitions);
 
     public abstract void calculateInternalFragmentation(int partitionSize, Process p);
     
@@ -57,5 +59,4 @@ public abstract class Memory {
                 ", allocationFailures=" + allocationFailures +
                 '}';
     }
-}
 }
