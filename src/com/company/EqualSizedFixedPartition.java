@@ -15,37 +15,39 @@ public class EqualSizedFixedPartition extends FixedMemory{
 	
 	public void init(int size) {
 		memoryList = new ArrayList<MemoryAllocation>(); 
-		
+		for (int i = 0; i < jobList.size(); i++) {		//letting us know if it's too big because default says that it isn't
+			isTooBig(jobList.get(i));
+		}
 	}	
-
+ 
 	public void fillUpMemory() {
 		for (int i = 0; i < jobList.size(); i++) { // going through every process
 			if (canPlace(jobList.get(i))) {
 				memoryList.add(jobList.get(i));
-				//memoryList.set(i,;
-				//System.out.print();
+				//((Process)memoryList.get(i)).setStartingPositionInMemory(10);
 				partitionCount++;
 				calculateInternalFragmentation(PARTITIONSIZE, jobList.get(i));
 			} else {
-				//System.out.print("MB\t\tWAITING  \t");
 				allocationFailures++;
-			}
-			//System.out.print(jobList.get(i).getFinishTime() + "\n");
-			
+			}			
 		}
 		
 		for (int m = 0; m < memoryList.size(); m++) {
 			System.out.println(memoryList.get(m));		
 		}
-		System.out.println(memoryList);
 	}
 	
 	public void removeFinishedProcesses() {
 		
 	}
 
+	public void isTooBig(Process a) {
+		if (a.getMemorySizeNeeded() > PARTITIONSIZE) 
+			a.setTooBig(true);
+	}
+	
 	public boolean canPlace(Process a) {
-		return partitionCount < MAXPARTITIONS && a.getMemorySizeNeeded() <= PARTITIONSIZE; // if there is a partition left AND it
+		return partitionCount < MAXPARTITIONS && !a.isTooBig(); // if there is a partition left AND it
 																				// fits into the partition
 	}
 
@@ -59,6 +61,8 @@ public class EqualSizedFixedPartition extends FixedMemory{
 	}
 
 	public void calculateInternalFragmentation(int partitionSize, Process p) {
+		if(partitionSize - p.getMemorySizeNeeded() != 0)
+			internalFragmentationCount++;
 		internalFragmentation += partitionSize - p.getMemorySizeNeeded();
 	}
 
@@ -69,8 +73,10 @@ public class EqualSizedFixedPartition extends FixedMemory{
 	public void display() {
 		System.out.println("Process\tArrival Time\tProcess Size \tStatus\t\tFinish Time");
 		fillUpMemory();
+		System.out.println(jobList);
 		System.out.println("Allocation fails: " + allocationFailures);
-		System.out.println("Average Internal Fragmentation: " + internalFragmentation / jobList.size() + "MB");
+		System.out.println(internalFragmentationCount);
+		System.out.println("Average Internal Fragmentation: " + internalFragmentation  + "MB");
 		System.out.println("Average External Fragmentation: " + externalFragmentation / jobList.size() + "MB");
 	}
 
