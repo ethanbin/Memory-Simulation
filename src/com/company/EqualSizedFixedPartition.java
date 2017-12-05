@@ -2,20 +2,29 @@ package com.company;
 
 import java.util.*;
 
-public class EqualSizedFixedPartition extends Memory {
-	private final int PARTITIONSIZE = 128;
+public class EqualSizedFixedPartition extends FixedMemory {
+    private final int PARTITIONSIZE = 128;
 	private final int MAXPARTITIONS = 8;
 	private int partitionCount = 0;
-	ArrayList<Process> jobList;
+	//ArrayList<Process> jobList;
 
-	EqualSizedFixedPartition(ArrayList<Process> jobList) {
+	EqualSizedFixedPartition() {
 		super();
-		this.jobList = jobList;
 		init(DEFAULT_MEMORY_SIZE);
 	}
 
 	@Override
-	public void addProcess() {
+    protected void init(int size){
+	    memoryList = new ArrayList<>();
+        int partitionSize = size/MAXPARTITIONS;
+	    for (int i = 0; i < MAXPARTITIONS; i++){
+            memoryList.add(new MemoryAllocation(partitionSize));
+        }
+    }
+
+	/*
+	@Override
+	public void addProcess(Process process) {
 		for (int i = 0; i < jobList.size(); i++) { // going through every process
 			//System.out.print("  " + jobList.get(i).getName() + "\t    " + jobList.get(i).getArrivalTime() + "\t\t"
 					//+ jobList.get(i).getSize());
@@ -38,12 +47,13 @@ public class EqualSizedFixedPartition extends Memory {
 		}
 		
 	}
-
+*/
+	/*
 	public boolean canPlace(Process a) {
 		return partitionCount < MAXPARTITIONS && a.getSize() <= PARTITIONSIZE; // if there is a partition left AND it
 																				// fits into the partition
 	}
-
+*/
 	public boolean isProcessDone(Process a) {
 		boolean done = false;
 		if (currentTime <= a.getArrivalTime() + a.getFinishTime()) { // if the process is done, we will release it
@@ -53,10 +63,11 @@ public class EqualSizedFixedPartition extends Memory {
 		return done;
 	}
 
+	/*
 	public void removeProcess(int pos) {
 		memoryList.remove(pos);
 	}
-
+*/
 	public void calculateInternalFragmentation(Process p) {
 		//internalFragmentation += PARTITIONSIZE - p.getSize();
 	}
@@ -67,10 +78,10 @@ public class EqualSizedFixedPartition extends Memory {
 
 	public void display() {
 		System.out.println("Process\tArrival Time\tProcess Size \tStatus\t\tFinish Time");
-		addProcess();
+		//addProcess();
 		System.out.println("Allocation fails: " + allocationFailures);
-		System.out.println("Average Internal Fragmentation: " + internalFragmentation / jobList.size() + "MB");
-		System.out.println("Average External Freagmentation: " + externalFragmentation / jobList.size() + "MB");
+		//System.out.println("Average Internal Fragmentation: " + internalFragmentation / jobList.size() + "MB");
+		//System.out.println("Average External Freagmentation: " + externalFragmentation / jobList.size() + "MB");
 	}
 
 	public static void main(String[] args) {
@@ -89,7 +100,9 @@ public class EqualSizedFixedPartition extends Memory {
 		jobList.add(new Process("K", 29, 190, 7));
 		jobList.add(new Process("L", 31, 24, 2));
 
-		EqualSizedFixedPartition a = new EqualSizedFixedPartition(jobList);
+		EqualSizedFixedPartition a = new EqualSizedFixedPartition();
+		for (Process p : jobList)
+    		a.addProcess(p);
 		a.display();
 
 	}
