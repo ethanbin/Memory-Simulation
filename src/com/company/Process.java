@@ -6,23 +6,23 @@ public class Process extends  MemoryAllocation{
 
 	private String name;
 	private int arrivalTime;
-	private int finishTime;
-	private boolean tooBig;
+	private int timeOfProcess;
+	private boolean hasBeenAllocated;
 	protected int memorySizeNeeded;
-	
-	public Process(String name, int arrivalTime, int size, int finishTime, boolean tooBig) {
-		init(name, arrivalTime, size, finishTime, tooBig);
+
+	public Process(String name, int arrivalTime, int size, int timeOfProcess, boolean hasBeenAllocated) {
+		init(name, arrivalTime, size, timeOfProcess, hasBeenAllocated);
 	}
 
-    public void init(String name, int arrivalTime, int size, int finishTime, boolean tooBig) {
+    public void init(String name, int arrivalTime, int size, int timeOfProcess, boolean hasBeenAllocated) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.memorySizeNeeded = size;
-        this.finishTime = finishTime;
-        this.tooBig = tooBig;
-        
+        this.timeOfProcess = timeOfProcess;
+        this.hasBeenAllocated = hasBeenAllocated;
     }
 
+	
 	public String getName() {
 		return name;
 	}
@@ -39,12 +39,12 @@ public class Process extends  MemoryAllocation{
         this.arrivalTime = arrivalTime;
     }
 
-    public void setFinishTime(int finishTime) {
-        this.finishTime = finishTime;
+    public void setTimeofProcess(int timeOfProcess) {
+        this.timeOfProcess = timeOfProcess;
     }
 
-    public int getFinishTime() {
-		return finishTime;
+    public int getTimeofProcess() {
+		return timeOfProcess;
 	}
 
     public int getMemorySizeNeeded() {
@@ -55,22 +55,23 @@ public class Process extends  MemoryAllocation{
         this.memorySizeNeeded = memorySizeNeeded;
     }
 
-    public boolean isTooBig() {
-		return tooBig;
+	public boolean isHasBeenAllocated() {
+		return hasBeenAllocated;
 	}
 
-	public void setTooBig(boolean tooBig) {
-		this.tooBig = tooBig;
+	public void setHasBeenAllocated(boolean hasBeenAllocated) {
+		this.hasBeenAllocated = hasBeenAllocated;
 	}
 
-	@Override
+    @Override
     public String toString() {
         return "\nProcess{" +
                 "name='" + name + '\'' +
                 ", arrivalTime=" + arrivalTime +
-                ", finishTime=" + finishTime +
-                ", memorySizeNeeded=" + memorySizeNeeded + ", TooBig=" + tooBig +
-                "}" + super.toString();
+                ", timeOfProcess=" + timeOfProcess +
+                ", memorySizeNeeded=" + memorySizeNeeded +
+                ", hasBeenAllocated=" + hasBeenAllocated +
+                "} " + super.toString();
     }
 
     public static void main(String[]args) {
@@ -102,5 +103,4 @@ public class Process extends  MemoryAllocation{
 		Process p = (Process) memory.get(1);
 		System.out.println(p);
 	}
-
 }
