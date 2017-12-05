@@ -11,7 +11,7 @@ public abstract class FixedMemory extends Memory {
             // if current place isn't free space, continue loop to next place
             if (isMemoryAllocationAProcess(currentAllocation))
                 continue;
-            if (currentAllocation.getMemorySizeUsed() <= p.getMemorySizeNeeded()) {
+            if (currentAllocation.getMemorySizeUsed() >= p.getMemorySizeNeeded()) {
                 p.setMemorySizeUsed(currentAllocation.getMemorySizeUsed());
                 p.setEndingPositionInMemory(currentAllocation.getEndingPositionInMemory());
                 p.setStartingPositionInMemory(currentAllocation.getStartingPositionInMemory());
