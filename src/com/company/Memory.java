@@ -10,32 +10,23 @@ public abstract class Memory {
     protected List<MemoryAllocation> memoryList;
     protected int memorySize;
     protected int internalFragmentation = 0;
+    protected int internalCount = 0;
     protected int externalFragmentation = 0;
-    protected int internalFragmentationCount = 0;	//we need these counts to find the average in the end
-    protected int externalFragmentationCount = 0;
-	protected int currentTime = 0;					// keeps track of time
+    protected int externalCount = 0;
+	protected int currentTime = 0;			// keeps track of time
+	protected int currMemoryPos = 0;		//keeps track of what position we are at in memory
+	protected int processCount = 0;			//keeps track of when to stop looping to add and remove processes
 	protected int allocationFailures = 0;
-	protected int lastProcessArrivalTime;
-	
+
     protected abstract void init(int size);
-    
-    public abstract boolean canPlace(Process a);
 
-    //public abstract boolean addProcess(Process p);
+    public abstract boolean addProcesses(Process p, int partition);
     
-    public abstract boolean isProcessDone(Process a);
-    
-    //public abstract boolean removeProcess(int startingPositionInMemory);
+    public abstract void removeProcesses();
 
-    //public abstract boolean removeProcess(String processName);
+    public abstract void calculateInternalFragmentation(Process p);
     
-    public abstract void removeFinishedProcesses(int currTime, int totalPartitions);
-
-    public abstract void calculateInternalFragmentation(int partitionSize, Process p);
-    
-    public abstract void calculateExternalFragmentation(Process p);
-    
-    public abstract void display();
+    public abstract void calculateExternalFragmentation(Process P);
 
     protected boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
         try {
