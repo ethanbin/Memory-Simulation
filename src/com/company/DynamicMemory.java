@@ -32,8 +32,10 @@ public class DynamicMemory extends Memory implements Compactable{
 
     @Override
     public boolean addProcess(Process proc) {
-        if (insertingStrategy.addProcess(proc, memoryList))
+        if (insertingStrategy.addProcess(proc, memoryList)) {
+            calculateExternalFragmentation();
             return true;
+        }
         allocationFailures++;
         return false;
     }
@@ -73,13 +75,28 @@ public class DynamicMemory extends Memory implements Compactable{
     }
 
     @Override
-    public void calculateInternalFragmentation(Process p) {
-
+    public void calculateInternalFragmentation() {
+        // Dyanmic memory cannot cause internal fragmentation.
+        internalFragmentation = 0;
     }
 
+    /**
+     * Calculates internal fragmentation. Since dynamic memory allocation cannot have internal fragmentation,
+     * this just sets internalFragmentation to 0.
+     * @return Average external fragmentation for the entire time this program ran.
+     */
     @Override
-    public void calculateExternalFragmentation(Process P) {
-
+    public void calculateExternalFragmentation() {
+        int freeSpace = 0;
+        int sizeOfLargestMemoryAllocation = 0;
+        for (MemoryAllocation memAlloc : memoryList){
+            if (Memory.isMemoryAllocationAProcess(memAlloc))
+                continue;
+            freeSpace += memAlloc.getMemorySizeUsed();
+            if (memAlloc.getMemorySizeUsed() > sizeOfLargestMemoryAllocation)
+                sizeOfLargestMemoryAllocation = memAlloc.getMemorySizeUsed();
+            externalFragmentation += (freeSpace - sizeOfLargestMemoryAllocation)/freeSpace;
+        }
     }
 
     @Override
@@ -129,8 +146,10 @@ public class DynamicMemory extends Memory implements Compactable{
         jobList.add(new Process("K", 29, 190, 7));
         jobList.add(new Process("L", 31, 24, 2));
 
-        for (Process p : jobList)
+        for (Process p : jobList){
             firstFit.addProcess(p);
+            firstFit.removeProcess("D");
+        }
         System.out.println(firstFit);
     }
 }
