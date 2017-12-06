@@ -16,7 +16,7 @@ public abstract class ProcessInserter {
     }
 
 
-    protected abstract boolean tryAllocatingProcess(Process proc, List<MemoryAllocation> list);
+    public abstract boolean tryAllocatingProcess(Process proc, List<MemoryAllocation> list);
 
     /**
      * Checks if the given memory allocation is a job or too small for the required size indicated in a parameter.
