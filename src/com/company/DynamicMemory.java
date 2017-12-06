@@ -8,7 +8,7 @@ import com.company.ProcessInserter.ProcessInserter;
  * Created by Ethan on 11/29/2017.
  */
 public class DynamicMemory extends Memory implements Compactable{
-    ProcessInserter insertingStrategy;
+    private ProcessInserter insertingStrategy;
 
     DynamicMemory(ProcessInserter strat) {
         insertingStrategy = strat;
@@ -71,5 +71,9 @@ public class DynamicMemory extends Memory implements Compactable{
     @Override
     public boolean compact() {
         return false;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
