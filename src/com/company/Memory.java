@@ -9,8 +9,8 @@ public abstract class Memory {
     protected final static int DEFAULT_MEMORY_SIZE = 1024;
     protected List<MemoryAllocation> memoryList;
     protected int memorySize;
-    protected int internalFragmentation = 0;
-    protected int externalFragmentation = 0;
+    protected double internalFragmentation = 0;
+    protected double externalFragmentation = 0;
 	protected int currentTime = 0;							// keeps track of time
 	protected int allocationFailures = 0;
 
