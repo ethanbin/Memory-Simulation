@@ -26,7 +26,7 @@ public abstract class Memory {
     
     public abstract void calculateExternalFragmentation(Process P);
 
-    static protected boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
+    static public boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
         try {
             // if memAlloc is not a Process, attempting to cast it will throw ClassCastException.
             Process p =(Process) memAlloc;
