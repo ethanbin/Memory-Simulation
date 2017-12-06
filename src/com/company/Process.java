@@ -7,17 +7,19 @@ public class Process extends  MemoryAllocation{
 	private String name;
 	private int arrivalTime;
 	private int finishTime;
+	private int runTime;
 	protected int memorySizeNeeded;
 
-	public Process(String name, int arrivalTime, int size, int finishTime) {
-		init(name, arrivalTime, size, finishTime);
+	public Process(String name, int arrivalTime, int size, int runtime) {
+		init(name, arrivalTime, size, runTime);
 	}
 
-    public void init(String name, int arrivalTime, int size, int finishTime) {
+    public void init(String name, int arrivalTime, int size, int runTime) {
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.memorySizeNeeded = size;
-        this.finishTime = finishTime;
+        this.runTime = runTime;
+        this.finishTime = -1;
     }
 
 	public String getName() {
@@ -44,7 +46,15 @@ public class Process extends  MemoryAllocation{
 		return finishTime;
 	}
 
-    public int getMemorySizeNeeded() {
+	public int getRunTime() {
+		return runTime;
+	}
+
+	public void setRunTime(int runTime) {
+		this.runTime = runTime;
+	}
+
+	public int getMemorySizeNeeded() {
         return memorySizeNeeded;
     }
 
