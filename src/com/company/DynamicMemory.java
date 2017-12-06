@@ -95,8 +95,8 @@ public class DynamicMemory extends Memory implements Compactable{
             freeSpace += memAlloc.getMemorySizeUsed();
             if (memAlloc.getMemorySizeUsed() > sizeOfLargestMemoryAllocation)
                 sizeOfLargestMemoryAllocation = memAlloc.getMemorySizeUsed();
-            externalFragmentation += (freeSpace - sizeOfLargestMemoryAllocation)/freeSpace;
         }
+        externalFragmentation += (freeSpace - sizeOfLargestMemoryAllocation)/freeSpace;
     }
 
     @Override
@@ -148,7 +148,8 @@ public class DynamicMemory extends Memory implements Compactable{
 
         for (Process p : jobList){
             firstFit.addProcess(p);
-            firstFit.removeProcess("D");
+            if (p.getName() == "D")
+                firstFit.removeProcess("D");
         }
         System.out.println(firstFit);
     }
