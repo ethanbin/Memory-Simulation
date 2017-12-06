@@ -109,6 +109,7 @@ public class DynamicMemory extends Memory implements Compactable{
             }
         }
         outp += "Free space remaining: " + freeSpaceRemaining + "\n";
+        outp += "Process Allocations failed: " + allocationFailures + "\n";
         return outp;
     }
 
