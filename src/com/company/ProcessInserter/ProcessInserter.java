@@ -11,14 +11,21 @@ import java.util.List;
  */
 public abstract class ProcessInserter {
     public boolean addProcess(Process proc, List<MemoryAllocation> list){
-        boolean insertedSuccessfully = findLocationToAllocateProcess(proc, list);
+        boolean insertedSuccessfully = tryAllocatingProcess(proc, list);
         return insertedSuccessfully;
     }
 
-    protected abstract boolean findLocationToAllocateProcess(Process proc, List<MemoryAllocation> list);
 
-    // each strategy will need to make this check, so better to write it once here as method than
-    // rewrite this multiple times.
+    protected abstract boolean tryAllocatingProcess(Process proc, List<MemoryAllocation> list);
+
+    /**
+     * Checks if the given memory allocation is a job or too small for the required size indicated in a parameter.
+     * Each strategy will need to make this check, so better to write it once here as method than
+     * rewrite this multiple times.
+     * @param memAlloc Memory Allocation to check if it is a Process
+     * @param sizeNeeded Size needed for a Process that is considering this allocation
+     * @return true if this memory allocation is a Process or if the allocation is too small for the needed size.
+     */
     protected boolean isMemoryAllocationAProcessOrTooSmall(MemoryAllocation memAlloc, int sizeNeeded){
         if (Memory.isMemoryAllocationAProcess(memAlloc))
             return true;
