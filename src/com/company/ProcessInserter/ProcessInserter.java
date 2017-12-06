@@ -15,7 +15,14 @@ public abstract class ProcessInserter {
         return insertedSuccessfully;
     }
 
-
+    /**
+     * This method should determine which memory allocation to insert a process into, depending on the strategy being
+     * used. The method then calls allocateProcessToIndex and passes the index of the memory allocation to insert
+     * the job into.
+     * @param proc Process to allocate
+     * @param list Memory list to allocate process into
+     * @return true if Process allocated successfully, false if not
+     */
     public abstract boolean tryAllocatingProcess(Process proc, List<MemoryAllocation> list);
 
     /**
