@@ -64,7 +64,7 @@ public abstract class ProcessInserter {
             proc.setEndingPositionInMemory(proc.getStartingPositionInMemory() + proc.getMemorySizeUsed() - 1);
             spaceToInsertProcessInto.setStartingPositionInMemory(proc.getStartingPositionInMemory() + proc.getMemorySizeUsed());
 
-            list.add(proc);
+            list.add(indexToAllocateProcessTo, proc);
         }
     }
 }
