@@ -26,6 +26,7 @@ public class DynamicMemory extends Memory implements Compactable{
     @Override
     protected void init(int size) {
         memoryList = new ArrayList<>();
+        memorySize = size;
         memoryList.add(new MemoryAllocation(size, 0, size - 1));
     }
 
@@ -75,6 +76,31 @@ public class DynamicMemory extends Memory implements Compactable{
     @Override
     public boolean compact() {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String outp = "";
+        outp += "Total Size of Memory: " + memorySize + "\n";
+        outp += "Memory Snapshot:\n";
+        int freeSpaceRemaining = 0;
+        for (MemoryAllocation memAlloc : memoryList){
+            String type = memAlloc.getClass().getSimpleName();
+            if (type.equalsIgnoreCase("Process")){
+                Process proc = (Process) memAlloc;
+                outp += "Process \"" + proc.getName() + "\"\t\t\tSize: " + proc.getMemorySizeUsed() +
+                        ".\t Starts in address " + proc.getStartingPositionInMemory() + ";\t" +
+                        ".\t Ends in address " + proc.getEndingPositionInMemory() + "\n";
+            }
+            else {
+                outp += "Allocated Memory.\tSize: " + memAlloc.getMemorySizeUsed() +
+                        ".\t\t Starts in address " + memAlloc.getStartingPositionInMemory() + ";\t" +
+                        ".\t\t Ends in address " + memAlloc.getEndingPositionInMemory() + "\n";
+                freeSpaceRemaining += memAlloc.getMemorySizeUsed();
+            }
+        }
+        outp += "Free space remaining: " + freeSpaceRemaining + "\n";
+        return outp;
     }
 
     public static void main(String[] args) {
