@@ -89,13 +89,13 @@ public class DynamicMemory extends Memory implements Compactable{
             if (type.equalsIgnoreCase("Process")){
                 Process proc = (Process) memAlloc;
                 outp += "Process \"" + proc.getName() + "\"\t\t\tSize: " + proc.getMemorySizeUsed() +
-                        ".\t Starts in address " + proc.getStartingPositionInMemory() + ";\t" +
-                        ".\t Ends in address " + proc.getEndingPositionInMemory() + "\n";
+                        "\t Starts in address " + proc.getStartingPositionInMemory() + ";\t" +
+                        "\t Ends in address " + proc.getEndingPositionInMemory() + "\n";
             }
             else {
                 outp += "Allocated Memory.\tSize: " + memAlloc.getMemorySizeUsed() +
-                        ".\t\t Starts in address " + memAlloc.getStartingPositionInMemory() + ";\t" +
-                        ".\t\t Ends in address " + memAlloc.getEndingPositionInMemory() + "\n";
+                        "\t Starts in address " + memAlloc.getStartingPositionInMemory() + ";\t" +
+                        "\t Ends in address " + memAlloc.getEndingPositionInMemory() + "\n";
                 freeSpaceRemaining += memAlloc.getMemorySizeUsed();
             }
         }

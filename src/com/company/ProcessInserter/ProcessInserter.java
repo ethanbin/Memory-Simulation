@@ -48,6 +48,8 @@ public abstract class ProcessInserter {
         if (spaceToInsertProcessInto.getMemorySizeUsed() == proc.getMemorySizeNeeded()){
             // process takes up the entire block of free memory, essentially replacing it.
             proc.setMemorySizeUsed(proc.getMemorySizeNeeded());
+            proc.setStartingPositionInMemory(spaceToInsertProcessInto.getStartingPositionInMemory());
+            proc.setEndingPositionInMemory(spaceToInsertProcessInto.getEndingPositionInMemory());
             list.set(indexToAllocateProcessTo, proc);
         }
         else if (spaceToInsertProcessInto.getMemorySizeUsed() > proc.getMemorySizeNeeded()){
@@ -55,6 +57,13 @@ public abstract class ProcessInserter {
             spaceToInsertProcessInto.setMemorySizeUsed(
                     spaceToInsertProcessInto.getMemorySizeUsed() - proc.getMemorySizeNeeded());
             proc.setMemorySizeUsed(proc.getMemorySizeNeeded());
+
+            proc.setStartingPositionInMemory(spaceToInsertProcessInto.getStartingPositionInMemory());
+            spaceToInsertProcessInto.setStartingPositionInMemory(proc.getStartingPositionInMemory() + proc.getMemorySizeUsed());
+
+            proc.setEndingPositionInMemory(proc.getStartingPositionInMemory() + proc.getMemorySizeUsed() - 1);
+            spaceToInsertProcessInto.setStartingPositionInMemory(proc.getStartingPositionInMemory() + proc.getMemorySizeUsed());
+
             list.add(proc);
         }
     }
