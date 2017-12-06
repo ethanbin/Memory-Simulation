@@ -17,10 +17,40 @@ public abstract class Memory {
     protected abstract void init(int size);
 
     public abstract boolean addProcess(Process p);
-    
-    public abstract boolean removeProcess(int startingPositionInMemory);
 
-    public abstract boolean removeProcess(String processName);
+    public boolean removeProcess(String processName) {
+        for (int i = 0; i < memoryList.size(); i++){
+            if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
+                continue;
+
+            Process currentProc = (Process) memoryList.get(i);
+
+            if (currentProc.getName().equals(processName)){
+                memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
+                        currentProc.getStartingPositionInMemory(),
+                        currentProc.getEndingPositionInMemory()));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removeProcess(int startingPositionInMemory) {
+        for (int i = 0; i < memoryList.size(); i++){
+            if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
+                continue;
+
+            Process currentProc = (Process) memoryList.get(i);
+
+            if (currentProc.getStartingPositionInMemory() == startingPositionInMemory){
+                memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
+                        currentProc.getStartingPositionInMemory(),
+                        currentProc.getEndingPositionInMemory()));
+                return true;
+            }
+        }
+        return false;
+    }
 
     public abstract void calculateInternalFragmentation();
     
