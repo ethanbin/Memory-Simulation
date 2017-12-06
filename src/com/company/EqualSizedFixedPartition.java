@@ -68,11 +68,11 @@ public class EqualSizedFixedPartition extends FixedMemory {
 		memoryList.remove(pos);
 	}
 */
-	public void calculateInternalFragmentation(Process p) {
+	public void calculateInternalFragmentation() {
 		//internalFragmentation += PARTITIONSIZE - p.getSize();
 	}
 
-	public void calculateExternalFragmentation(Process P) {
+	public void calculateExternalFragmentation() {
 		// fixed sized partitions don't have external fragmentation
 	}
 

@@ -22,9 +22,9 @@ public abstract class Memory {
 
     public abstract boolean removeProcess(String processName);
 
-    public abstract void calculateInternalFragmentation(Process p);
+    public abstract void calculateInternalFragmentation();
     
-    public abstract void calculateExternalFragmentation(Process P);
+    public abstract void calculateExternalFragmentation();
 
     static public boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
         try {
