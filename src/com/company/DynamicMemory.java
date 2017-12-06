@@ -32,7 +32,10 @@ public class DynamicMemory extends Memory implements Compactable{
 
     @Override
     public boolean addProcess(Process proc) {
-        return insertingStrategy.addProcess(proc, memoryList);
+        if (insertingStrategy.addProcess(proc, memoryList))
+            return true;
+        allocationFailures++;
+        return false;
     }
 
     @Override
