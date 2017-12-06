@@ -7,6 +7,12 @@ public class MemoryAllocation {
     protected int memorySizeUsed;
     protected int startingPositionInMemory;
     protected int endingPositionInMemory;
+
+    public MemoryAllocation(){
+        memorySizeUsed = -1;
+        this.startingPositionInMemory = -1;
+        this.endingPositionInMemory = -1;
+    }
     
     public MemoryAllocation(int size){
         memorySizeUsed = size;
