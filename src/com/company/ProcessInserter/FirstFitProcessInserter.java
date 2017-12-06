@@ -14,7 +14,7 @@ public class FirstFitProcessInserter extends ProcessInserter{
             if (isMemoryAllocationAProcessOrTooSmall(list.get(i), proc.getMemorySizeNeeded()))
                 continue;
             allocateProcessToIndex(proc, i, list);
-            break;
+            return true;
         }
         return false;
     }
