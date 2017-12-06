@@ -40,9 +40,13 @@ public class DynamicMemory extends Memory implements Compactable{
         for (int i = 0; i < memoryList.size(); i++){
             if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
                 continue;
+
             Process currentProc = (Process) memoryList.get(i);
+
             if (currentProc.getStartingPositionInMemory() == startingPositionInMemory){
-                memoryList.set(i, new MemoryAllocation());
+                memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
+                                                       currentProc.getStartingPositionInMemory(),
+                                                       currentProc.getEndingPositionInMemory()));
                 return true;
             }
         }
@@ -56,7 +60,9 @@ public class DynamicMemory extends Memory implements Compactable{
                 continue;
             Process currentProc = (Process) memoryList.get(i);
             if (currentProc.getName().equals(processName)){
-                memoryList.set(i, new MemoryAllocation());
+                memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
+                        currentProc.getStartingPositionInMemory(),
+                        currentProc.getEndingPositionInMemory()));
                 return true;
             }
         }
