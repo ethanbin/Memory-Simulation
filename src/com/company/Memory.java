@@ -56,7 +56,32 @@ public abstract class Memory {
         return false;
     }
 
-    public abstract void calculateInternalFragmentation();
+    /**
+     * Calculates the current internal fragmentation using of each allocated process using
+     * [size of memory used for allocation - size of memory process needs]. This value is added onto
+     * internalFragmentation each time this method is called. Users should call getAverageInternalFragmentation
+     * to find the average internal fragmentation over each time it was calculated.
+     */
+    public void calculateInternalFragmentation(){
+        for (MemoryAllocation memAlloc : memoryList){
+            if (!isMemoryAllocationAProcess(memAlloc))
+                continue;
+            Process proc = (Process) memAlloc;
+            int fragmentation = proc.getMemorySizeUsed() - proc.getMemorySizeNeeded();
+            internalFragmentation += fragmentation;
+            internalFragmentationCalculationCount++;
+        }
+    }
+
+    /**
+     * This method gets the average internal fragmentation over each time it was internal fragmentation wass calculated.
+     * @return average internal fragmentation, -1 if fragmentation was never calculated.
+     */
+    public double getAverageInternalFragmentation(){
+        if (internalFragmentationCalculationCount == 0)
+            return -1;
+        return internalFragmentation/internalFragmentationCalculationCount;
+    }
 
     /**
      * Calculates the current external fragmentation using

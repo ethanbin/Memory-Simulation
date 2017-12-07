@@ -49,7 +49,7 @@ public class DynamicMemory extends Memory implements Compactable{
         // Dyanmic memory cannot cause internal fragmentation.
         internalFragmentation = 0;
     }
-    
+
     @Override
     public boolean compact() {
         return false;
