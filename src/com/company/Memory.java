@@ -57,7 +57,14 @@ public abstract class Memory {
     }
 
     public abstract void calculateInternalFragmentation();
-    
+
+    /**
+     * Calculates the current external fragmentation using
+     * [(all free space - size of biggest memory allocation) / all free space]. This results in a number from 0 to 1.
+     * The close the number is to 1, the less fragmented the memory is. This value is added onto externalFragmentation
+     * each time this method is called. Users should call getAverageExternalFragmentation to find the average
+     * external fragmentation over each time it was calculated.
+     */
     public void calculateExternalFragmentation(){
         int freeSpace = 0;
         int sizeOfLargestMemoryAllocation = 0;
@@ -72,6 +79,12 @@ public abstract class Memory {
         int divisor = freeSpace;
         externalFragmentation += (double) sum/divisor;
         externalFragmentationCalculationCount++;
+    }
+    
+    public double getAverageExternalFragmentation(){
+        if (externalFragmentationCalculationCount == 0)
+            return -1;
+        return externalFragmentation/externalFragmentationCalculationCount;
     }
 
     static public boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
