@@ -41,40 +41,6 @@ public class DynamicMemory extends Memory implements Compactable{
     }
 
     @Override
-    public boolean removeProcess(int startingPositionInMemory) {
-        for (int i = 0; i < memoryList.size(); i++){
-            if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
-                continue;
-
-            Process currentProc = (Process) memoryList.get(i);
-
-            if (currentProc.getStartingPositionInMemory() == startingPositionInMemory){
-                memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
-                                                       currentProc.getStartingPositionInMemory(),
-                                                       currentProc.getEndingPositionInMemory()));
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeProcess(String processName) {
-        for (int i = 0; i < memoryList.size(); i++){
-            if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
-                continue;
-            Process currentProc = (Process) memoryList.get(i);
-            if (currentProc.getName().equals(processName)){
-                memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
-                        currentProc.getStartingPositionInMemory(),
-                        currentProc.getEndingPositionInMemory()));
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public void calculateInternalFragmentation() {
         // Dyanmic memory cannot cause internal fragmentation.
         internalFragmentation = 0;
