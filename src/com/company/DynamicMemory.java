@@ -33,7 +33,6 @@ public class DynamicMemory extends Memory implements Compactable{
     @Override
     public boolean addProcess(Process proc) {
         if (insertingStrategy.addProcess(proc, memoryList)) {
-            calculateExternalFragmentation();
             return true;
         }
         allocationFailures++;
@@ -62,7 +61,9 @@ public class DynamicMemory extends Memory implements Compactable{
             if (memAlloc.getMemorySizeUsed() > sizeOfLargestMemoryAllocation)
                 sizeOfLargestMemoryAllocation = memAlloc.getMemorySizeUsed();
         }
-        externalFragmentation += (freeSpace - sizeOfLargestMemoryAllocation)/freeSpace;
+        int sum = freeSpace - sizeOfLargestMemoryAllocation;
+        int divisor = freeSpace;
+        externalFragmentation += (double) sum/divisor;
     }
 
     @Override
@@ -93,6 +94,7 @@ public class DynamicMemory extends Memory implements Compactable{
         }
         outp += "Free space remaining: " + freeSpaceRemaining + "\n";
         outp += "Process Allocations failed: " + allocationFailures + "\n";
+        outp += "Average External Fragmentation: " + externalFragmentation + "\n";
         return outp;
     }
 
@@ -114,8 +116,8 @@ public class DynamicMemory extends Memory implements Compactable{
 
         for (Process p : jobList){
             firstFit.addProcess(p);
-            if (p.getName() == "D")
-                firstFit.removeProcess("D");
+            if (p.getName() == "F")
+                firstFit.removeProcess("F");
         }
         System.out.println(firstFit);
     }
