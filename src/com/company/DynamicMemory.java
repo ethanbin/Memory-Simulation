@@ -39,31 +39,20 @@ public class DynamicMemory extends Memory implements Compactable{
         return false;
     }
 
-    @Override
-    public void calculateInternalFragmentation() {
-        // Dyanmic memory cannot cause internal fragmentation.
-        internalFragmentation = 0;
-    }
-
     /**
      * Calculates internal fragmentation. Since dynamic memory allocation cannot have internal fragmentation,
      * this just sets internalFragmentation to 0.
      * @return Average external fragmentation for the entire time this program ran.
      */
     @Override
+    public void calculateInternalFragmentation() {
+        // Dyanmic memory cannot cause internal fragmentation.
+        internalFragmentation = 0;
+    }
+
+    @Override
     public void calculateExternalFragmentation() {
-        int freeSpace = 0;
-        int sizeOfLargestMemoryAllocation = 0;
-        for (MemoryAllocation memAlloc : memoryList){
-            if (Memory.isMemoryAllocationAProcess(memAlloc))
-                continue;
-            freeSpace += memAlloc.getMemorySizeUsed();
-            if (memAlloc.getMemorySizeUsed() > sizeOfLargestMemoryAllocation)
-                sizeOfLargestMemoryAllocation = memAlloc.getMemorySizeUsed();
-        }
-        int sum = freeSpace - sizeOfLargestMemoryAllocation;
-        int divisor = freeSpace;
-        externalFragmentation += (double) sum/divisor;
+
     }
 
     @Override

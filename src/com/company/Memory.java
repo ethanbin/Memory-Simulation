@@ -10,8 +10,10 @@ public abstract class Memory {
     protected List<MemoryAllocation> memoryList;
     protected int memorySize;
     protected double internalFragmentation = 0;
+    protected int internalFragmentationCalculationCount = 0;
     protected double externalFragmentation = 0;
-	protected int currentTime = 0;							// keeps track of time
+    protected int externalFragmentationCalculationCount = 0;
+    protected int currentTime = 0;							// keeps track of time
 	protected int allocationFailures = 0;
 
     protected abstract void init(int size);
@@ -56,7 +58,21 @@ public abstract class Memory {
 
     public abstract void calculateInternalFragmentation();
     
-    public abstract void calculateExternalFragmentation();
+    public void calculateExternalFragmentation(){
+        int freeSpace = 0;
+        int sizeOfLargestMemoryAllocation = 0;
+        for (MemoryAllocation memAlloc : memoryList){
+            if (Memory.isMemoryAllocationAProcess(memAlloc))
+                continue;
+            freeSpace += memAlloc.getMemorySizeUsed();
+            if (memAlloc.getMemorySizeUsed() > sizeOfLargestMemoryAllocation)
+                sizeOfLargestMemoryAllocation = memAlloc.getMemorySizeUsed();
+        }
+        int sum = freeSpace - sizeOfLargestMemoryAllocation;
+        int divisor = freeSpace;
+        externalFragmentation += (double) sum/divisor;
+        externalFragmentationCalculationCount++;
+    }
 
     static public boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
         try {
