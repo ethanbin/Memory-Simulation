@@ -80,7 +80,7 @@ public abstract class Memory {
         externalFragmentation += (double) sum/divisor;
         externalFragmentationCalculationCount++;
     }
-    
+
     public double getAverageExternalFragmentation(){
         if (externalFragmentationCalculationCount == 0)
             return -1;
