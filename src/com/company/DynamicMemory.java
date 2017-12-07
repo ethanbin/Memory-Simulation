@@ -50,6 +50,15 @@ public class DynamicMemory extends Memory implements Compactable{
         internalFragmentation = 0;
     }
 
+    /**
+     * Returns internal fragmentation. Since dynamic memory allocation cannot have internal fragmentation, return 0.
+     * @return internal fragmentation. Since dynamic memory allocation cannot have internal fragmentation, return 0
+     */
+    @Override
+    public double getAverageInternalFragmentation() {
+        return 0;
+    }
+
     @Override
     public boolean compact() {
         return false;
