@@ -29,6 +29,7 @@ public abstract class Memory {
                 memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
                         currentProc.getStartingPositionInMemory(),
                         currentProc.getEndingPositionInMemory()));
+                calculateExternalFragmentation();
                 return true;
             }
         }
@@ -46,6 +47,7 @@ public abstract class Memory {
                 memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
                         currentProc.getStartingPositionInMemory(),
                         currentProc.getEndingPositionInMemory()));
+                calculateExternalFragmentation();
                 return true;
             }
         }
