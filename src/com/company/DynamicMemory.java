@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class DynamicMemory extends Memory {
     protected ProcessInserter insertingStrategy;
-    protected int timesCompacted;
+    protected int timesCompacted = 0;
 
     DynamicMemory(ProcessInserter strat) {
         insertingStrategy = strat;
@@ -41,6 +41,12 @@ public class DynamicMemory extends Memory {
         if (insertingStrategy.addProcess(proc, memoryList)) {
             return true;
         }
+        else{
+            compact();
+            if (insertingStrategy.addProcess(proc, memoryList))
+                return true;
+        }
+
         allocationFailures++;
         return false;
     }
@@ -68,8 +74,13 @@ public class DynamicMemory extends Memory {
         fragmentations.add((double) sum/divisor);
     }
 
-    public boolean compact() {
+    private boolean compact() {
+        timesCompacted++;
         return false;
+    }
+
+    public int getTimesCompacted(){
+        return timesCompacted;
     }
 
     @Override
@@ -96,6 +107,7 @@ public class DynamicMemory extends Memory {
         outp += "Free space remaining: " + freeSpaceRemaining + "\n";
         outp += "Process Allocations failed: " + allocationFailures + "\n";
         outp += "Average External Fragmentation: " + getAverageFragmentationPercentage() + "\n";
+        outp += "Times Compacted: " + timesCompacted + "\n";
         return outp;
     }
 }
