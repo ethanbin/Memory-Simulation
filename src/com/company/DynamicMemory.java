@@ -75,8 +75,37 @@ public class DynamicMemory extends Memory {
     }
 
     private boolean compact() {
+        List<MemoryAllocation> memAllocsFound = new ArrayList<>();
+        for (MemoryAllocation memoryAllocation : memoryList) {
+            if (!Memory.isMemoryAllocationAProcess(memoryAllocation)) {
+                memAllocsFound.add(memoryAllocation);
+            }
+        }
+        if (memAllocsFound.size() <= 1)
+            return false;
+
+        // remove all memory allocations from memory so we can create 1 memory allocation as if it were
+        // a combination of all the memory allocations we had.
+        memoryList.removeAll(memAllocsFound);
+
+        int usedSpace = 0;
+        int currentStartingPosition = 0;
+        for (MemoryAllocation memoryAllocation : memoryList){
+            if (Memory.isMemoryAllocationAProcess(memoryAllocation))
+                continue;
+            memoryAllocation.setStartingPositionInMemory(currentStartingPosition);
+            memoryAllocation.setEndingPositionInMemory(
+                    currentStartingPosition + memoryAllocation.getMemorySizeUsed() - 1);
+            currentStartingPosition = memoryAllocation.getEndingPositionInMemory();
+            usedSpace += memoryAllocation.getMemorySizeUsed();
+        }
+
+        int remainingUnusedSpace = memorySize - usedSpace;
+        int endingPosition = memorySize - 1;
+        memoryList.add(new MemoryAllocation(remainingUnusedSpace, currentStartingPosition, endingPosition));
+
         timesCompacted++;
-        return false;
+        return true;
     }
 
     public int getTimesCompacted(){
