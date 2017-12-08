@@ -184,6 +184,12 @@ public abstract class Memory {
         outp.append(String.format("%-35s %f %n",
                 "Peak Fragmentation Percentage:",
                 getPeakFragemntation()));
+        outp.append(String.format("%-35s %f %n",
+                "Average Memory Utilization:",
+                0f));
+        outp.append(String.format("%-35s %f %n",
+                "Peak Memory Utilization:",
+                0f));
 
         return outp.toString();
     }
