@@ -10,7 +10,7 @@ public class Process extends  MemoryAllocation implements Comparable<Process>{
 	private int runTime;
 	protected int memorySizeNeeded;
 
-	public Process(String name, int arrivalTime, int size, int runtime) {
+	public Process(String name, int arrivalTime, int size, int runTime) {
 		init(name, arrivalTime, size, runTime);
 	}
 
