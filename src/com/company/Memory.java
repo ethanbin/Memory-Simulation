@@ -16,6 +16,11 @@ public abstract class Memory {
 
     protected abstract void init(int size);
 
+    /**
+     * Attempts to add process into memory and set current time to the process's arrival time.
+     * @param p process to add
+     * @return true if process successfully added
+     */
     public abstract boolean addProcess(Process p);
 
     /**
