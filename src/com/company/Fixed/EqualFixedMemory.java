@@ -8,8 +8,7 @@ import java.util.ArrayList;
  * Created by Ethan on 12/8/2017.
  */
 public class EqualFixedMemory extends FixedMemory{
-    protected final int DEFAULT_PARTITION_SIZE = 128;
-    protected final int MAX_PARTITIONS = 8;
+    protected final int DEFAULT_MAX_PARTITIONS = 8;
     //ArrayList<Process> jobList;
 
     public EqualFixedMemory() {
@@ -23,8 +22,8 @@ public class EqualFixedMemory extends FixedMemory{
     @Override
     protected void init(int size){
         memoryList = new ArrayList<>();
-        int partitionSize = size/ MAX_PARTITIONS;
-        for (int i = 0; i < MAX_PARTITIONS; i++){
+        int partitionSize = size/ DEFAULT_MAX_PARTITIONS;
+        for (int i = 0; i < DEFAULT_MAX_PARTITIONS; i++){
             memoryList.add(new MemoryAllocation(partitionSize));
         }
         fragmentations = new ArrayList<>();
