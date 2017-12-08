@@ -144,11 +144,11 @@ public abstract class Memory {
     public final void simulateMemory(List<Process> processes){
         Collections.sort(processes);
         for (Process p : processes){
-            // remove all completed jobs
-            removeFinishedProcesses();
             // update time
             if (currentTime < p.getArrivalTime())
                 currentTime = p.getArrivalTime();
+            // remove all completed jobs
+            removeFinishedProcesses();
             p.setFinishTime(currentTime + p.getRunTime());
             // add process
             addProcess(p);
@@ -176,11 +176,12 @@ public abstract class Memory {
                 '}';
     }
 
-    public String dataResults() {
-        String outp = "";
-        outp += "Average Fragmentation Percentage: " + getAverageFragmentationPercentage();
-        outp += "Peak Fragmentation Percentage: " + getPeakFragemntation();
-        return outp;
+    public String getDataResults() {
+        StringBuilder outp = new StringBuilder();
+        outp.append("Average Fragmentation Percentage: " + getAverageFragmentationPercentage() + String.format("%n"));
+        outp.append("Peak Fragmentation Percentage: " + getPeakFragemntation() + String.format("%n"));
+        
+        return outp.toString();
     }
 
 
@@ -190,7 +191,7 @@ public abstract class Memory {
         for (int i = 0; i < 800; i++)
             jobList.add(new Process(String.valueOf(i), 1, 0, 2));
 
-//        jobList.add(new Process("A", 60, 3, 4));
+        jobList.add(new Process("A", 60, 3, 4));
 //        jobList.add(new Process("B", 12, 4, 4));
 //        jobList.add(new Process("C", 66, 5, 7));
 //        jobList.add(new Process("D", 12, 9, 5));
@@ -203,10 +204,10 @@ public abstract class Memory {
 //        jobList.add(new Process("K",  190,29, 7));
 //        jobList.add(new Process("L",  24, 31,2));
 
-        Collections.sort(jobList);
-
         memory.start(jobList);
 
         System.out.println(memory);
+
+        System.out.println(memory.getDataResults());
     }
 }
