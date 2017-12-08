@@ -11,8 +11,9 @@ import java.util.List;
 /**
  * Created by Ethan on 11/29/2017.
  */
-public class DynamicMemory extends Memory implements Compactable{
-    private ProcessInserter insertingStrategy;
+public class DynamicMemory extends Memory {
+    protected ProcessInserter insertingStrategy;
+    protected int timesCompacted;
 
     DynamicMemory(ProcessInserter strat) {
         insertingStrategy = strat;
@@ -67,7 +68,6 @@ public class DynamicMemory extends Memory implements Compactable{
         fragmentations.add((double) sum/divisor);
     }
 
-    @Override
     public boolean compact() {
         return false;
     }
