@@ -5,6 +5,7 @@ import com.company.ProcessInserter.FirstFitProcessInserter;
 import com.company.ProcessInserter.ProcessInserter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,6 +34,9 @@ public class DynamicMemory extends Memory implements Compactable{
 
     @Override
     public boolean addProcess(Process proc) {
+        if (currentTime < proc.getArrivalTime())
+            currentTime = proc.getArrivalTime();
+        proc.setFinishTime(currentTime + proc.getRunTime());
         if (insertingStrategy.addProcess(proc, memoryList)) {
             return true;
         }
@@ -111,10 +115,11 @@ public class DynamicMemory extends Memory implements Compactable{
         jobList.add(new Process("K", 29, 190, 7));
         jobList.add(new Process("L", 31, 24, 2));
 
+        Collections.sort(jobList);
+
         for (Process p : jobList){
             firstFit.addProcess(p);
-            if (p.getName() == "F")
-                firstFit.removeProcess("F");
+            firstFit.removeFinishedProcesses();
         }
         System.out.println(firstFit);
     }
