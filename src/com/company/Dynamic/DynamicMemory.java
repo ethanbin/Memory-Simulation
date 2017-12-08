@@ -3,12 +3,9 @@ package com.company.Dynamic;
 import com.company.Memory;
 import com.company.MemoryAllocation;
 import com.company.Process;
-import com.company.ProcessInserter.BestFitProcessInserter;
-import com.company.ProcessInserter.FirstFitProcessInserter;
 import com.company.ProcessInserter.ProcessInserter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,6 +31,7 @@ public class DynamicMemory extends Memory {
         memorySize = size;
         memoryList.add(new MemoryAllocation(size, 0, size - 1));
         fragmentations = new ArrayList<>();
+        memoryUtilizations = new ArrayList<>();
     }
 
     @Override

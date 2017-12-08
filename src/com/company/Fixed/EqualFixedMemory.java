@@ -27,6 +27,7 @@ public class EqualFixedMemory extends FixedMemory{
             memoryList.add(new MemoryAllocation(partitionSize));
         }
         fragmentations = new ArrayList<>();
+        memoryUtilizations = new ArrayList<>();
     }
 
     public void display() {
