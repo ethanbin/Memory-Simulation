@@ -1,6 +1,9 @@
 package com.company;
 
+import com.company.ProcessInserter.FirstFitProcessInserter;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -126,6 +129,19 @@ public abstract class Memory {
         }
     }
 
+    /**
+     * Simulate memory adding and removing jobs until all process have been run through. Simulation and counted
+     * time will stop at the arrival of the final process.
+     * @param processes
+     */
+    public void simulateMemory(List<Process> processes){
+        Collections.sort(processes);
+        for (Process p : processes){
+            addProcess(p);
+            removeFinishedProcesses();
+        }
+    }
+
     @Override
     public String toString() {
         return "Memory{" +
@@ -135,5 +151,30 @@ public abstract class Memory {
                 ", currentTime=" + currentTime +
                 ", allocationFailures=" + allocationFailures +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        DynamicMemory firstFit = new DynamicMemory(new FirstFitProcessInserter());
+        List<Process> jobList = new ArrayList<>();
+        jobList.add(new Process("A", 0, 131, 4));
+        jobList.add(new Process("B", 2, 120, 4));
+        jobList.add(new Process("C", 5, 158, 7));
+        jobList.add(new Process("D", 9, 107, 5));
+        jobList.add(new Process("E", 13, 82, 3));
+        jobList.add(new Process("F", 17, 127, 1));
+        jobList.add(new Process("G", 17, 43, 8));
+        jobList.add(new Process("H", 20, 77, 6));
+        jobList.add(new Process("I", 24, 109, 2));
+        jobList.add(new Process("J", 26, 90, 3));
+        jobList.add(new Process("K", 29, 190, 7));
+        jobList.add(new Process("L", 31, 24, 2));
+
+        Collections.sort(jobList);
+
+        for (Process p : jobList){
+            firstFit.addProcess(p);
+            firstFit.removeFinishedProcesses();
+        }
+        System.out.println(firstFit);
     }
 }
