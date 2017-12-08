@@ -178,9 +178,13 @@ public abstract class Memory {
 
     public String getDataResults() {
         StringBuilder outp = new StringBuilder();
-        outp.append("Average Fragmentation Percentage: " + getAverageFragmentationPercentage() + String.format("%n"));
-        outp.append("Peak Fragmentation Percentage: " + getPeakFragemntation() + String.format("%n"));
-        
+        outp.append(String.format("%-35s %f %n",
+                "Average Fragmentation Percentage:",
+                getAverageFragmentationPercentage()));
+        outp.append(String.format("%-35s %f %n",
+                "Peak Fragmentation Percentage:",
+                getPeakFragemntation()));
+
         return outp.toString();
     }
 
