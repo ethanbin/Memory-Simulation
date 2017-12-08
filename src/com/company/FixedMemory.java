@@ -18,7 +18,6 @@ public abstract class FixedMemory extends Memory {
 
             proc.setFinishTime(proc.getArrivalTime() + proc.getRunTime());
             currentTime = proc.getArrivalTime();
-            calculateInternalFragmentation();
             memoryList.set(i, proc);
             return true;
         }

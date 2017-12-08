@@ -28,6 +28,7 @@ public class DynamicMemory extends Memory implements Compactable{
         memoryList = new ArrayList<>();
         memorySize = size;
         memoryList.add(new MemoryAllocation(size, 0, size - 1));
+        fragmentations = new ArrayList<>();
     }
 
     @Override
@@ -40,23 +41,26 @@ public class DynamicMemory extends Memory implements Compactable{
     }
 
     /**
-     * Calculates internal fragmentation. Since dynamic memory allocation cannot have internal fragmentation,
-     * this just sets internalFragmentation to 0.
-     * @return Average external fragmentation for the entire time this program ran.
+     * Calculates the current external fragmentation using
+     * [(all free space - size of biggest memory allocation) / all free space]. This results in a number from 0 to 1.
+     * The close the number is to 1, the less fragmented the memory is. This value is added to fragmentations
+     * each time this method is called. Users should call getAverageFragmentationPercentage to find the average
+     * external fragmentation over each time it was calculated.
      */
     @Override
-    public void calculateInternalFragmentation() {
-        // Dyanmic memory cannot cause internal fragmentation.
-        internalFragmentation = 0;
-    }
-
-    /**
-     * Returns internal fragmentation. Since dynamic memory allocation cannot have internal fragmentation, return 0.
-     * @return internal fragmentation. Since dynamic memory allocation cannot have internal fragmentation, return 0
-     */
-    @Override
-    public double getAverageInternalFragmentation() {
-        return 0;
+    public void calculateFragmentationPercentage() {
+        int freeSpace = 0;
+        int sizeOfLargestMemoryAllocation = 0;
+        for (MemoryAllocation memAlloc : memoryList){
+            if (Memory.isMemoryAllocationAProcess(memAlloc))
+                continue;
+            freeSpace += memAlloc.getMemorySizeUsed();
+            if (memAlloc.getMemorySizeUsed() > sizeOfLargestMemoryAllocation)
+                sizeOfLargestMemoryAllocation = memAlloc.getMemorySizeUsed();
+        }
+        int sum = freeSpace - sizeOfLargestMemoryAllocation;
+        int divisor = freeSpace;
+        fragmentations.add((double) sum/divisor);
     }
 
     @Override
@@ -87,7 +91,7 @@ public class DynamicMemory extends Memory implements Compactable{
         }
         outp += "Free space remaining: " + freeSpaceRemaining + "\n";
         outp += "Process Allocations failed: " + allocationFailures + "\n";
-        outp += "Average External Fragmentation: " + externalFragmentation + "\n";
+        outp += "Average External Fragmentation: " + getAverageFragmentationPercentage() + "\n";
         return outp;
     }
 

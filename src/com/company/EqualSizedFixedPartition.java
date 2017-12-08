@@ -3,9 +3,10 @@ package com.company;
 import java.util.*;
 
 public class EqualSizedFixedPartition extends FixedMemory {
-    private final int PARTITIONSIZE = 128;
-	private final int MAXPARTITIONS = 8;
-	private int partitionCount = 0;
+	protected final int DEFAULT_PARTITION_SIZE = 128;
+    protected final int MAX_PARTITIONS = 8;
+    protected int partitionSize;
+    protected int partitionCount = 0;
 	//ArrayList<Process> jobList;
 
 	EqualSizedFixedPartition() {
@@ -16,44 +17,34 @@ public class EqualSizedFixedPartition extends FixedMemory {
 	@Override
     protected void init(int size){
 	    memoryList = new ArrayList<>();
-        int partitionSize = size/MAXPARTITIONS;
-	    for (int i = 0; i < MAXPARTITIONS; i++){
+        int partitionSize = size/ MAX_PARTITIONS;
+	    for (int i = 0; i < MAX_PARTITIONS; i++){
             memoryList.add(new MemoryAllocation(partitionSize));
         }
+        fragmentations = new ArrayList<>();
     }
 
-	/*
-	@Override
-	public void addProcess(Process process) {
-		for (int i = 0; i < jobList.size(); i++) { // going through every process
-			//System.out.print("  " + jobList.get(i).getName() + "\t    " + jobList.get(i).getArrivalTime() + "\t\t"
-					//+ jobList.get(i).getSize());
-			if (canPlace(jobList.get(i))) {
-				memoryList.add(jobList.get(i));
-				memoryList.get(memoryList.size()-1).setMemorySize(jobList.get(i).getSize());
-				//System.out.print("MB\t\tALLOCATED\t");
-				partitionCount++;
-				calculateInternalFragmentation(jobList.get(i));
-			} else {
-				//System.out.print("MB\t\tWAITING  \t");
-				allocationFailures++;
-			}
-			//System.out.print(jobList.get(i).getFinishTime() + "\n");
-			
-		}
-		
-		for (int m = 0; m < memoryList.size(); m++) {
-			System.out.println(memoryList.get(m));
-		}
-		
-	}
-*/
-	/*
-	public boolean canPlace(Process a) {
-		return partitionCount < MAXPARTITIONS && a.getSize() <= PARTITIONSIZE; // if there is a partition left AND it
-																				// fits into the partition
-	}
-*/
+    /**
+     * Calculates the current internal fragmentation using of each allocated process using
+     * [size of memory used for allocation - size of memory process needs]. This value is added onto
+     * internalFragmentation each time this method is called. Users should call getAverageInternalFragmentation
+     * to find the average internal fragmentation over each time it was calculated.
+     */
+    @Override
+    public void calculateFragmentationPercentage(){
+        double fragmentationPercentagePerAllocation = 0;
+        int internalFragmentationsCount = 0;
+        for (MemoryAllocation memAlloc : memoryList){
+            if (!isMemoryAllocationAProcess(memAlloc))
+                continue;
+            Process proc = (Process) memAlloc;
+            int wastedMemory = proc.getMemorySizeUsed() - proc.getMemorySizeNeeded();
+            fragmentationPercentagePerAllocation += (double)(wastedMemory / partitionSize);
+            internalFragmentationsCount++;
+        }
+        fragmentations.add((fragmentationPercentagePerAllocation / internalFragmentationsCount));
+    }
+
 	public boolean isProcessDone(Process a) {
 		boolean done = false;
 		if (currentTime <= a.getArrivalTime() + a.getFinishTime()) { // if the process is done, we will release it
@@ -68,13 +59,6 @@ public class EqualSizedFixedPartition extends FixedMemory {
 		memoryList.remove(pos);
 	}
 */
-	public void calculateInternalFragmentation() {
-		//internalFragmentation += PARTITIONSIZE - p.getSize();
-	}
-
-	public void calculateExternalFragmentation() {
-		// fixed sized partitions don't have external fragmentation
-	}
 
 	public void display() {
 		System.out.println("Process\tArrival Time\tProcess Size \tStatus\t\tFinish Time");

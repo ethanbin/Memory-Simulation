@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,10 +10,7 @@ public abstract class Memory {
     protected final static int DEFAULT_MEMORY_SIZE = 1024;
     protected List<MemoryAllocation> memoryList;
     protected int memorySize;
-    protected double internalFragmentation = 0;
-    protected int internalFragmentationCalculationCount = 0;
-    protected double externalFragmentation = 0;
-    protected int externalFragmentationCalculationCount = 0;
+    protected List<Double> fragmentations;
     protected int currentTime = 0;							// keeps track of time
 	protected int allocationFailures = 0;
 
@@ -20,6 +18,11 @@ public abstract class Memory {
 
     public abstract boolean addProcess(Process p);
 
+    /**
+     * Attempts to remove a process of the given name.
+     * @param processName Name of process to remove
+     * @return true if process removed successfully
+     */
     public boolean removeProcess(String processName) {
         for (int i = 0; i < memoryList.size(); i++){
             if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
@@ -31,13 +34,18 @@ public abstract class Memory {
                 memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
                         currentProc.getStartingPositionInMemory(),
                         currentProc.getEndingPositionInMemory()));
-                calculateExternalFragmentation();
+                calculateFragmentationPercentage();
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Attempts to remove a process with the given starting position in memory.
+     * @param startingPositionInMemory Starting position of process to remove
+     * @return true if process removed successfully
+     */
     public boolean removeProcess(int startingPositionInMemory) {
         for (int i = 0; i < memoryList.size(); i++){
             if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
@@ -49,7 +57,7 @@ public abstract class Memory {
                 memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
                         currentProc.getStartingPositionInMemory(),
                         currentProc.getEndingPositionInMemory()));
-                calculateExternalFragmentation();
+                calculateFragmentationPercentage();
                 return true;
             }
         }
@@ -57,61 +65,51 @@ public abstract class Memory {
     }
 
     /**
-     * Calculates the current internal fragmentation using of each allocated process using
-     * [size of memory used for allocation - size of memory process needs]. This value is added onto
-     * internalFragmentation each time this method is called. Users should call getAverageInternalFragmentation
-     * to find the average internal fragmentation over each time it was calculated.
+     * Remove all finished processes.
+     * @return true if all finished process were removed
      */
-    public void calculateInternalFragmentation(){
+    public boolean removeFinishedProcesses(){
+        List<Integer> startingPositionsOfProcessesToRemove = new ArrayList<>();
         for (MemoryAllocation memAlloc : memoryList){
             if (!isMemoryAllocationAProcess(memAlloc))
                 continue;
             Process proc = (Process) memAlloc;
-            int fragmentation = proc.getMemorySizeUsed() - proc.getMemorySizeNeeded();
-            internalFragmentation += fragmentation;
-            internalFragmentationCalculationCount++;
+            if (proc.getFinishTime() >= currentTime)
+                startingPositionsOfProcessesToRemove.add(proc.getStartingPositionInMemory());
         }
+
+        boolean allFinishedProcessesRemoved = true;
+        for (int i : startingPositionsOfProcessesToRemove){
+            // if removeProcess fails once, the boolean will become false, and the && will keep it false
+            allFinishedProcessesRemoved = removeProcess(i) && allFinishedProcessesRemoved;
+        }
+        return allFinishedProcessesRemoved;
     }
 
     /**
-     * This method gets the average internal fragmentation over each time it was internal fragmentation wass calculated.
+     * Calculate how fragmented memory is at the time when the method is called as a percentage and add
+     * the result onto the fragmentations list.
+     */
+    public abstract void calculateFragmentationPercentage();
+
+    /**
+     * This method gets the average fragmentation over each time fragmentation was calculated.
      * @return average internal fragmentation, -1 if fragmentation was never calculated.
      */
-    public double getAverageInternalFragmentation(){
-        if (internalFragmentationCalculationCount == 0)
+    public double getAverageFragmentationPercentage(){
+        if (fragmentations.size() == 0)
             return -1;
-        return internalFragmentation/internalFragmentationCalculationCount;
+        double totalFragmentation = 0;
+        for (Double d : fragmentations)
+            totalFragmentation += d;
+        return totalFragmentation/fragmentations.size();
     }
 
     /**
-     * Calculates the current external fragmentation using
-     * [(all free space - size of biggest memory allocation) / all free space]. This results in a number from 0 to 1.
-     * The close the number is to 1, the less fragmented the memory is. This value is added onto externalFragmentation
-     * each time this method is called. Users should call getAverageExternalFragmentation to find the average
-     * external fragmentation over each time it was calculated.
+     * Receives a memory allocation and returns true if is a Process.
+     * @param memAlloc Memory allocation to test
+     * @return
      */
-    public void calculateExternalFragmentation(){
-        int freeSpace = 0;
-        int sizeOfLargestMemoryAllocation = 0;
-        for (MemoryAllocation memAlloc : memoryList){
-            if (Memory.isMemoryAllocationAProcess(memAlloc))
-                continue;
-            freeSpace += memAlloc.getMemorySizeUsed();
-            if (memAlloc.getMemorySizeUsed() > sizeOfLargestMemoryAllocation)
-                sizeOfLargestMemoryAllocation = memAlloc.getMemorySizeUsed();
-        }
-        int sum = freeSpace - sizeOfLargestMemoryAllocation;
-        int divisor = freeSpace;
-        externalFragmentation += (double) sum/divisor;
-        externalFragmentationCalculationCount++;
-    }
-
-    public double getAverageExternalFragmentation(){
-        if (externalFragmentationCalculationCount == 0)
-            return -1;
-        return externalFragmentation/externalFragmentationCalculationCount;
-    }
-
     static public boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
         try {
             // if memAlloc is not a Process, attempting to cast it will throw ClassCastException.
@@ -128,8 +126,7 @@ public abstract class Memory {
         return "Memory{" +
                 "memoryList=" + memoryList +
                 ", memorySize=" + memorySize +
-                ", internalFragmentation=" + internalFragmentation +
-                ", externalFragmentation=" + externalFragmentation +
+                ", fragmentations=" + fragmentations +
                 ", currentTime=" + currentTime +
                 ", allocationFailures=" + allocationFailures +
                 '}';
