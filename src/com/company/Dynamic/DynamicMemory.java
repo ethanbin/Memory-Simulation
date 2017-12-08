@@ -116,6 +116,14 @@ public class DynamicMemory extends Memory {
     }
 
     @Override
+    public String getDataResults() {
+        return super.getDataResults() +
+                String.format("%-40s %d %n",
+                        "Number of Compactions Done:",
+                        getTimesCompacted());
+    }
+
+    @Override
     public String toString() {
         String outp = "";
         outp += "Total Size of Memory: " + memorySize + "\n";
