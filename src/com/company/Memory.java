@@ -79,7 +79,7 @@ public abstract class Memory {
             if (!isMemoryAllocationAProcess(memAlloc))
                 continue;
             Process proc = (Process) memAlloc;
-            if (proc.getFinishTime() >= currentTime)
+            if (proc.getFinishTime() <= currentTime)
                 startingPositionsOfProcessesToRemove.add(proc.getStartingPositionInMemory());
         }
 
