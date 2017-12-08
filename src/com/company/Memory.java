@@ -158,7 +158,7 @@ public abstract class Memory {
         return "Memory{" +
                 //"memoryList=" + memoryList +
                 ", memorySize=" + memorySize +
-                ", fragmentations=" + fragmentations +
+                ", averaage fragmentation percentage =" + getAverageFragmentationPercentage() +
                 ", currentTime=" + currentTime +
                 ", allocationFailures=" + allocationFailures +
                 '}';
