@@ -1,8 +1,7 @@
 package com.company;
 
-import com.company.ProcessInserter.BestFitProcessInserter;
+import com.company.Dynamic.DynamicMemory;
 import com.company.ProcessInserter.FirstFitProcessInserter;
-import com.company.ProcessInserter.WorstFitProcessInserter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -166,24 +165,25 @@ public abstract class Memory {
     public static void main(String[] args) {
         Memory memory = new DynamicMemory(new FirstFitProcessInserter());
         List<Process> jobList = new ArrayList<>();
-        jobList.add(new Process("A", 131, 0, 4));
-        jobList.add(new Process("B", 120, 2, 4));
-        jobList.add(new Process("C", 158, 5, 7));
-        jobList.add(new Process("D", 107, 9, 5));
-        jobList.add(new Process("E",  82, 13,3));
-        jobList.add(new Process("F",  127,17, 1));
-        jobList.add(new Process("G",  43, 17,8));
-        jobList.add(new Process("H",  77, 20,6));
-        jobList.add(new Process("I",  109,24, 2));
-        jobList.add(new Process("J",  90, 26,3));
-        jobList.add(new Process("K",  190,29, 7));
-        jobList.add(new Process("L",  24, 31,2));
+        for (int i = 0; i < 800; i++)
+            jobList.add(new Process(String.valueOf(i), 1, 0, 2));
+
+        jobList.add(new Process("A", 600, 0, 4));
+        jobList.add(new Process("B", 12, 4, 4));
+        //jobList.add(new Process("C", 660, 5, 7));
+        jobList.add(new Process("D", 12, 9, 5));
+//        jobList.add(new Process("E",  82, 13,3));
+//        jobList.add(new Process("F",  127,17, 1));
+//        jobList.add(new Process("G",  43, 17,8));
+//        jobList.add(new Process("H",  77, 20,6));
+//        jobList.add(new Process("I",  109,24, 2));
+//        jobList.add(new Process("J",  90, 26,3));
+//        jobList.add(new Process("K",  190,29, 7));
+//        jobList.add(new Process("L",  24, 31,2));
 
         Collections.sort(jobList);
 
-        memory.simulateMemory(jobList);
-        memory.simulateMemory(jobList);
-        memory.simulateMemory(jobList);
+        memory.start(jobList);
 
         System.out.println(memory);
     }

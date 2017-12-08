@@ -1,4 +1,7 @@
-package com.company;
+package com.company.Fixed;
+
+import com.company.Fixed.FixedMemory;
+import com.company.MemoryAllocation;
 
 import java.util.*;
 
@@ -9,7 +12,7 @@ public class EqualSizedFixedPartition extends FixedMemory {
     protected int partitionCount = 0;
 	//ArrayList<Process> jobList;
 
-	EqualSizedFixedPartition() {
+	public EqualSizedFixedPartition() {
 		super();
 		init(DEFAULT_MEMORY_SIZE);
 	}
@@ -23,12 +26,6 @@ public class EqualSizedFixedPartition extends FixedMemory {
         }
         fragmentations = new ArrayList<>();
     }
-
-	/*
-	public void removeProcess(int pos) {
-		memoryList.remove(pos);
-	}
-*/
 
 	public void display() {
 		System.out.println("Process\tArrival Time\tProcess Size \tStatus\t\tFinish Time");

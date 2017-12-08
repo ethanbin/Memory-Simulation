@@ -1,5 +1,8 @@
-package com.company;
+package com.company.Dynamic;
 
+import com.company.Memory;
+import com.company.MemoryAllocation;
+import com.company.Process;
 import com.company.ProcessInserter.BestFitProcessInserter;
 import com.company.ProcessInserter.FirstFitProcessInserter;
 import com.company.ProcessInserter.ProcessInserter;
@@ -15,12 +18,12 @@ public class DynamicMemory extends Memory {
     protected ProcessInserter insertingStrategy;
     protected int timesCompacted = 0;
 
-    DynamicMemory(ProcessInserter strat) {
+    public DynamicMemory(ProcessInserter strat) {
         insertingStrategy = strat;
         init(DEFAULT_MEMORY_SIZE);
     }
 
-    DynamicMemory(int size, ProcessInserter strat){
+    public DynamicMemory(int size, ProcessInserter strat){
         insertingStrategy = strat;
         init(size);
     }

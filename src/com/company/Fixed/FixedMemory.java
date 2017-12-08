@@ -1,4 +1,8 @@
-package com.company;
+package com.company.Fixed;
+
+import com.company.Memory;
+import com.company.MemoryAllocation;
+import com.company.Process;
 
 public abstract class FixedMemory extends Memory {
 
