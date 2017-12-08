@@ -38,9 +38,6 @@ public class DynamicMemory extends Memory {
 
     @Override
     public boolean addProcess(Process proc) {
-        if (currentTime < proc.getArrivalTime())
-            currentTime = proc.getArrivalTime();
-        proc.setFinishTime(currentTime + proc.getRunTime());
         if (insertingStrategy.addProcess(proc, memoryList)) {
             return true;
         }

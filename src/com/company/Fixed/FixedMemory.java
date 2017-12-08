@@ -21,7 +21,6 @@ public abstract class FixedMemory extends Memory {
             proc.setEndingPositionInMemory(memoryList.get(i).getEndingPositionInMemory());
 
             proc.setFinishTime(proc.getArrivalTime() + proc.getRunTime());
-            currentTime = proc.getArrivalTime();
             memoryList.set(i, proc);
             return true;
         }

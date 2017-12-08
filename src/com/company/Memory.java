@@ -17,6 +17,7 @@ public abstract class Memory {
     protected List<MemoryAllocation> memoryList;
     protected int memorySize;
     protected List<Double> fragmentations;
+    protected double peakFragemntation = -1;
     protected int currentTime = 0;							// keeps track of time
 	protected int allocationFailures = 0;
 
@@ -115,6 +116,10 @@ public abstract class Memory {
         return totalFragmentation/fragmentations.size();
     }
 
+    public double getPeakFragemntation(){
+        return peakFragemntation;
+    }
+
     /**
      * Receives a memory allocation and returns true if is a Process.
      * @param memAlloc Memory allocation to test
@@ -139,8 +144,15 @@ public abstract class Memory {
     public final void simulateMemory(List<Process> processes){
         Collections.sort(processes);
         for (Process p : processes){
-            addProcess(p);
+            // remove all completed jobs
             removeFinishedProcesses();
+            // update time
+            if (currentTime < p.getArrivalTime())
+                currentTime = p.getArrivalTime();
+            p.setFinishTime(currentTime + p.getRunTime());
+            // add process
+            addProcess(p);
+            // calculate fragmentation
             calculateFragmentationPercentage();
         }
     }
@@ -164,24 +176,32 @@ public abstract class Memory {
                 '}';
     }
 
+    public String dataResults() {
+        String outp = "";
+        outp += "Average Fragmentation Percentage: " + getAverageFragmentationPercentage();
+        outp += "Peak Fragmentation Percentage: " + getPeakFragemntation();
+        return outp;
+    }
+
+
     public static void main(String[] args) {
-        Memory memory = new UnequalFixedMemory(2048);
+        Memory memory = new DynamicMemory(new FirstFitProcessInserter());
         List<Process> jobList = new ArrayList<>();
         for (int i = 0; i < 800; i++)
             jobList.add(new Process(String.valueOf(i), 1, 0, 2));
 
-        jobList.add(new Process("A", 60, 0, 4));
-        jobList.add(new Process("B", 12, 4, 4));
-        jobList.add(new Process("C", 66, 5, 7));
-        jobList.add(new Process("D", 12, 9, 5));
-        jobList.add(new Process("E",  82, 13,3));
-        jobList.add(new Process("F",  127,17, 1));
-        jobList.add(new Process("G",  43, 17,8));
-        jobList.add(new Process("H",  77, 20,6));
-        jobList.add(new Process("I",  109,24, 2));
-        jobList.add(new Process("J",  90, 26,3));
-        jobList.add(new Process("K",  190,29, 7));
-        jobList.add(new Process("L",  24, 31,2));
+//        jobList.add(new Process("A", 60, 3, 4));
+//        jobList.add(new Process("B", 12, 4, 4));
+//        jobList.add(new Process("C", 66, 5, 7));
+//        jobList.add(new Process("D", 12, 9, 5));
+//        jobList.add(new Process("E",  82, 13,3));
+//        jobList.add(new Process("F",  127,17, 1));
+//        jobList.add(new Process("G",  43, 17,8));
+//        jobList.add(new Process("H",  77, 20,6));
+//        jobList.add(new Process("I",  109,24, 2));
+//        jobList.add(new Process("J",  90, 26,3));
+//        jobList.add(new Process("K",  190,29, 7));
+//        jobList.add(new Process("L",  24, 31,2));
 
         Collections.sort(jobList);
 
