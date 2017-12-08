@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.*;
 
-public class Process extends  MemoryAllocation{
+public class Process extends  MemoryAllocation implements Comparable<Process>{
 
 	private String name;
 	private int arrivalTime;
@@ -21,6 +21,13 @@ public class Process extends  MemoryAllocation{
         this.runTime = runTime;
         this.finishTime = -1;
     }
+
+	@Override
+	public int compareTo(Process o) {
+		if (arrivalTime == o.arrivalTime)
+			return 0;
+		return arrivalTime > o.arrivalTime ? 1 : -1;
+	}
 
 	public String getName() {
 		return name;
