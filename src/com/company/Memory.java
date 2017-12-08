@@ -1,6 +1,8 @@
 package com.company;
 
+import com.company.ProcessInserter.BestFitProcessInserter;
 import com.company.ProcessInserter.FirstFitProcessInserter;
+import com.company.ProcessInserter.WorstFitProcessInserter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,14 +26,14 @@ public abstract class Memory {
      * @param p process to add
      * @return true if process successfully added
      */
-    public abstract boolean addProcess(Process p);
+    protected abstract boolean addProcess(Process p);
 
     /**
      * Attempts to remove a process of the given name.
      * @param processName Name of process to remove
      * @return true if process removed successfully
      */
-    public boolean removeProcess(String processName) {
+    private boolean removeProcess(String processName) {
         for (int i = 0; i < memoryList.size(); i++){
             if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
                 continue;
@@ -42,7 +44,6 @@ public abstract class Memory {
                 memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
                         currentProc.getStartingPositionInMemory(),
                         currentProc.getEndingPositionInMemory()));
-                calculateFragmentationPercentage();
                 return true;
             }
         }
@@ -54,7 +55,7 @@ public abstract class Memory {
      * @param startingPositionInMemory Starting position of process to remove
      * @return true if process removed successfully
      */
-    public boolean removeProcess(int startingPositionInMemory) {
+    private boolean removeProcess(int startingPositionInMemory) {
         for (int i = 0; i < memoryList.size(); i++){
             if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
                 continue;
@@ -76,7 +77,7 @@ public abstract class Memory {
      * Remove all finished processes.
      * @return true if all finished process were removed
      */
-    public boolean removeFinishedProcesses(){
+    private boolean removeFinishedProcesses(){
         List<Integer> startingPositionsOfProcessesToRemove = new ArrayList<>();
         for (MemoryAllocation memAlloc : memoryList){
             if (!isMemoryAllocationAProcess(memAlloc))
@@ -96,9 +97,9 @@ public abstract class Memory {
 
     /**
      * Calculate how fragmented memory is at the time when the method is called as a percentage and add
-     * the result onto the fragmentations list.
+     * the result onto the fragmentations list. The smaller the result, the less fragmentation exists.
      */
-    public abstract void calculateFragmentationPercentage();
+    protected abstract void calculateFragmentationPercentage();
 
     /**
      * This method gets the average fragmentation over each time fragmentation was calculated.
@@ -134,12 +135,21 @@ public abstract class Memory {
      * time will stop at the arrival of the final process.
      * @param processes
      */
-    public void simulateMemory(List<Process> processes){
+    public final void simulateMemory(List<Process> processes){
         Collections.sort(processes);
         for (Process p : processes){
             addProcess(p);
             removeFinishedProcesses();
+            calculateFragmentationPercentage();
         }
+    }
+
+    /**
+     * Begin simulating memory. This method does nothing other than call the simulateMemory method.
+     * @param processes
+     */
+    public final void start(List<Process> processes){
+        simulateMemory(processes);
     }
 
     @Override
@@ -154,7 +164,7 @@ public abstract class Memory {
     }
 
     public static void main(String[] args) {
-        DynamicMemory firstFit = new DynamicMemory(new FirstFitProcessInserter());
+        Memory memory = new DynamicMemory(new FirstFitProcessInserter());
         List<Process> jobList = new ArrayList<>();
         jobList.add(new Process("A", 131, 0, 4));
         jobList.add(new Process("B", 120, 2, 4));
@@ -171,10 +181,10 @@ public abstract class Memory {
 
         Collections.sort(jobList);
 
-        for (Process p : jobList){
-            firstFit.addProcess(p);
-            firstFit.removeFinishedProcesses();
-        }
-        System.out.println(firstFit);
+        memory.simulateMemory(jobList);
+        memory.simulateMemory(jobList);
+        memory.simulateMemory(jobList);
+
+        System.out.println(memory);
     }
 }
