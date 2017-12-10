@@ -129,6 +129,31 @@
         <Member type="Method">public int getTimesCompacted()</Member>
         <Modifier>None</Modifier>
       </Entity>
+      <Entity type="Class">
+        <Name>ReadFile</Name>
+        <Access>Public</Access>
+        <Location left="1206" top="590" />
+        <Size width="162" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String path</Member>
+        <Member type="Constructor">public ReadFile(String filePath)</Member>
+        <Member type="Method">int readLines()</Member>
+        <Member type="Method">public String[] OpenFile()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>WriteFile</Name>
+        <Access>Public</Access>
+        <Location left="1117" top="760" />
+        <Size width="254" height="162" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String path</Member>
+        <Member type="Field">private boolean appendToFile = false</Member>
+        <Member type="Constructor">public WriteFile(String path)</Member>
+        <Member type="Constructor">public WriteFile(String path, boolean appendToFile)</Member>
+        <Member type="Method">public void write(String text)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Generalization" first="1" second="0">
@@ -193,6 +218,34 @@
         <BendPoint relativeToStartShape="False">
           <X>945</X>
           <Y>149</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="10">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>558</X>
+          <Y>27</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1403</X>
+          <Y>832</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="9">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>558</X>
+          <Y>28</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1403</X>
+          <Y>671</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
