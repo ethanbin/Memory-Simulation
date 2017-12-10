@@ -1,4 +1,4 @@
-package MemoryAllocationProject;
+package com.company;
 
 import java.io.FileWriter;
 import java.io.IOException;
