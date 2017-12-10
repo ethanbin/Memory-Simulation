@@ -185,7 +185,7 @@ public abstract class Memory {
      * @param processes
      */
     public final void simulateMemory(List<Process> processes){
-        Collections.sort(processes);
+        Collections.sort(processes, new ProcessArrivalComparator());
         for (Process p : processes){
             // update time
             if (currentTime < p.getArrivalTime())
