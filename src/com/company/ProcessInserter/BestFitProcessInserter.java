@@ -15,7 +15,8 @@ public class BestFitProcessInserter extends ProcessInserter{
         for (int i = 0; i < list.size(); i++){
             if (isMemoryAllocationAProcessOrTooSmall(list.get(i), proc.getMemorySizeNeeded()))
                 continue;
-            if (list.get(i).getMemorySizeUsed() - proc.getMemorySizeNeeded() < smallestMemorySizeDifference) {
+            if (list.get(i).getMemorySizeUsed() - proc.getMemorySizeNeeded() < smallestMemorySizeDifference ||
+                    smallestMemorySizeDifference == -1){
                 largestFittingSizedIndex = i;
                 smallestMemorySizeDifference = list.get(i).getMemorySizeUsed() - proc.getMemorySizeNeeded();
             }
