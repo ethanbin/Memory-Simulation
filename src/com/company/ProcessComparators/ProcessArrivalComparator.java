@@ -1,4 +1,6 @@
-package com.company;
+package com.company.ProcessComparators;
+
+import com.company.Process;
 
 import java.util.Comparator;
 
