@@ -190,7 +190,6 @@ public abstract class Memory {
                 currentTime = p.getArrivalTime();
             // remove all completed jobs
             removeFinishedProcesses();
-            p.setFinishTime(currentTime + p.getRunTime());
             // add process
             addProcess(p);
             // calculate fragmentation
