@@ -10,16 +10,15 @@ public class Process extends  MemoryAllocation implements Comparable<Process>{
 	private int runTime;
 	protected int memorySizeNeeded;
 
-	public Process(String name, int size, int arrivalTime, int runTime) {
-		init(name, size, arrivalTime, runTime);
+	public Process(String name, int size, int arrivalTime, int finishTime) {
+		init(name, size, arrivalTime, finishTime);
 	}
 
-    public void init(String name, int size, int arrivalTime, int runTime) {
+    public void init(String name, int size, int arrivalTime, int finishTime) {
         this.name = name;
         this.memorySizeNeeded = size;
         this.arrivalTime = arrivalTime;
-        this.runTime = runTime;
-        this.finishTime = -1;
+        this.finishTime = finishTime;
     }
 
 	@Override
@@ -33,10 +32,6 @@ public class Process extends  MemoryAllocation implements Comparable<Process>{
 		return name;
 	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getArrivalTime() {
 		return arrivalTime;
 	}
@@ -45,28 +40,12 @@ public class Process extends  MemoryAllocation implements Comparable<Process>{
         this.arrivalTime = arrivalTime;
     }
 
-    public void setFinishTime(int finishTime) {
-        this.finishTime = finishTime;
-    }
-
     public int getFinishTime() {
 		return finishTime;
 	}
 
-	public int getRunTime() {
-		return runTime;
-	}
-
-	public void setRunTime(int runTime) {
-		this.runTime = runTime;
-	}
-
 	public int getMemorySizeNeeded() {
         return memorySizeNeeded;
-    }
-
-    public void setMemorySizeNeeded(int memorySizeNeeded) {
-        this.memorySizeNeeded = memorySizeNeeded;
     }
 
     @Override
