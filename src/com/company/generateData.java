@@ -1,6 +1,13 @@
 package com.company;
 
+package MemoryAllocationProject;
+
 import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
 
 public class generateData {
 
@@ -19,7 +26,8 @@ public class generateData {
 	private int sizeOfSpace;
 	private int arrivalTime;
 	private int finishTime;
-	private int [][] processes;
+	private int[][] processes;
+	private String output;
 
 	public generateData() {
 		numberOfProcesses = DEFAULT_NUMBER_OF_PROCESSES;
@@ -42,44 +50,45 @@ public class generateData {
 		processNumber = 0;
 		arrivalTime = 0;
 		finishTime = arrivalTime + 1;
-		processes = new int [numberOfProcesses][4];
+		processes = new int[numberOfProcesses][4];
+		output = "";
 	}
 
 	public int[] generateAProcess(int processNumber) {
 		int[] p = new int[4];
 		arrivalTime = generate.nextInt(maxArrivalTime);
-		
+
 		sizeOfSpace = generate.nextInt(maxSizeOfSpace);
-		
+
 		finishTime = generate.nextInt(maxArrivalTime);
 		while (finishTime <= arrivalTime) { // to assure the final time will not be before or at the arrival time
 			finishTime = generate.nextInt(maxArrivalTime);
 		}
-		
-		//store values
+
+		// store values
 		p[0] = processNumber;
 		p[1] = arrivalTime;
 		p[2] = sizeOfSpace;
 		p[3] = finishTime;
-		
+
 		return p;
 	}
-	
+
 	public void generateAllProcesses() {
-		
+
 		for (int i = 0; i < numberOfProcesses; i++) {
 			processes[i] = generateAProcess(i);
 		}
 	}
-	
+
 	public void display() {
-		for(int [] row : processes) {
-			for(int col: row) {
-				System.out.print(col + "\t");
+
+		for (int[] row : processes) {
+			for (int col : row) {
+				output+= (col + "\t");
 			}
-			System.out.println();
+			output += "\n";
 		}
-		System.out.println();
 	}
 
 	public static void main(String[] args) {
@@ -87,10 +96,19 @@ public class generateData {
 
 		test.generateAllProcesses();
 		test.display();
-		
+
 		generateData test2 = new generateData(5, 1000, 10, 85);
-		
+
 		test2.generateAllProcesses();
 		test2.display();
+
+		String fileName = "F:/testing.txt";
+
+		try {
+			WriteFile data = new WriteFile(fileName, true);
+			data.write(test.output);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
