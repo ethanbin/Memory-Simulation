@@ -10,7 +10,7 @@ import java.util.List;
  * Process Inserter is the base abstract class for a strategy pattern
  */
 public abstract class ProcessInserter {
-    public boolean addProcess(Process proc, List<MemoryAllocation> list){
+    final public boolean addProcess(Process proc, List<MemoryAllocation> list){
         boolean insertedSuccessfully = tryAllocatingProcess(proc, list);
         return insertedSuccessfully;
     }
@@ -33,7 +33,7 @@ public abstract class ProcessInserter {
      * @param sizeNeeded Size needed for a Process that is considering this allocation
      * @return true if this memory allocation is a Process or if the allocation is too small for the needed size.
      */
-    protected boolean isMemoryAllocationAProcessOrTooSmall(MemoryAllocation memAlloc, int sizeNeeded){
+    final protected boolean isMemoryAllocationAProcessOrTooSmall(MemoryAllocation memAlloc, int sizeNeeded){
         if (Memory.isMemoryAllocationAProcess(memAlloc))
             return true;
         if (memAlloc.getMemorySizeUsed() < sizeNeeded)
@@ -49,7 +49,7 @@ public abstract class ProcessInserter {
      * @param indexToAllocateProcessTo Index in memroy list to insert proc into
      * @param list List of simulated memory to insert the process into.
      */
-    protected void allocateProcessToIndex(Process proc, int indexToAllocateProcessTo, List<MemoryAllocation> list){
+    final protected void allocateProcessToIndex(Process proc, int indexToAllocateProcessTo, List<MemoryAllocation> list){
         MemoryAllocation spaceToInsertProcessInto = list.get(indexToAllocateProcessTo);
 
         if (spaceToInsertProcessInto.getMemorySizeUsed() == proc.getMemorySizeNeeded()){
