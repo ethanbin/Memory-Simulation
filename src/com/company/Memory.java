@@ -227,21 +227,21 @@ public abstract class Memory {
 
     public String getDataResults() {
         StringBuilder outp = new StringBuilder();
-        outp.append(String.format("%-40s %f %n",
+        outp.append(String.format("%-40s %f%% %n",
                 "Average Fragmentation Percentage:",
-                getAverageFragmentationPercentage()));
-        outp.append(String.format("%-40s %f %n",
+                getAverageFragmentationPercentage() * 100));
+        outp.append(String.format("%-40s %f%% %n",
                 "Peak Fragmentation Percentage:",
-                getPeakFragmentation()));
+                getPeakFragmentation() * 100));
         outp.append(String.format("%-40s %d %n",
                 "Number of Allocation Failures:",
                 allocationFailures));
-        outp.append(String.format("%-40s %f %n",
+        outp.append(String.format("%-40s %f%% %n",
                 "Average Memory Utilization Percentage:",
-                getAverageMemoryUtilizationPercentage()));
-        outp.append(String.format("%-40s %f %n",
+                getAverageMemoryUtilizationPercentage() * 100));
+        outp.append(String.format("%-40s %f%% %n",
                 "Peak Memory Utilization Percentage:",
-                getPeakMemoryUtilization()));
+                getPeakMemoryUtilization() * 100));
 
         return outp.toString();
     }
