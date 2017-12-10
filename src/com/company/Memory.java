@@ -68,7 +68,6 @@ public abstract class Memory {
                 memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
                         currentProc.getStartingPositionInMemory(),
                         currentProc.getEndingPositionInMemory()));
-                calculateFragmentationPercentage();
                 return true;
             }
         }
@@ -77,7 +76,7 @@ public abstract class Memory {
 
     /**
      * Remove all finished processes and update fragmentation and memory utilization.
-     * @return true if all finished process were removed
+     * @return true if any process were finished and removed
      */
     private boolean removeFinishedProcesses(){
         List<Process> processesToRemove = new ArrayList<>();
@@ -89,16 +88,26 @@ public abstract class Memory {
                 processesToRemove.add(proc);
         }
 
-        boolean allFinishedProcessesRemoved = true;
-        int currentTimeBeingRemoved = -1;
-        for (Process proc : processesToRemove){
-            // if removeProcess fails once, the boolean will become false, and the && will keep it false
-            allFinishedProcessesRemoved =
-                    removeProcess(proc.getStartingPositionInMemory()) && allFinishedProcessesRemoved;
+        Collections.sort(processesToRemove, new ProcessFinishComparator());
+        if (processesToRemove.size() > 0) {
+            int timeOfLastRemoval = processesToRemove.get(0).getFinishTime();
+            for (Process proc : processesToRemove) {
+                // if the time of the process being removed is different than what was last removed,
+                // make data calculations on memory now before moving on to next time for processes to be removed.
+                if (proc.getFinishTime() > timeOfLastRemoval) {
+                    timeOfLastRemoval = proc.getFinishTime();
+                    calculateMemoryUtilizationPercentage();
+                    calculateFragmentationPercentage();
+                }
+                removeProcess(proc.getStartingPositionInMemory());
+            }
+            // calculate data on memory here because it is only calculate above -before- the latest process is removed,
+            // so the last process(es) do not get a check and start data calculations.
+            calculateMemoryUtilizationPercentage();
+            calculateFragmentationPercentage();
+            return true;
         }
-        calculateMemoryUtilizationPercentage();
-        calculateFragmentationPercentage();
-        return allFinishedProcessesRemoved;
+        return false;
     }
 
     /**
