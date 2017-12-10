@@ -259,14 +259,11 @@ public abstract class Memory {
 		return outp.toString();
 	}
 
-	public static void main(String[] args) {
-		Memory memory = new DynamicMemory(new FirstFitProcessInserter());
-		List<Process> jobList = new ArrayList<>();
-		// for (int i = 0; i < 800; i++)
-		// jobList.add(new Process(String.valueOf(i), 1, 0, 2));
+	public static int[][] readInFile(String fileName) {
 		int[][] results = new int[20][4];
-		String fileName = "F:/testing.txt";
+
 		try {
+			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner(new File(fileName));
 
 			for (int row = 0; row < 20; row++) {
@@ -278,27 +275,30 @@ public abstract class Memory {
 			System.out.print("Cannot read in file!");
 		}
 
+		return results;
+	}
+
+	public static void main(String[] args) {
+		Memory memory = new DynamicMemory(new FirstFitProcessInserter());
+		List<Process> jobList = new ArrayList<>();
+
+		int[][] results = readInFile("F:/testing.txt");
+
+		int a, b, c, d;
+
 		for (int row = 0; row < 20; row++) {
-			for (int col = 0; col < 4; col++) {
-				System.out.print(results[row][col] + "\t");
-			}
-			System.out.println();
+			a = results[row][0];
+			b = results[row][1];
+			c = results[row][2];
+			d = results[row][3];
+
+			jobList.add(new Process(a, b, c, d));
 		}
 
-		/*
-		 * jobList.add(new Process(0, 3, 600, 7)); jobList.add(new Process(1, 4, 120,
-		 * 8)); jobList.add(new Process(2, 5, 660, 7)); jobList.add(new Process(3, 9,
-		 * 120, 14)); jobList.add(new Process(4, 13, 82, 16)); jobList.add(new
-		 * Process(5, 17, 127, 18)); jobList.add(new Process(6, 17, 430, 25));
-		 * jobList.add(new Process(7, 20, 77, 25)); jobList.add(new Process(8, 24, 109,
-		 * 26)); jobList.add(new Process(9, 26, 90, 29)); jobList.add(new Process(10,29,
-		 * 190, 35)); jobList.add(new Process(11, 31, 240, 33));
-		 * 
-		 * memory.start(jobList);
-		 * 
-		 * System.out.println(memory);
-		 * 
-		 * System.out.println(memory.getDataResults());
-		 */
+		memory.start(jobList);
+
+		System.out.println(memory);
+
+		System.out.println(memory.getDataResults());
 	}
 }
