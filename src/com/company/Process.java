@@ -7,7 +7,6 @@ public class Process extends  MemoryAllocation {
 	private int processNumber;
 	private int arrivalTime;
 	private int finishTime;
-	private int runTime;
 	protected int memorySizeNeeded;
 
 	public Process(int  processNumber,int arrivalTime, int size, int finishTime) {
