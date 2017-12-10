@@ -11,7 +11,10 @@ public abstract class FixedMemory extends Memory {
         for (int i = 0; i < memoryList.size(); i++) {
             MemoryAllocation currentAllocation = memoryList.get(i);
 
-            // if current place isn't free space, continue loop to next place
+            if (proc.getMemorySizeNeeded() > currentAllocation.getMemorySizeUsed())
+                continue;
+
+                // if current place isn't free space, continue loop to next place
             if (isMemoryAllocationAProcess(currentAllocation))
                 continue;
 
@@ -34,17 +37,22 @@ public abstract class FixedMemory extends Memory {
      */
     @Override
     public void calculateFragmentationPercentage(){
-        double fragmentationPercentagePerAllocation = 0;
+        double fragmentationPercentage = 0;
         int internalFragmentationsCount = 0;
         for (MemoryAllocation memAlloc : memoryList){
             if (!isMemoryAllocationAProcess(memAlloc))
                 continue;
             Process proc = (Process) memAlloc;
-            int wastedMemory = proc.getMemorySizeUsed() - proc.getMemorySizeNeeded();
-            fragmentationPercentagePerAllocation += (double)(wastedMemory / proc.getMemorySizeUsed());
+            double wastedMemory = proc.getMemorySizeUsed() - proc.getMemorySizeNeeded();
+            fragmentationPercentage += wastedMemory / proc.getMemorySizeUsed();
             internalFragmentationsCount++;
         }
-        fragmentations.add((fragmentationPercentagePerAllocation / internalFragmentationsCount));
+        double fragmentation = fragmentationPercentage / internalFragmentationsCount;
+        if (internalFragmentationsCount == 0)
+            fragmentation = 0;
+        if (fragmentation > peakFragemntation)
+            peakFragemntation = fragmentation;
+        fragmentations.add(fragmentation);
     }
 
 }
