@@ -131,7 +131,7 @@ public class DynamicMemory extends Memory {
             String type = memAlloc.getClass().getSimpleName();
             if (type.equalsIgnoreCase("Process")){
                 Process proc = (Process) memAlloc;
-                outp += "Process \"" + proc.getName() + "\"\t\t\tSize: " + proc.getMemorySizeUsed() +
+                outp += "Process \"" + proc.getProcessNumber() + "\"\t\t\tSize: " + proc.getMemorySizeUsed() +
                         "\t Starts in address " + proc.getStartingPositionInMemory() + ";\t" +
                         "\t Ends in address " + proc.getEndingPositionInMemory() + "\n";
             }
