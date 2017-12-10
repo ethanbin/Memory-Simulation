@@ -1,11 +1,14 @@
 package com.company;
 
 import com.company.Dynamic.DynamicMemory;
+import com.company.Fixed.EqualFixedMemory;
+import com.company.Fixed.UnequalFixedMemory;
+import com.company.ProcessInserter.BestFitProcessInserter;
 import com.company.ProcessInserter.FirstFitProcessInserter;
+import com.company.ProcessInserter.WorstFitProcessInserter;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -255,6 +258,10 @@ public abstract class Memory {
         output.setRequired(false);
         options.addOption(output);
 
+        Option allocationMethod = new Option("a", "allocation method", true,"method of allocating data");
+        allocationMethod.setRequired(false);
+        options.addOption(allocationMethod);
+
         Option detailed = new Option("d", "detailed", false, "show detailed data");
         detailed.setRequired(false);
         options.addOption(detailed);
@@ -298,13 +305,64 @@ public abstract class Memory {
             System.err.println("Input File Data Invalid.");
             return;
         }
-        // print all process that were read in
-        for (Process proc : jobList)
-            System.out.println(proc);
-        // run memory and print results
-        Memory mem = new DynamicMemory(new FirstFitProcessInserter());
-        mem.start(jobList);
-        System.out.println(mem);
-        System.out.println(mem.getDataResults());
+
+        Memory memory;
+        // handling optional arguments
+        String allocationMethodChosen = cmd.getOptionValue("a");
+        if (cmd.getOptionValue("a") == null){
+            System.out.println("Fixed Partition - Equal Size");
+            memory = new EqualFixedMemory();
+            memory.start(jobList);
+            System.out.println(memory.getDataResults());
+
+            System.out.println("Fixed Partition - Unequal Size");
+            memory = new UnequalFixedMemory();
+            memory.start(jobList);
+            System.out.println(memory.getDataResults());
+
+            System.out.println("Dynamic Partition - First Fit");
+            memory = new DynamicMemory(new FirstFitProcessInserter());
+            memory.start(jobList);
+            System.out.println(memory.getDataResults());
+
+            System.out.println("Dynamic Partition - Best Fit");
+            memory = new DynamicMemory(new BestFitProcessInserter());
+            memory.start(jobList);
+            System.out.println(memory.getDataResults());
+
+            System.out.println("Dynamic Partition - Worst Fit");
+            memory = new DynamicMemory(new WorstFitProcessInserter());
+            memory.start(jobList);
+            System.out.println(memory.getDataResults());
+        }
+        else {
+            switch (allocationMethodChosen) {
+                case "FE":
+                    System.out.println("Fixed Partition - Equal Size");
+                    memory = new EqualFixedMemory();
+                    break;
+                case "FU":
+                    System.out.println("Fixed Partition - Unequal Size");
+                    memory = new UnequalFixedMemory();
+                    break;
+                case "DFF":
+                    System.out.println("Dynamic Partition - First Fit");
+                    memory = new DynamicMemory(new FirstFitProcessInserter());
+                    break;
+                case "DBF":
+                    System.out.println("Dynamic Partition - Best Fit");
+                    memory = new DynamicMemory(new BestFitProcessInserter());
+                    break;
+                case "DWF":
+                    System.out.println("Dynamic Partition - Worst Fit");
+                    memory = new DynamicMemory(new WorstFitProcessInserter());
+                    break;
+                default:
+                    System.err.println("Invalid Allocation Method");
+                    return;
+            }
+            memory.start(jobList);
+            System.out.println(memory.getDataResults());
+        }
     }
 }
