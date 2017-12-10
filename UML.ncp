@@ -1,0 +1,188 @@
+<Project>
+  <Name>Untitled</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Untitled</Name>
+    <Language>Java</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>ProcessInserter</Name>
+        <Access>Public</Access>
+        <Location left="573" top="168" />
+        <Size width="600" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public boolean addProcess(Process proc, List&lt;MemoryAllocation&gt; memoryList)</Member>
+        <Member type="Method">protected abstract boolean tryAllocatingProcess(Process proc, List&lt;MemoryAllocation&gt; list)</Member>
+        <Member type="Method">protected boolean isMemoryAllocationAProcessOrTooSmall(MemoryAllocation memAlloc, int sizeNeeded)</Member>
+        <Member type="Method">protected void allocateProcessToIndex(Process proc, int indexToAllocateProcessTo, List&lt;MemoryAllocation&gt; list)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FirstFitProcessInserter</Name>
+        <Access>Public</Access>
+        <Location left="573" top="402" />
+        <Size width="177" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">protected boolean tryAllocatingProcess(Process proc, List&lt;MemoryAllocation&gt; list)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>WorstFitProcessInserter</Name>
+        <Access>Public</Access>
+        <Location left="1000" top="402" />
+        <Size width="177" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">protected abstract boolean tryAllocatingProcess(Process proc, List&lt;MemoryAllocation&gt; list)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BestFitProcessInserter</Name>
+        <Access>Public</Access>
+        <Location left="790" top="402" />
+        <Size width="177" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">protected abstract boolean tryAllocatingProcess(Process proc, List&lt;MemoryAllocation&gt; list)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Memory</Name>
+        <Access>Public</Access>
+        <Location left="171" top="10" />
+        <Size width="368" height="485" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected int allocationFailures</Member>
+        <Member type="Field">protected int currentTime = 0</Member>
+        <Member type="Field">protected static final int DEFAULT_MEMORY_SIZE = 1024</Member>
+        <Member type="Field">protected List&lt;Double&gt; fragmentations</Member>
+        <Member type="Field">protected List&lt;MemoryAllocation&gt; memoryList</Member>
+        <Member type="Field">protected int memorySize</Member>
+        <Member type="Field">protected List&lt;Double&gt; memoryUtilizations</Member>
+        <Member type="Field">protected double peakFragemntation = -1</Member>
+        <Member type="Field">protected double peakMemoryUtilization = -1</Member>
+        <Member type="Method">public final void start(List&lt;Process&gt; processes)</Member>
+        <Member type="Method">public double getAverageFragmentationPercentage()</Member>
+        <Member type="Method">public double getAverageMemoryUtilizationPercentage()</Member>
+        <Member type="Method">public String getDataResults()</Member>
+        <Member type="Method">public double getPeakFragmentation()</Member>
+        <Member type="Method">public double getPeakMemoryUtilization()</Member>
+        <Member type="Method">public static boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc)</Member>
+        <Member type="Method">public static void main(String[] args)</Member>
+        <Member type="Method">protected abstract boolean addProcess(Process p)</Member>
+        <Member type="Method">protected abstract void calculateFragmentationPercentage()</Member>
+        <Member type="Method">protected abstract void init(int size)</Member>
+        <Member type="Method">protected void calculateMemoryUtilizationPercentage()</Member>
+        <Member type="Method">private boolean removeFinishedProcesses()</Member>
+        <Member type="Method">private boolean removeProcess(String processName)</Member>
+        <Member type="Method">private boolean removeProcess(int startingPositionInMemory)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>EqualFixedMemory</Name>
+        <Access>Public</Access>
+        <Location left="275" top="900" />
+        <Size width="219" height="179" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected final int DEFAULT_MAX_PARTITIONS = 8</Member>
+        <Member type="Method">protected void init(int size)</Member>
+        <Member type="Constructor">public EqualFixedMemory()</Member>
+        <Member type="Constructor">public EqualFixedMemory(int size)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>UnequalFixedMemory</Name>
+        <Access>Public</Access>
+        <Location left="599" top="900" />
+        <Size width="219" height="179" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected final int PARTITION_SPLIT_COUNT = 4</Member>
+        <Member type="Field">protected final int SMALLEST_PARTITION_SIZE = 16</Member>
+        <Member type="Field">protected int smallestPartitionSize</Member>
+        <Member type="Constructor">public UnequalFixedMemory()</Member>
+        <Member type="Constructor">public UnequalFixedMemory(int size)</Member>
+        <Member type="Method">protected void init(int size)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FixedMemory</Name>
+        <Access>Public</Access>
+        <Location left="390" top="590" />
+        <Size width="312" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">protected boolean addProcess(Process p)</Member>
+        <Member type="Method">protected void calculateFragmentationPercentage()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>DynamicMemory</Name>
+        <Access>Public</Access>
+        <Location left="10" top="590" />
+        <Size width="312" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected ProcessInserter insertingStrategy</Member>
+        <Member type="Field">protected int timesCompacted</Member>
+        <Member type="Constructor">public DynamicMemory(ProcessInserter strat)</Member>
+        <Member type="Constructor">public DynamicMemory(int size, ProcessInserter strat)</Member>
+        <Member type="Method">protected void init(int size)</Member>
+        <Member type="Method">public String getDataResults()</Member>
+        <Member type="Method">protected boolean addProcess(Process p)</Member>
+        <Member type="Method">protected void calculateFragmentationPercentage()</Member>
+        <Member type="Method">protected boolean compact()</Member>
+        <Member type="Method">public int getTimesCompacted()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>878</X>
+          <Y>343</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>878</X>
+          <Y>344</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="8" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="4" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>569</X>
+          <Y>91</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>869</X>
+          <Y>143</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
