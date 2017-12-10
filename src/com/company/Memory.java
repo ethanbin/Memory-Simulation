@@ -26,6 +26,8 @@ public abstract class Memory {
     protected double peakMemoryUtilization = -1;
     protected int currentTime = 0;							// keeps track of time
     protected int allocationFailures = 0;
+    protected boolean verboseMode = false;
+    protected boolean detailedMode = false;
 
     protected abstract void init(int size);
 
@@ -209,6 +211,22 @@ public abstract class Memory {
                 calculateMemoryUtilizationPercentage();
             }
         }
+    }
+
+    public boolean isVerboseMode() {
+        return verboseMode;
+    }
+
+    public void setVerboseMode(boolean verboseMode) {
+        this.verboseMode = verboseMode;
+    }
+
+    public boolean isDetailedMode() {
+        return detailedMode;
+    }
+
+    public void setDetailedMode(boolean detailedMode) {
+        this.detailedMode = detailedMode;
     }
 
     @Override
