@@ -1,4 +1,4 @@
-package MemoryAllocationProject;
+package com.company;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -7,7 +7,7 @@ import java.io.IOException;
 public class generateData {
 
 	public static void main(String[] args) throws IOException{
-		String file = "F:/testing.txt";
+		String file = "testing.txt";
 		
 		try {
 			ReadFile a = new ReadFile(file);

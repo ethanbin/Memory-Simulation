@@ -1,4 +1,4 @@
-package MemoryAllocationProject;
+package com.company;
 
 import java.io.IOException;
 import java.io.FileReader;

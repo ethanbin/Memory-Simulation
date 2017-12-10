@@ -2,7 +2,10 @@ package com.company;
 
 import com.company.Dynamic.DynamicMemory;
 import com.company.ProcessInserter.FirstFitProcessInserter;
+import org.apache.commons.cli.*;
 
+import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -209,7 +212,7 @@ public abstract class Memory {
      * @param processes Processes to allocate
      */
     public final void start(List<Process> processes){
-        Collections.sort(processes, new ProcessArrivalComparator());
+        processes.sort(new ProcessArrivalComparator());
         for (Process p : processes){
             // update time
             if (currentTime < p.getArrivalTime())
@@ -261,6 +264,58 @@ public abstract class Memory {
     }
 
     public static void main(String[] args) {
+        Options options = new Options();
+
+        // set input to required
+        Option input = new Option("i", "input", true, "input file path");
+        input.setRequired(false);
+        options.addOption(input);
+
+        Option output = new Option("o", "output", true, "output file path");
+        output.setRequired(false);
+        options.addOption(output);
+
+        Option detailed = new Option("d", "detailed", false, "show detailed data");
+        detailed.setRequired(false);
+        options.addOption(detailed);
+
+        Option verbose = new Option("v", "verbose", false, "verbose mode");
+        verbose.setRequired(false);
+        options.addOption(verbose);
+
+        options.addOption("p", false, "display current time");
+
+        List<Process> jobList = new ArrayList<>();
+        CommandLineParser parser = new DefaultParser();
+        try {
+            CommandLine cmd = parser.parse(options, args);
+            if (cmd.hasOption("p"))
+                System.out.println("working");
+        }
+        catch (ParseException e){
+            System.err.println("Invalid Argument(s)");
+        }
+        ReadFile rf = new ReadFile("testing.txt");
+        try {
+            String [] inData = rf.OpenFile();
+            for (String str : inData) {
+                String [] processData = str.split("\t");
+
+                String procName = processData[0];
+                int procArrivalTime = Integer.parseInt(processData[1]);
+                int procSize = Integer.parseInt(processData[2]);
+                int procFinishTime = Integer.parseInt(processData[3]);
+
+                jobList.add(new Process(procName, procSize, procArrivalTime, procFinishTime));
+            }
+        }
+        catch (IOException e){
+            System.err.println("Input File Not Found");
+        }
+        catch (NumberFormatException e){
+            System.err.println("Input File Data Invalid.");
+        }
+        /*
         Memory memory = new DynamicMemory(new FirstFitProcessInserter());
         List<Process> jobList = new ArrayList<>();
         //for (int i = 0; i < 800; i++)
@@ -284,5 +339,6 @@ public abstract class Memory {
         System.out.println(memory);
 
         System.out.println(memory.getDataResults());
+        */
     }
 }
