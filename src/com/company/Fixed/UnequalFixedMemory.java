@@ -17,6 +17,7 @@ public class UnequalFixedMemory extends FixedMemory{
         memoryList = new ArrayList<>();
         fragmentations = new ArrayList<>();
         memoryUtilizations = new ArrayList<>();
+        memorySize = DEFAULT_MEMORY_SIZE;
         init(DEFAULT_MEMORY_SIZE);
     }
 
@@ -24,6 +25,7 @@ public class UnequalFixedMemory extends FixedMemory{
         memoryList = new ArrayList<>();
         fragmentations = new ArrayList<>();
         memoryUtilizations = new ArrayList<>();
+        memorySize = size;
         init(size);
         int total = 0;
         for (MemoryAllocation memoryAllocation : memoryList)

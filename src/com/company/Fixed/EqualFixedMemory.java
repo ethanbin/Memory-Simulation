@@ -21,6 +21,7 @@ public class EqualFixedMemory extends FixedMemory{
 
     @Override
     protected void init(int size){
+        memorySize = size;
         memoryList = new ArrayList<>();
         int partitionSize = size/ DEFAULT_MAX_PARTITIONS;
         int currentStartingPosition = 0;
