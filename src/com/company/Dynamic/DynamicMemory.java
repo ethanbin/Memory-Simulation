@@ -91,8 +91,10 @@ public class DynamicMemory extends Memory {
 
         int usedSpace = 0;
         int currentStartingPosition = 0;
+        // go through each process in memory and correct their starting and ending position now that
+        // there are no memory allocations
         for (MemoryAllocation memoryAllocation : memoryList){
-            if (Memory.isMemoryAllocationAProcess(memoryAllocation))
+            if (!Memory.isMemoryAllocationAProcess(memoryAllocation))
                 continue;
             memoryAllocation.setStartingPositionInMemory(currentStartingPosition);
             memoryAllocation.setEndingPositionInMemory(
