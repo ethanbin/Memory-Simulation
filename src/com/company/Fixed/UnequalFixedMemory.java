@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class UnequalFixedMemory extends FixedMemory{
     protected final int PARTITION_SPLIT_COUNT = 4;
-    protected final int SMALLEST_PARTITION_SIZE = 16;
+    protected final int SMALLEST_PARTITION_SIZE = 4;
     protected int smallestPartitionSize;
     //ArrayList<Process> jobList;
 

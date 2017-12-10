@@ -75,7 +75,7 @@ public class DynamicMemory extends Memory {
         fragmentations.add(fragmentation);
     }
 
-    private boolean compact() {
+    protected boolean compact() {
         List<MemoryAllocation> memAllocsFound = new ArrayList<>();
         for (MemoryAllocation memoryAllocation : memoryList) {
             if (!Memory.isMemoryAllocationAProcess(memoryAllocation)) {

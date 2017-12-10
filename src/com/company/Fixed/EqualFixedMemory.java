@@ -29,12 +29,4 @@ public class EqualFixedMemory extends FixedMemory{
         fragmentations = new ArrayList<>();
         memoryUtilizations = new ArrayList<>();
     }
-
-    public void display() {
-        System.out.println("Process\tArrival Time\tProcess Size \tStatus\t\tFinish Time");
-        //addProcess();
-        System.out.println("Allocation fails: " + allocationFailures);
-        //System.out.println("Average Internal Fragmentation: " + internalFragmentation / jobList.size() + "MB");
-        //System.out.println("Average External Freagmentation: " + externalFragmentation / jobList.size() + "MB");
-    }
 }

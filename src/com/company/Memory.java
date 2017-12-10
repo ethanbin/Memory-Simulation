@@ -80,22 +80,24 @@ public abstract class Memory {
      * @return true if all finished process were removed
      */
     private boolean removeFinishedProcesses(){
-        List<Integer> startingPositionsOfProcessesToRemove = new ArrayList<>();
+        List<Process> processesToRemove = new ArrayList<>();
         for (MemoryAllocation memAlloc : memoryList){
             if (!isMemoryAllocationAProcess(memAlloc))
                 continue;
             Process proc = (Process) memAlloc;
             if (proc.getFinishTime() <= currentTime)
-                startingPositionsOfProcessesToRemove.add(proc.getStartingPositionInMemory());
+                processesToRemove.add(proc);
         }
 
         boolean allFinishedProcessesRemoved = true;
-        for (int i : startingPositionsOfProcessesToRemove){
+        int currentTimeBeingRemoved = -1;
+        for (Process proc : processesToRemove){
             // if removeProcess fails once, the boolean will become false, and the && will keep it false
-            allFinishedProcessesRemoved = removeProcess(i) && allFinishedProcessesRemoved;
-            // calculate memory utilization
+            allFinishedProcessesRemoved =
+                    removeProcess(proc.getStartingPositionInMemory()) && allFinishedProcessesRemoved;
         }
         calculateMemoryUtilizationPercentage();
+        calculateFragmentationPercentage();
         return allFinishedProcessesRemoved;
     }
 
@@ -118,7 +120,7 @@ public abstract class Memory {
         return totalFragmentation/fragmentations.size();
     }
 
-    public double getPeakFragemntation(){
+    public double getPeakFragmentation(){
         return peakFragemntation;
     }
 
@@ -166,7 +168,7 @@ public abstract class Memory {
      * @param memAlloc Memory allocation to test
      * @return
      */
-    static public boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
+    public static boolean isMemoryAllocationAProcess(MemoryAllocation memAlloc){
         try {
             // if memAlloc is not a Process, attempting to cast it will throw ClassCastException.
             Process p =(Process) memAlloc;
@@ -210,9 +212,12 @@ public abstract class Memory {
     @Override
     public String toString() {
         return "Memory{" +
-                //"memoryList=" + memoryList +
+                "memoryList=" + memoryList +
                 ", memorySize=" + memorySize +
-                ", averaage fragmentation percentage =" + getAverageFragmentationPercentage() +
+                ", fragmentations=" + fragmentations +
+                ", peakFragemntation=" + peakFragemntation +
+                ", memoryUtilizations=" + memoryUtilizations +
+                ", peakMemoryUtilization=" + peakMemoryUtilization +
                 ", currentTime=" + currentTime +
                 ", allocationFailures=" + allocationFailures +
                 '}';
@@ -225,7 +230,7 @@ public abstract class Memory {
                 getAverageFragmentationPercentage()));
         outp.append(String.format("%-40s %f %n",
                 "Peak Fragmentation Percentage:",
-                getPeakFragemntation()));
+                getPeakFragmentation()));
         outp.append(String.format("%-40s %d %n",
                 "Number of Allocation Failures:",
                 allocationFailures));
@@ -238,7 +243,6 @@ public abstract class Memory {
 
         return outp.toString();
     }
-
 
     public static void main(String[] args) {
         Memory memory = new DynamicMemory(new FirstFitProcessInserter());
