@@ -23,8 +23,12 @@ public class EqualFixedMemory extends FixedMemory{
     protected void init(int size){
         memoryList = new ArrayList<>();
         int partitionSize = size/ DEFAULT_MAX_PARTITIONS;
+        int currentStartingPosition = 0;
+        int currentEndingPosition = partitionSize - 1;
         for (int i = 0; i < DEFAULT_MAX_PARTITIONS; i++){
-            memoryList.add(new MemoryAllocation(partitionSize));
+            memoryList.add(new MemoryAllocation(partitionSize, currentStartingPosition, currentEndingPosition));
+            currentStartingPosition += partitionSize;
+            currentEndingPosition += partitionSize;
         }
         fragmentations = new ArrayList<>();
         memoryUtilizations = new ArrayList<>();
