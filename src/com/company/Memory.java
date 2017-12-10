@@ -180,11 +180,11 @@ public abstract class Memory {
     }
 
     /**
-     * Simulate memory adding and removing jobs until all process have been run through. Simulation and counted
+     * Start simulating memory, adding and removing jobs until all process have been run through. Simulation and counted
      * time will stop at the arrival of the final process.
-     * @param processes
+     * @param processes Processes to allocate
      */
-    public final void simulateMemory(List<Process> processes){
+    public final void start(List<Process> processes){
         Collections.sort(processes, new ProcessArrivalComparator());
         for (Process p : processes){
             // update time
@@ -199,14 +199,6 @@ public abstract class Memory {
             // calculate memory after adding new process
             calculateMemoryUtilizationPercentage();
         }
-    }
-
-    /**
-     * Begin simulating memory. This method does nothing other than call the simulateMemory method.
-     * @param processes
-     */
-    public final void start(List<Process> processes){
-        simulateMemory(processes);
     }
 
     @Override
