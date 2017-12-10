@@ -154,10 +154,10 @@ public abstract class Memory {
     public double getAverageMemoryUtilizationPercentage(){
         if (memoryUtilizations.size() == 0)
             return -1;
-        double totalFragmentation = 0;
+        double totalMemoryUtilization = 0;
         for (Double d : memoryUtilizations)
-            totalFragmentation += d;
-        return totalFragmentation/fragmentations.size();
+            totalMemoryUtilization += d;
+        return totalMemoryUtilization/memoryUtilizations.size();
     }
 
     /**
@@ -246,7 +246,7 @@ public abstract class Memory {
 
         // set input to required
         Option input = new Option("i", "input", true, "input file path");
-        input.setRequired(false);
+        input.setRequired(true);
         options.addOption(input);
 
         Option output = new Option("o", "output", true, "output file path");
@@ -261,19 +261,20 @@ public abstract class Memory {
         verbose.setRequired(false);
         options.addOption(verbose);
 
-        options.addOption("p", false, "display current time");
-
-        List<Process> jobList = new ArrayList<>();
+        // try getting and parsing command line arguments
         CommandLineParser parser = new DefaultParser();
+        CommandLine cmd;
         try {
-            CommandLine cmd = parser.parse(options, args);
-            if (cmd.hasOption("p"))
-                System.out.println("working");
+            cmd = parser.parse(options, args);
         }
         catch (ParseException e){
-            System.err.println("Invalid Argument(s)");
+            System.err.println("Missing or Invalid Argument(s)");
+            return;
         }
-        ReadFile rf = new ReadFile("testing.txt");
+
+        // try to parse input file into a List of Processes
+        List<Process> jobList = new ArrayList<>();
+        ReadFile rf = new ReadFile(cmd.getOptionValue("i"));
         try {
             String [] inData = rf.OpenFile();
             for (String str : inData) {
@@ -295,35 +296,13 @@ public abstract class Memory {
             System.err.println("Input File Data Invalid.");
             return;
         }
+        // print all process that were read in
         for (Process proc : jobList)
             System.out.println(proc);
+        // run memory and print results
         Memory mem = new DynamicMemory(new FirstFitProcessInserter());
         mem.start(jobList);
+        System.out.println(mem);
         System.out.println(mem.getDataResults());
-        /*
-        Memory memory = new DynamicMemory(new FirstFitProcessInserter());
-        List<Process> jobList = new ArrayList<>();
-        //for (int i = 0; i < 800; i++)
-        //    jobList.add(new Process(String.valueOf(i), 1, 0, 2));
-
-        jobList.add(new Process("A", 600, 3, 4));
-        jobList.add(new Process("B", 120, 4, 4));
-        jobList.add(new Process("C", 660, 5, 7));
-        jobList.add(new Process("D", 120, 9, 5));
-        jobList.add(new Process("E",  82, 13,3));
-        jobList.add(new Process("F",  127,17, 1));
-        jobList.add(new Process("G",  430, 17,8));
-        jobList.add(new Process("H",  77, 20,6));
-        jobList.add(new Process("I",  109,24, 2));
-        jobList.add(new Process("J",  90, 26,3));
-        jobList.add(new Process("K",  190,29, 7));
-        jobList.add(new Process("L",  240, 31,2));
-
-        memory.start(jobList);
-
-        System.out.println(memory);
-
-        System.out.println(memory.getDataResults());
-        */
     }
 }
