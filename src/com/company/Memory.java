@@ -198,11 +198,13 @@ public abstract class Memory {
             // remove all completed jobs
             removeFinishedProcesses();
             // add process
-            addProcess(p);
-            // calculate fragmentation
-            calculateFragmentationPercentage();
-            // calculate memory after adding new process
-            calculateMemoryUtilizationPercentage();
+            boolean processAddedSuccessfully = addProcess(p);
+            if(processAddedSuccessfully) {
+                // calculate fragmentation
+                calculateFragmentationPercentage();
+                // calculate memory after adding new process
+                calculateMemoryUtilizationPercentage();
+            }
         }
     }
 
