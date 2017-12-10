@@ -96,7 +96,7 @@ public class generateData {
 		test2.generateAllProcesses();
 		test2.display();
 
-		String fileName = "F:/testing.txt";
+		String fileName = "testing.txt";
 
 		try {
 			WriteFile data = new WriteFile(fileName, true);

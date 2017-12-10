@@ -284,7 +284,7 @@ public abstract class Memory {
                 int procSize = Integer.parseInt(processData[2]);
                 int procFinishTime = Integer.parseInt(processData[3]);
 
-                jobList.add(new Process(procNumber, procSize, procArrivalTime, procFinishTime));
+                jobList.add(new Process(procNumber, procArrivalTime, procSize, procFinishTime));
             }
         }
         catch (IOException e){
@@ -295,6 +295,11 @@ public abstract class Memory {
             System.err.println("Input File Data Invalid.");
             return;
         }
+        for (Process proc : jobList)
+            System.out.println(proc);
+        Memory mem = new DynamicMemory(new FirstFitProcessInserter());
+        mem.start(jobList);
+        System.out.println(mem.getDataResults());
         /*
         Memory memory = new DynamicMemory(new FirstFitProcessInserter());
         List<Process> jobList = new ArrayList<>();
