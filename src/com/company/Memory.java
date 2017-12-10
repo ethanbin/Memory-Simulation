@@ -326,30 +326,43 @@ public abstract class Memory {
 
         Memory memory;
         // handling optional arguments
+        boolean verboseMode = cmd.hasOption("v");
+        boolean detailedMode = cmd.hasOption("d");
+
         String allocationMethodChosen = cmd.getOptionValue("a");
         if (cmd.getOptionValue("a") == null){
             System.out.println("Fixed Partition - Equal Size");
             memory = new EqualFixedMemory();
+            memory.setDetailedMode(detailedMode);
+            memory.setVerboseMode(verboseMode);
             memory.start(jobList);
             System.out.println(memory.getDataResults());
 
             System.out.println("Fixed Partition - Unequal Size");
             memory = new UnequalFixedMemory();
+            memory.setDetailedMode(detailedMode);
+            memory.setVerboseMode(verboseMode);
             memory.start(jobList);
             System.out.println(memory.getDataResults());
 
             System.out.println("Dynamic Partition - First Fit");
             memory = new DynamicMemory(new FirstFitProcessInserter());
+            memory.setDetailedMode(detailedMode);
+            memory.setVerboseMode(verboseMode);
             memory.start(jobList);
             System.out.println(memory.getDataResults());
 
             System.out.println("Dynamic Partition - Best Fit");
             memory = new DynamicMemory(new BestFitProcessInserter());
+            memory.setDetailedMode(detailedMode);
+            memory.setVerboseMode(verboseMode);
             memory.start(jobList);
             System.out.println(memory.getDataResults());
 
             System.out.println("Dynamic Partition - Worst Fit");
             memory = new DynamicMemory(new WorstFitProcessInserter());
+            memory.setDetailedMode(detailedMode);
+            memory.setVerboseMode(verboseMode);
             memory.start(jobList);
             System.out.println(memory.getDataResults());
         }
@@ -379,6 +392,8 @@ public abstract class Memory {
                     System.err.println("Invalid Allocation Method");
                     return;
             }
+            memory.setDetailedMode(detailedMode);
+            memory.setVerboseMode(verboseMode);
             memory.start(jobList);
             System.out.println(memory.getDataResults());
         }
