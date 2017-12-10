@@ -75,6 +75,21 @@ public abstract class Memory {
     }
 
     /**
+     * Attempts to remove a given process.
+     * @param process Process to remove
+     * @return true if the given process was found and removed successfully
+     */
+    private boolean removeProcess(Process process) {
+        int indexOfProc = memoryList.indexOf(process);
+        if (indexOfProc == -1)
+            return false;
+        memoryList.set(indexOfProc, new MemoryAllocation(process.getMemorySizeUsed(),
+                process.getStartingPositionInMemory(),
+                process.getEndingPositionInMemory()));
+        return true;
+    }
+
+    /**
      * Remove all finished processes and update fragmentation and memory utilization.
      * @return true if any process were finished and removed
      */
@@ -99,7 +114,7 @@ public abstract class Memory {
                     calculateMemoryUtilizationPercentage();
                     calculateFragmentationPercentage();
                 }
-                removeProcess(proc.getStartingPositionInMemory());
+                removeProcess(proc);
             }
             // calculate data on memory here because it is only calculate above -before- the latest process is removed,
             // so the last process(es) do not get a check and start data calculations.
