@@ -22,7 +22,7 @@ public abstract class Memory {
     protected List<Double> memoryUtilizations;
     protected double peakMemoryUtilization = -1;
     protected int currentTime = 0;							// keeps track of time
-	protected int allocationFailures = 0;
+    protected int allocationFailures = 0;
 
     protected abstract void init(int size);
 
@@ -32,28 +32,6 @@ public abstract class Memory {
      * @return true if process successfully added
      */
     protected abstract boolean addProcess(Process p);
-
-    /**
-     * Attempts to remove a process of the given name.
-     * @param processName Name of process to remove
-     * @return true if process removed successfully
-     */
-    private boolean removeProcess(String processName) {
-        for (int i = 0; i < memoryList.size(); i++){
-            if (!Memory.isMemoryAllocationAProcess(memoryList.get(i)))
-                continue;
-
-            Process currentProc = (Process) memoryList.get(i);
-
-            if (currentProc.getName().equals(processName)){
-                memoryList.set(i, new MemoryAllocation(currentProc.getMemorySizeUsed(),
-                        currentProc.getStartingPositionInMemory(),
-                        currentProc.getEndingPositionInMemory()));
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * Attempts to remove a process with the given starting position in memory.
@@ -301,19 +279,21 @@ public abstract class Memory {
             for (String str : inData) {
                 String [] processData = str.split("\t");
 
-                String procName = processData[0];
+                int procNumber = Integer.parseInt(processData[0]);
                 int procArrivalTime = Integer.parseInt(processData[1]);
                 int procSize = Integer.parseInt(processData[2]);
                 int procFinishTime = Integer.parseInt(processData[3]);
 
-                jobList.add(new Process(procName, procSize, procArrivalTime, procFinishTime));
+                jobList.add(new Process(procNumber, procSize, procArrivalTime, procFinishTime));
             }
         }
         catch (IOException e){
             System.err.println("Input File Not Found");
+            return;
         }
         catch (NumberFormatException e){
             System.err.println("Input File Data Invalid.");
+            return;
         }
         /*
         Memory memory = new DynamicMemory(new FirstFitProcessInserter());
