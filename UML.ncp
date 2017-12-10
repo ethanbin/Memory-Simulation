@@ -7,7 +7,7 @@
       <Entity type="Class">
         <Name>ProcessInserter</Name>
         <Access>Public</Access>
-        <Location left="573" top="168" />
+        <Location left="649" top="174" />
         <Size width="600" height="145" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public boolean addProcess(Process proc, List&lt;MemoryAllocation&gt; memoryList)</Member>
@@ -19,8 +19,8 @@
       <Entity type="Class">
         <Name>FirstFitProcessInserter</Name>
         <Access>Public</Access>
-        <Location left="573" top="402" />
-        <Size width="177" height="94" />
+        <Location left="565" top="399" />
+        <Size width="245" height="94" />
         <Collapsed>False</Collapsed>
         <Member type="Method">protected boolean tryAllocatingProcess(Process proc, List&lt;MemoryAllocation&gt; list)</Member>
         <Modifier>None</Modifier>
@@ -28,26 +28,26 @@
       <Entity type="Class">
         <Name>WorstFitProcessInserter</Name>
         <Access>Public</Access>
-        <Location left="1000" top="402" />
-        <Size width="177" height="94" />
+        <Location left="842" top="399" />
+        <Size width="245" height="94" />
         <Collapsed>False</Collapsed>
-        <Member type="Method">protected abstract boolean tryAllocatingProcess(Process proc, List&lt;MemoryAllocation&gt; list)</Member>
-        <Modifier>Abstract</Modifier>
+        <Member type="Method">protected boolean tryAllocatingProcess(Process proc, List&lt;MemoryAllocation&gt; list)</Member>
+        <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>BestFitProcessInserter</Name>
         <Access>Public</Access>
-        <Location left="790" top="402" />
-        <Size width="177" height="94" />
+        <Location left="1117" top="399" />
+        <Size width="245" height="94" />
         <Collapsed>False</Collapsed>
-        <Member type="Method">protected abstract boolean tryAllocatingProcess(Process proc, List&lt;MemoryAllocation&gt; list)</Member>
-        <Modifier>Abstract</Modifier>
+        <Member type="Method">protected boolean tryAllocatingProcess(Process proc, List&lt;MemoryAllocation&gt; list)</Member>
+        <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Memory</Name>
         <Access>Public</Access>
         <Location left="171" top="10" />
-        <Size width="368" height="485" />
+        <Size width="362" height="485" />
         <Collapsed>False</Collapsed>
         <Member type="Field">protected int allocationFailures</Member>
         <Member type="Field">protected int currentTime = 0</Member>
@@ -78,19 +78,19 @@
       <Entity type="Class">
         <Name>EqualFixedMemory</Name>
         <Access>Public</Access>
-        <Location left="275" top="900" />
+        <Location left="345" top="760" />
         <Size width="219" height="179" />
         <Collapsed>False</Collapsed>
         <Member type="Field">protected final int DEFAULT_MAX_PARTITIONS = 8</Member>
-        <Member type="Method">protected void init(int size)</Member>
         <Member type="Constructor">public EqualFixedMemory()</Member>
         <Member type="Constructor">public EqualFixedMemory(int size)</Member>
+        <Member type="Method">protected void init(int size)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>UnequalFixedMemory</Name>
         <Access>Public</Access>
-        <Location left="599" top="900" />
+        <Location left="593" top="760" />
         <Size width="219" height="179" />
         <Collapsed>False</Collapsed>
         <Member type="Field">protected final int PARTITION_SPLIT_COUNT = 4</Member>
@@ -105,7 +105,7 @@
         <Name>FixedMemory</Name>
         <Access>Public</Access>
         <Location left="390" top="590" />
-        <Size width="312" height="247" />
+        <Size width="293" height="111" />
         <Collapsed>False</Collapsed>
         <Member type="Method">protected boolean addProcess(Process p)</Member>
         <Member type="Method">protected void calculateFragmentationPercentage()</Member>
@@ -135,20 +135,28 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>878</X>
-          <Y>343</Y>
+          <X>954</X>
+          <Y>346</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="3" second="0">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1248</X>
+          <Y>374</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>954</X>
+          <Y>347</Y>
+        </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="2" second="0">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>878</X>
-          <Y>344</Y>
+          <X>954</X>
+          <Y>350</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="7" second="4">
@@ -166,19 +174,25 @@
       <Relationship type="Generalization" first="5" second="7">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>463</X>
+          <Y>735</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>536</X>
+          <Y>726</Y>
+        </BendPoint>
       </Relationship>
       <Relationship type="Association" first="4" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>569</X>
+          <X>563</X>
           <Y>91</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>869</X>
-          <Y>143</Y>
+          <X>945</X>
+          <Y>149</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
