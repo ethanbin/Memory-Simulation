@@ -36,14 +36,22 @@ public class UnequalFixedMemory extends FixedMemory{
         // the partition is split 4 ways. 1 gets split further, the other 3 are used as-is
         if (partitionSize > SMALLEST_PARTITION_SIZE){
             init(partitionSize);
+            int startingPos = memoryList.get(memoryList.size()-1).getEndingPositionInMemory() + 1;
+            int endingPos = startingPos + partitionSize - 1;
             for (int i = 0; i < PARTITION_SPLIT_COUNT - 1; i++){
-                memoryList.add(new MemoryAllocation(partitionSize));
+                memoryList.add(new MemoryAllocation(partitionSize, startingPos, endingPos));
+                startingPos += partitionSize;
+                endingPos += partitionSize;
             }
         }
         else{
             smallestPartitionSize = partitionSize;
+            int startingPos = 0;
+            int endingPos = partitionSize - 1;
             for (int i = 0; i < PARTITION_SPLIT_COUNT; i++){
-                memoryList.add(new MemoryAllocation(partitionSize));
+                memoryList.add(new MemoryAllocation(partitionSize, startingPos, endingPos));
+                startingPos += partitionSize;
+                endingPos += partitionSize;
             }
         }
     }
