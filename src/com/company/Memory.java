@@ -308,8 +308,12 @@ public abstract class Memory {
         for (MemoryAllocation memAlloc : memoryList){
             if (isMemoryAllocationAProcess(memAlloc)){
                 Process proc = (Process) memAlloc;
-                outp.append(String.format("%-4d - %-4d: used by process {%d}%n",
-                        proc.getStartingPositionInMemory(),proc.getEndingPositionInMemory(), proc.getProcessNumber()));
+                if (proc.getProcessNumber() == -1)
+                    outp.append(String.format("%-4d - %-4d: used by OS%n",
+                            proc.getStartingPositionInMemory(),proc.getEndingPositionInMemory()));
+                else
+                    outp.append(String.format("%-4d - %-4d: used by process {%d}%n",
+                            proc.getStartingPositionInMemory(),proc.getEndingPositionInMemory(), proc.getProcessNumber()));
             }
             else {
                 outp.append(String.format("%-4d - %-4d: hole%n",

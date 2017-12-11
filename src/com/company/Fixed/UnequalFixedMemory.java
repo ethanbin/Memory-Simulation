@@ -1,6 +1,7 @@
 package com.company.Fixed;
 
 import com.company.MemoryAllocation;
+import com.company.Process;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,7 @@ public class UnequalFixedMemory extends FixedMemory{
                 endingPos += partitionSize;
             }
         }
+        addProcess(new Process(-1, 0,32, 99999));
     }
 
     @Override

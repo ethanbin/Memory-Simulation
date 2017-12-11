@@ -32,6 +32,7 @@ public class DynamicMemory extends Memory {
         memoryList.add(new MemoryAllocation(size, 0, size - 1));
         fragmentations = new ArrayList<>();
         memoryUtilizations = new ArrayList<>();
+        addProcess(new Process(-1, 0,32, 99999));
     }
 
     @Override

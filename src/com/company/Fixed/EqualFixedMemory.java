@@ -1,6 +1,7 @@
 package com.company.Fixed;
 
 import com.company.MemoryAllocation;
+import com.company.Process;
 
 import java.util.ArrayList;
 
@@ -33,5 +34,6 @@ public class EqualFixedMemory extends FixedMemory{
         }
         fragmentations = new ArrayList<>();
         memoryUtilizations = new ArrayList<>();
+        addProcess(new Process(-1, 0,32, 99999));
     }
 }
