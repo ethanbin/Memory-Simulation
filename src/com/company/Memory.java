@@ -195,6 +195,8 @@ public abstract class Memory {
      */
     public final void start(List<Process> processes){
         processes.sort(new ProcessArrivalComparator());
+        if (verboseMode)
+            System.out.println(getVerboseData(-1));
         for (Process p : processes){
             // update time
             if (currentTime < p.getArrivalTime())
@@ -209,6 +211,8 @@ public abstract class Memory {
                 // calculate memory after adding new process
                 calculateMemoryUtilizationPercentage();
             }
+            if (verboseMode)
+                System.out.println(getVerboseData(p.getProcessNumber()));
         }
         if (detailedMode)
             System.out.println(getDetailedData(processes));
@@ -289,6 +293,29 @@ public abstract class Memory {
                     "Finish Time:",
                     p.getFinishTime()));
             outp.append(String.format("%n"));
+        }
+        return outp.toString();
+    }
+
+    public String getVerboseData(int processNumber){
+        StringBuilder outp = new StringBuilder();
+        if (currentTime == 0)
+            outp.append(String.format("At time 0: the initial state, the memory allocation state:%n"));
+        else
+            outp.append(String.format("At time %d: Process {%d} comes, the memory changes the allocation state: %n",
+                    currentTime, processNumber));
+
+        for (MemoryAllocation memAlloc : memoryList){
+            if (isMemoryAllocationAProcess(memAlloc)){
+                Process proc = (Process) memAlloc;
+                outp.append(String.format("%-4d - %-4d: used by process {%d}%n",
+                        proc.getStartingPositionInMemory(),proc.getEndingPositionInMemory(), proc.getProcessNumber()));
+            }
+            else {
+                outp.append(String.format("%-4d - %-4d: hole%n",
+                        memAlloc.getStartingPositionInMemory(),
+                        memAlloc.getEndingPositionInMemory()));
+            }
         }
         return outp.toString();
     }
