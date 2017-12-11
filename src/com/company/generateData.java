@@ -92,10 +92,10 @@ public class generateData {
 
 	public static void main(String[] args) {
 
-		generateData small = new generateData(50, 50, 20, 60, 1); // ranges from 0-51
-		generateData medium = new generateData(50, 50, 20, 60, 51); // ranges from 51-101
-		generateData large = new generateData(50, 50, 20, 60, 101); // ranges from 101-151
-		generateData random = new generateData(50, 150, 20, 60, 1); // ranges from 1-151
+		generateData small = new generateData(54, 42, 20, 60, 1); // ranges from 1-42
+		generateData medium = new generateData(54, 42, 20, 60, 43); // ranges from 43-85
+		generateData large = new generateData(54, 42, 20, 60, 86); // ranges from 86-128
+		generateData random = new generateData(54, 128, 20, 60, 1); // ranges from 1-128
 
 		for (int i = 0; i < 5; i++) {
 			small.generateAllProcesses();
