@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Ethan on 11/27/2017.
@@ -254,20 +255,15 @@ public abstract class Memory {
 
     public String getDataResults() {
         StringBuilder outp = new StringBuilder();
-        outp.append(String.format("%-40s %f%% %n",
-                "Average Fragmentation Percentage:",
+        outp.append(String.format("%f%%%n",
                 getAverageFragmentationPercentage() * 100));
-        outp.append(String.format("%-40s %f%% %n",
-                "Peak Fragmentation Percentage:",
+        outp.append(String.format("%f%%%n",
                 getPeakFragmentation() * 100));
-        outp.append(String.format("%-40s %d %n",
-                "Number of Allocation Failures:",
+        outp.append(String.format("%d%n",
                 allocationFailures));
-        outp.append(String.format("%-40s %f%% %n",
-                "Average Memory Utilization Percentage:",
+        outp.append(String.format("%f%%%n",
                 getAverageMemoryUtilizationPercentage() * 100));
-        outp.append(String.format("%-40s %f%% %n",
-                "Peak Memory Utilization Percentage:",
+        outp.append(String.format("%f%%%n",
                 getPeakMemoryUtilization() * 100));
 
         return outp.toString();
@@ -327,10 +323,11 @@ public abstract class Memory {
     }
 
     public static void main(String[] args) {
+        
         Options options = new Options();
 
         // set input to required
-        Option input = new Option("i", "input", true, "input file path");
+        Option input = new Option("i", "input", true, "required input file path");
         input.setRequired(true);
         options.addOption(input);
 
@@ -338,7 +335,7 @@ public abstract class Memory {
         output.setRequired(false);
         options.addOption(output);
 
-        Option allocationMethod = new Option("a", "allocation method", true,"method of allocating data");
+         Option allocationMethod = new Option("a", "allocation method", true,"method of allocating data");
         allocationMethod.setRequired(false);
         options.addOption(allocationMethod);
 
@@ -349,6 +346,9 @@ public abstract class Memory {
         Option verbose = new Option("v", "verbose", false, "verbose mode");
         verbose.setRequired(false);
         options.addOption(verbose);
+
+        HelpFormatter hf = new HelpFormatter();
+        hf.printHelp("-h", options);
 
         // try getting and parsing command line arguments
         CommandLineParser parser = new DefaultParser();
