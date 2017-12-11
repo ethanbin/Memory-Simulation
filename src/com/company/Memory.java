@@ -3,9 +3,13 @@ package com.company;
 import com.company.Dynamic.DynamicMemory;
 import com.company.Fixed.EqualFixedMemory;
 import com.company.Fixed.UnequalFixedMemory;
+import com.company.ProcessComparators.ProcessArrivalComparator;
+import com.company.ProcessComparators.ProcessFinishComparator;
+import com.company.ProcessComparators.ProcessNumberComparator;
 import com.company.ProcessInserter.BestFitProcessInserter;
 import com.company.ProcessInserter.FirstFitProcessInserter;
 import com.company.ProcessInserter.WorstFitProcessInserter;
+import com.sun.javafx.binding.StringFormatter;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
@@ -211,6 +215,8 @@ public abstract class Memory {
                 calculateMemoryUtilizationPercentage();
             }
         }
+        if (detailedMode)
+            System.out.println(getDetails(processes));
     }
 
     public boolean isVerboseMode() {
@@ -261,6 +267,34 @@ public abstract class Memory {
                 "Peak Memory Utilization Percentage:",
                 getPeakMemoryUtilization() * 100));
 
+        return outp.toString();
+    }
+
+    public String getDetails(List<Process> processes){
+        StringBuilder outp = new StringBuilder();
+        processes.sort(new ProcessNumberComparator());
+        for (Process p : processes) {
+            outp.append(String.format("Process %d%n", p.getProcessNumber()));
+            outp.append(String.format("%-40s %d%% %n",
+                    "Arrival Time:",
+                    p.getArrivalTime()));
+            outp.append(String.format("%-40s %s %n",
+                    "Allocated Space:",
+                    p.getMemorySizeUsed() >= 0 ?
+                            String.valueOf(p.getMemorySizeUsed()) : "0 (fail)"));
+            /*
+            outp.append(String.format("%-40s %f%% %n",
+                    "Arrival Time:",
+                    p.getArrivalTime()));
+            outp.append(String.format("%-40s %f%% %n",
+                    "Arrival Time:",
+                    p.getArrivalTime()));
+            */
+            outp.append(String.format("%-40s %d %n",
+                    "Finish Time:",
+                    p.getFinishTime()));
+            outp.append(String.format("%n"));
+        }
         return outp.toString();
     }
 
@@ -328,7 +362,7 @@ public abstract class Memory {
         // handling optional arguments
         boolean verboseMode = cmd.hasOption("v");
         boolean detailedMode = cmd.hasOption("d");
-
+/*
         String allocationMethodChosen = cmd.getOptionValue("a");
         if (cmd.getOptionValue("a") == null){
             System.out.println("Fixed Partition - Equal Size");
@@ -392,10 +426,15 @@ public abstract class Memory {
                     System.err.println("Invalid Allocation Method");
                     return;
             }
+
             memory.setDetailedMode(detailedMode);
             memory.setVerboseMode(verboseMode);
             memory.start(jobList);
             System.out.println(memory.getDataResults());
+*/
+            Memory mem = new DynamicMemory(new FirstFitProcessInserter());
+            mem.setDetailedMode(true);
+            mem.start(jobList);
         }
     }
-}
+//}
