@@ -68,7 +68,7 @@ public class DynamicMemory extends Memory {
             if (memAlloc.getMemorySizeUsed() > sizeOfLargestMemoryAllocation)
                 sizeOfLargestMemoryAllocation = memAlloc.getMemorySizeUsed();
         }
-        int sum = freeSpace - sizeOfLargestMemoryAllocation;    
+        int sum = freeSpace - sizeOfLargestMemoryAllocation;
         int divisor = freeSpace == 0? 1 : freeSpace;
         double fragmentation = (double) sum/divisor;
         if (fragmentation > peakFragmentation)
@@ -76,6 +76,12 @@ public class DynamicMemory extends Memory {
         fragmentations.add(fragmentation);
     }
 
+    /**
+     * Compact by removing all fragmented Memory Allocations and make a single new Memory Allocation of the same
+     * size as the removed ones combined. If there is one or fewer memory allocations, compacting will not be done
+     * and this method will return false.
+     * @return true if compacting was done, false if not
+     */
     protected boolean compact() {
         List<MemoryAllocation> memAllocsFound = new ArrayList<>();
         for (MemoryAllocation memoryAllocation : memoryList) {
@@ -83,6 +89,7 @@ public class DynamicMemory extends Memory {
                 memAllocsFound.add(memoryAllocation);
             }
         }
+        // if 1 or no Memory Allocations found, there is are no fragmented memory allocations. therefore stop.
         if (memAllocsFound.size() <= 1)
             return false;
 
