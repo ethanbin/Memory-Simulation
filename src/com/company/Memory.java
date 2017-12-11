@@ -1,15 +1,10 @@
 package com.company;
 
 import com.company.Dynamic.DynamicMemory;
-import com.company.Fixed.EqualFixedMemory;
-import com.company.Fixed.UnequalFixedMemory;
 import com.company.ProcessComparators.ProcessArrivalComparator;
 import com.company.ProcessComparators.ProcessFinishComparator;
 import com.company.ProcessComparators.ProcessNumberComparator;
-import com.company.ProcessInserter.BestFitProcessInserter;
 import com.company.ProcessInserter.FirstFitProcessInserter;
-import com.company.ProcessInserter.WorstFitProcessInserter;
-import com.sun.javafx.binding.StringFormatter;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
@@ -216,7 +211,7 @@ public abstract class Memory {
             }
         }
         if (detailedMode)
-            System.out.println(getDetails(processes));
+            System.out.println(getDetailedData(processes));
     }
 
     public boolean isVerboseMode() {
@@ -270,7 +265,7 @@ public abstract class Memory {
         return outp.toString();
     }
 
-    public String getDetails(List<Process> processes){
+    public String getDetailedData(List<Process> processes){
         StringBuilder outp = new StringBuilder();
         processes.sort(new ProcessNumberComparator());
         for (Process p : processes) {
@@ -433,7 +428,7 @@ public abstract class Memory {
             System.out.println(memory.getDataResults());
 */
             Memory mem = new DynamicMemory(new FirstFitProcessInserter());
-            mem.setDetailedMode(true);
+            mem.setVerboseMode(true);
             mem.start(jobList);
         }
     }
