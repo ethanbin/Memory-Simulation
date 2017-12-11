@@ -1,0 +1,39 @@
+Fixed Partition - Equal Size
+Average Fragmentation Percentage:        64.824785% 
+Peak Fragmentation Percentage:           82.421875% 
+Number of Allocation Failures:           0 
+Average Memory Utilization Percentage:   26.256793% 
+Peak Memory Utilization Percentage:      44.140625% 
+
+Fixed Partition - Unequal Size
+Average Fragmentation Percentage:        55.920759% 
+Peak Fragmentation Percentage:           70.312500% 
+Number of Allocation Failures:           0 
+Average Memory Utilization Percentage:   21.981957% 
+Peak Memory Utilization Percentage:      38.281250% 
+
+Dynamic Partition - First Fit
+Average Fragmentation Percentage:        23.925123% 
+Peak Fragmentation Percentage:           71.673387% 
+Number of Allocation Failures:           1 
+Average Memory Utilization Percentage:   42.400251% 
+Peak Memory Utilization Percentage:      86.425781% 
+Number of Compactions Done:              1 
+
+Dynamic Partition - Best Fit
+Average Fragmentation Percentage:        23.925123% 
+Peak Fragmentation Percentage:           71.673387% 
+Number of Allocation Failures:           1 
+Average Memory Utilization Percentage:   42.400251% 
+Peak Memory Utilization Percentage:      86.425781% 
+Number of Compactions Done:              1 
+
+Dynamic Partition - Worst Fit
+Average Fragmentation Percentage:        29.125444% 
+Peak Fragmentation Percentage:           86.444213% 
+Number of Allocation Failures:           1 
+Average Memory Utilization Percentage:   42.400251% 
+Peak Memory Utilization Percentage:      86.425781% 
+Number of Compactions Done:              1 
+
+

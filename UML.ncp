@@ -47,7 +47,7 @@
         <Name>Memory</Name>
         <Access>Public</Access>
         <Location left="171" top="10" />
-        <Size width="362" height="485" />
+        <Size width="362" height="587" />
         <Collapsed>False</Collapsed>
         <Member type="Field">protected int allocationFailures</Member>
         <Member type="Field">protected int currentTime = 0</Member>
@@ -58,6 +58,8 @@
         <Member type="Field">protected List&lt;Double&gt; memoryUtilizations</Member>
         <Member type="Field">protected double peakFragemntation = -1</Member>
         <Member type="Field">protected double peakMemoryUtilization = -1</Member>
+        <Member type="Field">protected boolean verboseMode = false</Member>
+        <Member type="Field">protected boolean detailedMode = false</Member>
         <Member type="Method">public final void start(List&lt;Process&gt; processes)</Member>
         <Member type="Method">public double getAverageFragmentationPercentage()</Member>
         <Member type="Method">public double getAverageMemoryUtilizationPercentage()</Member>
@@ -73,12 +75,16 @@
         <Member type="Method">private boolean removeFinishedProcesses()</Member>
         <Member type="Method">private boolean removeProcess(String processName)</Member>
         <Member type="Method">private boolean removeProcess(int startingPositionInMemory)</Member>
+        <Member type="Method">public void setVerboseMode(boolean verboseMode)</Member>
+        <Member type="Method">public void setDetailedMode(boolean detailedMode)</Member>
+        <Member type="Method">public String getDetailedData(List&lt;Process&gt; processes)</Member>
+        <Member type="Method">public String getVerboseData(int processNumber)</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>EqualFixedMemory</Name>
         <Access>Public</Access>
-        <Location left="345" top="760" />
+        <Location left="345" top="859" />
         <Size width="219" height="179" />
         <Collapsed>False</Collapsed>
         <Member type="Field">protected final int DEFAULT_MAX_PARTITIONS = 8</Member>
@@ -90,7 +96,7 @@
       <Entity type="Class">
         <Name>UnequalFixedMemory</Name>
         <Access>Public</Access>
-        <Location left="593" top="760" />
+        <Location left="593" top="859" />
         <Size width="219" height="179" />
         <Collapsed>False</Collapsed>
         <Member type="Field">protected final int PARTITION_SPLIT_COUNT = 4</Member>
@@ -104,7 +110,7 @@
       <Entity type="Class">
         <Name>FixedMemory</Name>
         <Access>Public</Access>
-        <Location left="390" top="590" />
+        <Location left="390" top="689" />
         <Size width="293" height="111" />
         <Collapsed>False</Collapsed>
         <Member type="Method">protected boolean addProcess(Process p)</Member>
@@ -114,7 +120,7 @@
       <Entity type="Class">
         <Name>DynamicMemory</Name>
         <Access>Public</Access>
-        <Location left="10" top="590" />
+        <Location left="10" top="689" />
         <Size width="312" height="247" />
         <Collapsed>False</Collapsed>
         <Member type="Field">protected ProcessInserter insertingStrategy</Member>
@@ -132,7 +138,7 @@
       <Entity type="Class">
         <Name>ReadFile</Name>
         <Access>Public</Access>
-        <Location left="1206" top="590" />
+        <Location left="817" top="605" />
         <Size width="162" height="145" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String path</Member>
@@ -144,7 +150,7 @@
       <Entity type="Class">
         <Name>WriteFile</Name>
         <Access>Public</Access>
-        <Location left="1117" top="760" />
+        <Location left="1049" top="605" />
         <Size width="254" height="162" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String path</Member>
@@ -201,14 +207,16 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
           <X>463</X>
-          <Y>735</Y>
+          <Y>834</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
           <X>536</X>
-          <Y>726</Y>
+          <Y>825</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Association" first="4" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -223,29 +231,33 @@
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="4" second="10">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
-        <EndOrientation>Horizontal</EndOrientation>
+        <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>558</X>
-          <Y>27</Y>
+          <X>583</X>
+          <Y>568</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>1403</X>
-          <Y>832</Y>
+          <X>1173</X>
+          <Y>568</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="4" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
-        <EndOrientation>Horizontal</EndOrientation>
+        <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>558</X>
-          <Y>28</Y>
+          <X>581</X>
+          <Y>568</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>1403</X>
-          <Y>671</Y>
+          <X>910</X>
+          <Y>580</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>

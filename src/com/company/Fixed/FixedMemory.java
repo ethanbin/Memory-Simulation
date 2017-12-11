@@ -50,8 +50,8 @@ public abstract class FixedMemory extends Memory {
         double fragmentation = fragmentationPercentage / internalFragmentationsCount;
         if (internalFragmentationsCount == 0)
             fragmentation = 0;
-        if (fragmentation > peakFragemntation)
-            peakFragemntation = fragmentation;
+        if (fragmentation > peakFragmentation)
+            peakFragmentation = fragmentation;
         fragmentations.add(fragmentation);
     }
 

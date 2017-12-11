@@ -71,8 +71,8 @@ public class DynamicMemory extends Memory {
         int sum = freeSpace - sizeOfLargestMemoryAllocation;
         int divisor = freeSpace;
         double fragmentation = (double) sum/divisor;
-        if (fragmentation > peakFragemntation)
-            peakFragemntation = fragmentation;
+        if (fragmentation > peakFragmentation)
+            peakFragmentation = fragmentation;
         fragmentations.add(fragmentation);
     }
 
