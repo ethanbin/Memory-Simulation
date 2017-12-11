@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Dynamic.DynamicMemory;
+import com.company.Fixed.EqualFixedMemory;
 import com.company.ProcessComparators.ProcessArrivalComparator;
 import com.company.ProcessComparators.ProcessFinishComparator;
 import com.company.ProcessComparators.ProcessNumberComparator;
@@ -274,21 +275,19 @@ public abstract class Memory {
         processes.sort(new ProcessNumberComparator());
         for (Process p : processes) {
             outp.append(String.format("Process %d%n", p.getProcessNumber()));
-            outp.append(String.format("%-40s %d%% %n",
+            outp.append(String.format("%-40s %d %n",
                     "Arrival Time:",
                     p.getArrivalTime()));
             outp.append(String.format("%-40s %s %n",
                     "Allocated Space:",
                     p.getMemorySizeUsed() >= 0 ?
                             String.valueOf(p.getMemorySizeUsed()) : "0 (fail)"));
-            /*
-            outp.append(String.format("%-40s %f%% %n",
-                    "Arrival Time:",
-                    p.getArrivalTime()));
-            outp.append(String.format("%-40s %f%% %n",
-                    "Arrival Time:",
-                    p.getArrivalTime()));
-            */
+
+            if (p.getMemorySizeUsed() > 0)
+            outp.append(String.format("%-40s %d %n",
+                    "Internal Fragmentation Produced:",
+                    p.getMemorySizeUsed() - p.getMemorySizeNeeded()));
+
             outp.append(String.format("%-40s %d %n",
                     "Finish Time:",
                     p.getFinishTime()));
@@ -458,8 +457,8 @@ public abstract class Memory {
             memory.start(jobList);
             System.out.println(memory.getDataResults());
 */
-            Memory mem = new DynamicMemory(new FirstFitProcessInserter());
-            mem.setVerboseMode(true);
+            Memory mem = new EqualFixedMemory();
+            mem.setDetailedMode(true);
             mem.start(jobList);
         }
     }
