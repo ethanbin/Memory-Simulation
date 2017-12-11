@@ -2,10 +2,13 @@ package com.company;
 
 import com.company.Dynamic.DynamicMemory;
 import com.company.Fixed.EqualFixedMemory;
+import com.company.Fixed.UnequalFixedMemory;
 import com.company.ProcessComparators.ProcessArrivalComparator;
 import com.company.ProcessComparators.ProcessFinishComparator;
 import com.company.ProcessComparators.ProcessNumberComparator;
+import com.company.ProcessInserter.BestFitProcessInserter;
 import com.company.ProcessInserter.FirstFitProcessInserter;
+import com.company.ProcessInserter.WorstFitProcessInserter;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
@@ -387,7 +390,7 @@ public abstract class Memory {
         // handling optional arguments
         boolean verboseMode = cmd.hasOption("v");
         boolean detailedMode = cmd.hasOption("d");
-/*
+
         String allocationMethodChosen = cmd.getOptionValue("a");
         if (cmd.getOptionValue("a") == null){
             System.out.println("Fixed Partition - Equal Size");
@@ -451,15 +454,6 @@ public abstract class Memory {
                     System.err.println("Invalid Allocation Method");
                     return;
             }
-
-            memory.setDetailedMode(detailedMode);
-            memory.setVerboseMode(verboseMode);
-            memory.start(jobList);
-            System.out.println(memory.getDataResults());
-*/
-            Memory mem = new EqualFixedMemory();
-            mem.setDetailedMode(true);
-            mem.start(jobList);
         }
     }
-//}
+}
