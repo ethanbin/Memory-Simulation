@@ -68,8 +68,8 @@ public class DynamicMemory extends Memory {
             if (memAlloc.getMemorySizeUsed() > sizeOfLargestMemoryAllocation)
                 sizeOfLargestMemoryAllocation = memAlloc.getMemorySizeUsed();
         }
-        int sum = freeSpace - sizeOfLargestMemoryAllocation;
-        int divisor = freeSpace;
+        int sum = freeSpace - sizeOfLargestMemoryAllocation;    
+        int divisor = freeSpace == 0? 1 : freeSpace;
         double fragmentation = (double) sum/divisor;
         if (fragmentation > peakFragmentation)
             peakFragmentation = fragmentation;
