@@ -111,7 +111,7 @@ public class Main {
 
         // try to parse input file into a List of Processes
         List<Process> jobList = new ArrayList<>();
-        ReadFile rf = new ReadFile(cmd.getOptionValue("i"));
+        ReadFile rf = new ReadFile(cmd.getOptionValue(input.getOpt()));
         try {
             String[] inData = rf.OpenFile();
             for (String str : inData) {
@@ -135,11 +135,11 @@ public class Main {
         Memory memory;
         String outp = "";
         // handling optional arguments
-        boolean verboseMode = cmd.hasOption("v");
-        boolean detailedMode = cmd.hasOption("d");
+        boolean verboseMode = cmd.hasOption(verbose.getOpt());
+        boolean detailedMode = cmd.hasOption(detailed.getOpt());
 
         String allocationMethodChosen = cmd.getOptionValue("a");
-        if (cmd.getOptionValue("a") == null) {
+        if (cmd.getOptionValue(allocationMethod.getOpt()) == null) {
             outp += runEachMemoryAndPrintResults(jobList, detailedMode, verboseMode);
         }
         else {
@@ -184,7 +184,7 @@ public class Main {
                     return;
             }
         }
-        String path = cmd.getOptionValue("o");
+        String path = cmd.getOptionValue(output.getOpt());
         if (path != null) {
             WriteFile wf = new WriteFile(path);
             try {
