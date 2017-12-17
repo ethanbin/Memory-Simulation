@@ -347,8 +347,9 @@ public abstract class Memory {
         verbose.setRequired(false);
         options.addOption(verbose);
 
-        HelpFormatter hf = new HelpFormatter();
-        hf.printHelp("-h", options);
+        Option help = new Option("h", "help", false, "show help menu");
+        help.setRequired(false);
+        options.addOption(help);
 
         // try getting and parsing command line arguments
         CommandLineParser parser = new DefaultParser();
@@ -357,8 +358,13 @@ public abstract class Memory {
             cmd = parser.parse(options, args);
         }
         catch (ParseException e){
-            System.err.println("Missing or Invalid Argument(s)");
+            System.err.println("Missing or Invalid Argument(s). Use -h for help.");
             return;
+        }
+
+        if (cmd.hasOption(help.getOpt())) {
+            HelpFormatter hf = new HelpFormatter();
+            hf.printHelp("Memory Allocation Simulator arguments", options);
         }
 
         // try to parse input file into a List of Processes
