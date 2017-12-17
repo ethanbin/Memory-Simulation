@@ -202,7 +202,7 @@ public class Main {
         boolean verboseMode = cmd.hasOption(verbose.getOpt());
         boolean detailedMode = cmd.hasOption(detailed.getOpt());
 
-        String allocationMethodChosen = cmd.getOptionValue("a");
+        String allocationMethodChosen = cmd.getOptionValue(allocationMethod.getOpt());
         if (cmd.getOptionValue(allocationMethod.getOpt()) == null) {
             outp += runEachMemoryAndPrintResults(jobList, detailedMode, verboseMode);
         }
