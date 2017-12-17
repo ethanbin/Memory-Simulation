@@ -8,6 +8,7 @@ import com.company.ProcessInserter.FirstFitProcessInserter;
 import com.company.ProcessInserter.WorstFitProcessInserter;
 import org.apache.commons.cli.*;
 
+import javax.print.DocFlavor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class Main {
         }
         return jobList;
     }
-    
+
     private static String runEachMemoryAndPrintResults(List<Process> jobList, boolean detailedMode, boolean verboseMode) {
         Memory memory;
         String outp = "";
@@ -86,6 +87,62 @@ public class Main {
         System.out.println(memory.getDataResults());
         outp += String.format("Dynamic Partition - Worst Fit%n%s%n", memory.getDataResults());
 
+        return outp;
+    }
+
+    private static String runMemoryAndPrintResults(String allocationMethodChosen, List<Process> jobList, boolean detailedMode, boolean verboseMode){
+        Memory memory;
+        String outp = "";
+        switch (allocationMethodChosen.toUpperCase()) {
+            case "FE":
+                System.out.println("Fixed Partition - Equal Size");
+                memory = new EqualFixedMemory();
+                memory.setDetailedMode(detailedMode);
+                memory.setVerboseMode(verboseMode);
+                memory.start(jobList);
+                System.out.println(memory.getDataResults());
+                outp += String.format("Fixed Partition - Equal Size%n%s%n", memory.getDataResults());
+                break;
+            case "FU":
+                System.out.println("Fixed Partition - Unequal Size");
+                memory = new UnequalFixedMemory();
+                memory.setDetailedMode(detailedMode);
+                memory.setVerboseMode(verboseMode);
+                memory.start(jobList);
+                System.out.println(memory.getDataResults());
+                outp += String.format("Fixed Partition - Unequal Size%n%s%n", memory.getDataResults());
+                break;
+            case "DFF":
+                System.out.println("Dynamic Partition - First Fit");
+                memory = new DynamicMemory(new FirstFitProcessInserter());
+                memory.setDetailedMode(detailedMode);
+                memory.setVerboseMode(verboseMode);
+                memory.start(jobList);
+                System.out.println(memory.getDataResults());
+                outp += String.format("Dynamic Partition - First Fit%n%s%n", memory.getDataResults());
+                break;
+            case "DBF":
+                System.out.println("Dynamic Partition - Best Fit");
+                memory = new DynamicMemory(new BestFitProcessInserter());
+                memory.setDetailedMode(detailedMode);
+                memory.setVerboseMode(verboseMode);
+                memory.start(jobList);
+                System.out.println(memory.getDataResults());
+                outp += String.format("Dynamic Partition - Best Fit%n%s%n", memory.getDataResults());
+                break;
+            case "DWF":
+                System.out.println("Dynamic Partition - Worst Fit");
+                memory = new DynamicMemory(new WorstFitProcessInserter());
+                memory.setDetailedMode(detailedMode);
+                memory.setVerboseMode(verboseMode);
+                memory.start(jobList);
+                System.out.println(memory.getDataResults());
+                outp += String.format("Dynamic Partition - Worst Fit%n%s%n", memory.getDataResults());
+                break;
+            default:
+                System.err.println("Invalid Allocation Method");
+                return null;
+        }
         return outp;
     }
 
@@ -150,47 +207,13 @@ public class Main {
             outp += runEachMemoryAndPrintResults(jobList, detailedMode, verboseMode);
         }
         else {
-            switch (allocationMethodChosen.toUpperCase()) {
-                case "FE":
-                    System.out.println("Fixed Partition - Equal Size");
-                    memory = new EqualFixedMemory();
-                    memory.start(jobList);
-                    System.out.println(memory.getDataResults());
-                    outp += String.format("Fixed Partition - Equal Size%n%s%n", memory.getDataResults());
-                    break;
-                case "FU":
-                    System.out.println("Fixed Partition - Unequal Size");
-                    memory = new UnequalFixedMemory();
-                    memory.start(jobList);
-                    System.out.println(memory.getDataResults());
-                    outp += String.format("Fixed Partition - Unequal Size%n%s%n", memory.getDataResults());
-                    break;
-                case "DFF":
-                    System.out.println("Dynamic Partition - First Fit");
-                    memory = new DynamicMemory(new FirstFitProcessInserter());
-                    memory.start(jobList);
-                    System.out.println(memory.getDataResults());
-                    outp += String.format("Dynamic Partition - First Fit%n%s%n", memory.getDataResults());
-                    break;
-                case "DBF":
-                    System.out.println("Dynamic Partition - Best Fit");
-                    memory = new DynamicMemory(new BestFitProcessInserter());
-                    memory.start(jobList);
-                    System.out.println(memory.getDataResults());
-                    outp += String.format("Dynamic Partition - Best Fit%n%s%n", memory.getDataResults());
-                    break;
-                case "DWF":
-                    System.out.println("Dynamic Partition - Worst Fit");
-                    memory = new DynamicMemory(new WorstFitProcessInserter());
-                    memory.start(jobList);
-                    System.out.println(memory.getDataResults());
-                    outp += String.format("Dynamic Partition - Worst Fit%n%s%n", memory.getDataResults());
-                    break;
-                default:
-                    System.err.println("Invalid Allocation Method");
-                    return;
-            }
+            outp += runMemoryAndPrintResults(allocationMethodChosen, jobList, detailedMode, verboseMode);
         }
+
+        // runMemoryAndPrintResults will return null if exception thrown
+        if (outp == null)
+            return;
+
         String path = cmd.getOptionValue(output.getOpt());
         if (path != null) {
             WriteFile wf = new WriteFile(path);
