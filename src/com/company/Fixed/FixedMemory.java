@@ -26,6 +26,7 @@ public abstract class FixedMemory extends Memory {
             memoryList.set(i, proc);
             return true;
         }
+        allocationFailures++;
         return false;
     }
 
