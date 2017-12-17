@@ -65,6 +65,31 @@ public class Main {
         return outp;
     }
 
+    private static List<Process> parseProcessesFromFile(String filePath){
+        List<Process> jobList = new ArrayList<>();
+        ReadFile rf = new ReadFile(filePath);
+        try {
+            String[] inData = rf.OpenFile();
+            for (String str : inData) {
+                String[] processData = str.split("\t");
+
+                int procNumber = Integer.parseInt(processData[0]);
+                int procArrivalTime = Integer.parseInt(processData[1]);
+                int procSize = Integer.parseInt(processData[2]);
+                int procFinishTime = Integer.parseInt(processData[3]);
+
+                jobList.add(new Process(procNumber, procArrivalTime, procSize, procFinishTime));
+            }
+        } catch (IOException e) {
+            System.err.println("Input File Not Found");
+            return null;
+        } catch (NumberFormatException e) {
+            System.err.println("Input File Data Invalid.");
+            return null;
+        }
+        return jobList;
+    }
+
     public static void main(String[] args) {
 
         Options options = new Options();
@@ -110,27 +135,10 @@ public class Main {
         }
 
         // try to parse input file into a List of Processes
-        List<Process> jobList = new ArrayList<>();
-        ReadFile rf = new ReadFile(cmd.getOptionValue(input.getOpt()));
-        try {
-            String[] inData = rf.OpenFile();
-            for (String str : inData) {
-                String[] processData = str.split("\t");
-
-                int procNumber = Integer.parseInt(processData[0]);
-                int procArrivalTime = Integer.parseInt(processData[1]);
-                int procSize = Integer.parseInt(processData[2]);
-                int procFinishTime = Integer.parseInt(processData[3]);
-
-                jobList.add(new Process(procNumber, procArrivalTime, procSize, procFinishTime));
-            }
-        } catch (IOException e) {
-            System.err.println("Input File Not Found");
+        String inputPath = cmd.getOptionValue(input.getOpt());
+        List<Process> jobList = parseProcessesFromFile(inputPath);
+        if (jobList == null)
             return;
-        } catch (NumberFormatException e) {
-            System.err.println("Input File Data Invalid.");
-            return;
-        }
 
         Memory memory;
         String outp = "";
