@@ -12,6 +12,7 @@ import javax.print.DocFlavor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Ethan on 12/16/2017.
@@ -146,6 +147,39 @@ public class Main {
         return outp;
     }
 
+    private static boolean produceTestFile(){
+        int small = 43;
+        int medium = 85;
+        int large = 128;
+        WriteFile wf2;
+        Random r = new Random();
+
+        int maxArrival = 119;
+        int minArrival = 0;
+
+        int minSize = 1;
+        int maxSize = large;
+
+        int maxFinish = 120;
+
+        try {
+            //for (int i = 1; i < 6; i++) {
+                wf2 = new WriteFile("test" + 2, true);
+                for (int j = 0; j < 200; j++) {
+                    int arrival = r.nextInt((maxArrival - minArrival) + 1) + minArrival;
+                    int size = r.nextInt((maxSize - minSize) + 1) + minSize;
+                    int finish = r.nextInt(maxFinish - arrival) + arrival;
+                    wf2.write(String.format("%d\t%d\t%d\t%d",
+                            j, arrival, size, finish));
+                }
+            //}
+        }
+        catch (IOException e){
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 
         Options options = new Options();
@@ -185,6 +219,7 @@ public class Main {
             return;
         }
 
+        // print help menu
         if (cmd.hasOption(help.getOpt())) {
             HelpFormatter hf = new HelpFormatter();
             hf.printHelp("Memory Allocation Simulator arguments", options);
@@ -214,6 +249,7 @@ public class Main {
         if (outp == null)
             return;
 
+        // print results
         String path = cmd.getOptionValue(output.getOpt());
         if (path != null) {
             WriteFile wf = new WriteFile(path);
