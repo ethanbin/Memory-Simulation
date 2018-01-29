@@ -84,6 +84,7 @@ public abstract class Memory {
      * @return true if any process were finished and removed
      */
     private boolean removeFinishedProcesses(){
+        // list for recording processes that have finished and need to be removed
         List<Process> processesToRemove = new ArrayList<>();
         for (MemoryAllocation memAlloc : memoryList){
             if (!isMemoryAllocationAProcess(memAlloc))
@@ -255,15 +256,20 @@ public abstract class Memory {
 
     public String getDataResults() {
         StringBuilder outp = new StringBuilder();
-        outp.append(String.format("%f%%%n",
+        outp.append(String.format("%-40s %f%% %n",
+                "Average Fragmentation Percentage:",
                 getAverageFragmentationPercentage() * 100));
-        outp.append(String.format("%f%%%n",
+        outp.append(String.format("%-40s %f%% %n",
+                "Peak Fragmentation Percentage:",
                 getPeakFragmentation() * 100));
-        outp.append(String.format("%d%n",
+        outp.append(String.format("%-40s %d %n",
+                "Number of Allocation Failures:",
                 allocationFailures));
-        outp.append(String.format("%f%%%n",
+        outp.append(String.format("%-40s %f%% %n",
+                "Average Memory Utilization Percentage:",
                 getAverageMemoryUtilizationPercentage() * 100));
-        outp.append(String.format("%f%%%n",
+        outp.append(String.format("%-40s %f%% %n",
+                "Peak Memory Utilization Percentage:",
                 getPeakMemoryUtilization() * 100));
 
         return outp.toString();
